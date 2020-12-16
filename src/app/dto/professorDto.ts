@@ -1,7 +1,7 @@
-import { OnInit, Directive } from '@angular/core'
+import { Directive } from '@angular/core'
 
 @Directive()
-export class ProfessorDto implements OnInit {
+export class ProfessorDto  {
 
     public id : number;
     public identificationCard : String;
@@ -19,8 +19,5 @@ export class ProfessorDto implements OnInit {
         this.email = new String("");
         this.username = new String("");
         this.password = new String("");
-    }
-
-    ngOnInit() {
     }
 }
