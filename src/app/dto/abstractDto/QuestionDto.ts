@@ -1,4 +1,4 @@
-import {ExamDto } from '../examDto';
+import {ExamDto } from '../ExamDto';
 
 export abstract class QuestionDto {
 
