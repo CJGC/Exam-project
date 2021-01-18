@@ -1,6 +1,6 @@
 import { Directive } from '@angular/core';
 import { ExamDto } from './ExamDto';
-import { StudentDto } from './StudentDto';
+import { StudentDto } from './studentDto';
 
 @Directive()
 export class ExamStudentDto {
