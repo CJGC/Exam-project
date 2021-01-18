@@ -7,7 +7,6 @@ export class AnswerOptionDto  {
     public description : String;
     public correctAnswer : Boolean;
     public weight : number;
-    public selectedResponses : Array<SelectedResponseDto>;
     public question : QuestionDto | undefined;
 
     constructor() {
@@ -16,7 +15,6 @@ export class AnswerOptionDto  {
         this.description = new String;
         this.correctAnswer = new Boolean;
         this.weight = 0.0;
-        this.selectedResponses = new Array<SelectedResponseDto>();
     }
 
 }
