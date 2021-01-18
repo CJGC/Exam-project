@@ -1,0 +1,40 @@
+<form [formGroup]="form">
+    <span class="ui-float-label">
+        <input id="idcard-input" type="text" pInputText formControlName="identificationCard" />
+        <label for="idcard-input"> Identification card </label>
+    </span>
+
+    <span class="ui-float-label">
+        <input id="name-input" type="text" pInputText formControlName="name" />
+        <label for="name-input"> Name </label>
+    </span>
+
+    <span class="ui-float-label">
+        <input id="lastname-input" type="text" pInputText formControlName="lastname" />
+        <label for="lastname-input"> Lastname </label>
+    </span>
+
+    <span class="ui-float-label">
+        <input id="email-input" type="text" pInputText formControlName="email" />
+        <label for="email-input"> Email </label>
+    </span>
+
+    <span class="ui-float-label">
+        <input id="username-input" type="text" pInputText formControlName="username" />
+        <label for="username-input"> Username </label>
+    </span>
+
+    <span class="ui-float-label">
+        <input id="password-input" type="password" pInputText formControlName="password" />
+        <label for="password-input"> Password </label>
+    </span>
+
+    <p-button [disabled]="form.invalid" label="Create user" class="ui-button-info" (click)="saveProfessor()"></p-button>
+
+    <div *ngIf="signUpFailed; then showFailedMessage"></div>
+
+    <ng-template #showFailedMessage> 
+        <h3> it was not possible to create the user please check your info and try again... </h3>
+    </ng-template>
+
+</form>
