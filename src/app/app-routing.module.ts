@@ -1,8 +1,9 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { CreateProfessorComponent } from './create-professor/create-professor.component';
+import { CreateProfessorComponent } from './Componentes/create-professor/create-professor.component';
 
 const routes: Routes = [
+  { path: '', redirectTo: 'create-professor', pathMatch: 'full'},
   { path: 'create-professor', component: CreateProfessorComponent }
 ];
 
