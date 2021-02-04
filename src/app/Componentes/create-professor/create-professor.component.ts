@@ -2,8 +2,8 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
-import { ProfessorDto } from '../dto/ProfessorDto';
-import { CreateProfessorService } from '../services/create-professor.service';
+import { ProfessorDto } from '../../dto/ProfessorDto';
+import { ProfessorService } from '../../services/Professor.service';
 
 @Component({
   selector: 'app-create-professor',
@@ -15,7 +15,7 @@ export class CreateProfessorComponent  {
   public form : FormGroup;
   public signUpFailed : boolean;
 
-  constructor(private ProfessorService : CreateProfessorService,
+  constructor(private ProfessorService : ProfessorService,
     private formBuilder : FormBuilder,
     private router : Router
     ) {  
