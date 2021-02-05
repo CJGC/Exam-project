@@ -13,7 +13,6 @@ import { ProfessorService } from '../../services/Professor.service';
 export class CreateProfessorComponent  {
 
   public form : FormGroup;
-  public signUpFailed : boolean;
 
   constructor(private ProfessorService : ProfessorService,
     private formBuilder : FormBuilder,
@@ -28,7 +27,6 @@ export class CreateProfessorComponent  {
         username : new FormControl('', [Validators.required, Validators.maxLength(100)]),
         password : new FormControl('', [Validators.required, Validators.minLength(8), Validators.maxLength(16)])
       });
-      this.signUpFailed = false;
     }
 
   public saveProfessor() : void {    
@@ -40,7 +38,6 @@ export class CreateProfessorComponent  {
       },
       error => {
         console.log(error);
-        this.signUpFailed = true;
       }
     );
   }
