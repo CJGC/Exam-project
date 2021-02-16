@@ -10,7 +10,8 @@ import {MessageService} from 'primeng/api';
 @Component({
   selector: 'app-create-professor',
   templateUrl: './create-professor.component.html',
-  styleUrls: ['./create-professor.component.css']
+  styleUrls: ['./create-professor.component.css'],
+  providers: [MessageService]
 })
 export class CreateProfessorComponent  {
 
@@ -37,8 +38,7 @@ export class CreateProfessorComponent  {
       response => {
         this.form.reset();
         this.messageService.add({severity:'success', summary:'Success', detail:'Professor created successfully'});
-        // let url = "/login"
-        // this.router.navigate([url]);
+        this.router.navigate(["/professor-main-view"]);
       },
       error => {
         console.log(error);
@@ -54,7 +54,7 @@ export class CreateProfessorComponent  {
 
   public cancel() : void {
     this.form.reset();
-    // let url = "/login";
-    // this.router.navigate([url]);
+    
+    this.router.navigate(["/professor-main-view"]);
   }
 }
