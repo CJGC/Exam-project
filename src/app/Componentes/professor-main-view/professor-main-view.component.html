@@ -1,5 +1,6 @@
-<p-menubar [model]="barMenuItems">
-    <button pButton label="Logout" icon="pi pi-power-off"></button>
-</p-menubar>
-
-<router-outlet></router-outlet>
+<div>
+    <p-menubar [model]="barMenuItems" >
+        <button pButton label="Logout" icon="pi pi-power-off"></button>
+    </p-menubar>
+</div>
+<app-professor-interaction (tellAboutDisplay)="setDisplay($event)" [display]="display"></app-professor-interaction>
