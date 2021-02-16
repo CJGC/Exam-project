@@ -5,21 +5,30 @@ import { AppComponent } from './app.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 
-import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast'
 import { ButtonModule } from 'primeng/button';;
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MenubarModule } from 'primeng/menubar';
+import { SidebarModule } from 'primeng/sidebar';
+import { MenuModule } from 'primeng/menu';
+import { TableModule } from 'primeng/table';
 
 import { CreateProfessorComponent } from './Componentes/create-professor/create-professor.component';
 import { ProfessorMainViewComponent } from './Componentes/professor-main-view/professor-main-view.component';
+import { CreateExamComponent } from './Componentes/create-exam/create-exam.component';
+import { ProfessorInteractionComponent } from './Componentes/professor-interaction/professor-interaction.component';
+import { ExamMainViewComponent } from './Componentes/exam-main-view/exam-main-view.component';
+
 
 
 @NgModule({
   declarations: [
     AppComponent,
     CreateProfessorComponent,
-    ProfessorMainViewComponent
+    ProfessorMainViewComponent,
+    CreateExamComponent,
+    ProfessorInteractionComponent,
+    ExamMainViewComponent
   ],
   imports: [
     BrowserAnimationsModule,
@@ -30,9 +39,12 @@ import { ProfessorMainViewComponent } from './Componentes/professor-main-view/pr
     ButtonModule,
     ToastModule,
     AppRoutingModule,
-    MenubarModule
+    MenubarModule,
+    SidebarModule,
+    MenuModule,
+    TableModule
   ],
-  providers: [MessageService],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
