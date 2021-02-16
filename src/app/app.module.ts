@@ -9,15 +9,17 @@ import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast'
 import { ButtonModule } from 'primeng/button';;
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
+import { MenubarModule } from 'primeng/menubar';
 
 import { CreateProfessorComponent } from './Componentes/create-professor/create-professor.component';
+import { ProfessorMainViewComponent } from './Componentes/professor-main-view/professor-main-view.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    CreateProfessorComponent
+    CreateProfessorComponent,
+    ProfessorMainViewComponent
   ],
   imports: [
     BrowserAnimationsModule,
@@ -27,7 +29,8 @@ import { CreateProfessorComponent } from './Componentes/create-professor/create-
     ReactiveFormsModule,
     ButtonModule,
     ToastModule,
-    AppRoutingModule
+    AppRoutingModule,
+    MenubarModule
   ],
   providers: [MessageService],
   bootstrap: [AppComponent]
