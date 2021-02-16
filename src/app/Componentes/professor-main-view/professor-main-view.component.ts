@@ -9,15 +9,23 @@ import { MenuItem } from 'primeng/api';
 export class ProfessorMainViewComponent implements OnInit {
   
   public barMenuItems: MenuItem[];
+  public display : boolean;
 
   constructor() { 
+    this.display = false;
     this.barMenuItems = [{
-      icon: 'pi pi-align-justify'    
+      icon: 'pi pi-chevron-right',
+      command: (event) => {
+        this.display = true ;
+      } 
     }];
   }
 
   ngOnInit() : void {
-    
+  }
+
+  setDisplay(display : boolean) {
+    this.display = display;
   }
 
 }
