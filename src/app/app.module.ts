@@ -13,6 +13,7 @@ import { SidebarModule } from 'primeng/sidebar';
 import { MenuModule } from 'primeng/menu';
 import { TableModule } from 'primeng/table';
 
+import { PageNotFoundComponent } from './Componentes/page-not-found/page-not-found.component';
 import { CreateProfessorComponent } from './Componentes/create-professor/create-professor.component';
 import { ProfessorMainViewComponent } from './Componentes/professor-main-view/professor-main-view.component';
 import { CreateExamComponent } from './Componentes/create-exam/create-exam.component';
@@ -24,6 +25,7 @@ import { ExamMainViewComponent } from './Componentes/exam-main-view/exam-main-vi
 @NgModule({
   declarations: [
     AppComponent,
+    PageNotFoundComponent,
     CreateProfessorComponent,
     ProfessorMainViewComponent,
     CreateExamComponent,
