@@ -18,8 +18,19 @@ export class ProfessorInteractionComponent implements OnInit {
 
     this.tellAboutDisplay = new EventEmitter<Boolean>();
     this.items = [
-      {label: 'Manage exam', icon: 'pi pi-book'},
-      {label: 'Account', icon: 'pi pi-user-edit'}
+      {label: 'Manage exam', icon: 'pi pi-book', 
+        command: (event) => {
+          this.display = false;
+          this.emitDisplay();
+        }  ,
+        routerLink: ['./exam-main-view']
+      },
+      {label: 'Account', icon: 'pi pi-user-edit',
+        command: (event) => {
+          this.display = false;
+          this.emitDisplay();
+        }  
+      }
   ];
   }
 
