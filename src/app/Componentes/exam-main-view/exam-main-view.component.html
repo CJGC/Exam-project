@@ -1,19 +1,24 @@
-<p-button icon="pi pi-pencil" label="Edit" class="p-button-info p-button-rounded p-button-outlined" (click)="createExam()"> </p-button>
+<p-accordion>
+    <p-accordionTab header="New exam / Edit exam">
+        <app-create-exam></app-create-exam>
+    </p-accordionTab>
+</p-accordion>
+
 <br>
 <p-table [value]="exams">
     <ng-template pTemplate="header">
         <tr>
             <th>Name</th>
-            <th>Max grade</th>
             <th>Durability</th>
+            <th>Max grade</th>
             <th>Actions</th>
         </tr>
     </ng-template>
     <ng-template pTemplate="body" let-exam>
         <tr>
             <td>{{exam.name}}</td>
-            <td>{{exam.maxGrade}}</td>
             <td>{{exam.durability}}</td>
+            <td>{{exam.maxGrade}}</td>
             <td>
                 <p-button icon="pi pi-pencil" label="Edit" class="p-button-secondary p-button-rounded p-button-outlined" (click)="editExam()"></p-button>
                 <p-button icon="pi pi-times" label="Del" class="p-button-danger p-button-rounded p-button-outlined" (click)="delExam()"></p-button>
