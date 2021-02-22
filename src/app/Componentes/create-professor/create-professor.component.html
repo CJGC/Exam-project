@@ -1,41 +1,49 @@
 <p-toast></p-toast>
 <form [formGroup]="form">
-    <div class="form-user__div">
-        <span class="p-float-label">
-            <input id="identificationCard" type="text" pInputText formControlName="identificationCard"> 
-            <label for="inputtext">Identification Card</label>
-        </span>
-    </div>
-    <div class="form-user__div">
-        <span class="p-float-label p-input-icon-left form-user__div-span">
-            <input id="name-input" type="text" pInputText formControlName="name"> 
-            <label for="name-input">Name</label>
-        </span>
+    <div class="p-fluid p-formgrid p-grid">
+        <div class="p-field p-col-12 p-md-6">
+            <span class="p-float-label">
+                <input id="identificationCard" type="text" pInputText formControlName="identificationCard"> 
+                <label for="inputtext">Identification Card</label>
+            </span>
+        </div>
+        <div class="p-field p-col-12 p-md-6">
+            <span class="p-float-label p-input-icon-left form-user__div-span">
+                    <input id="name-input" type="text" pInputText formControlName="name"> 
+                    <label for="name-input">Name</label>
+            </span>
+        </div>
+        <div class="p-field p-col-12 p-md-6">
         <span class="p-float-label p-input-icon-right form-user__div-span">
-            <input id="lastname-input" type="text" pInputText formControlName="lastname"> 
-            <label for="lastname-input">Lastname</label>
-        </span>
-    </div>
+                <input id="lastname-input" type="text" pInputText formControlName="lastname"> 
+                <label for="lastname-input">Lastname</label>
+            </span>
+        </div>
 
-    <div class="form-user__div">
-        <span class="p-float-label p-input-icon-right">
-            <input id="email-input" type="email" pInputText formControlName="email"> 
-            <label for="email-input">Email</label>
-        </span>
-    </div>
-    <div class="form-user__div">
-        <span class="p-float-label p-input-icon-right">
-            <input id="username-input" type="text" pInputText formControlName="username"> 
-            <label for="username-input">Username</label>
-        </span>
-    </div>
-    <div class="form-user__div">
-        <span class="p-float-label p-input-icon-right">
-            <input id="password-input" type="password" pInputText formControlName="password"> 
-            <label for="password-input">Password</label>
-        </span>
-    </div>
+        <div class="p-field p-col-12 p-md-6">
+            <span class="p-float-label p-input-icon-right">
+                <input id="email-input" type="email" pInputText formControlName="email"> 
+                <label for="email-input">Email</label>
+            </span>
+        </div>
+        <div class="p-field p-col-12 p-md-6">
+            <span class="p-float-label p-input-icon-right">
+                <input id="username-input" type="text" pInputText formControlName="username"> 
+                <label for="username-input">Username</label>
+            </span>
+        </div>
+        <div class="form-p-field p-col-12 p-md-6">
+            <span class="p-float-label p-input-icon-right">
+                <input id="password-input" type="password" pInputText formControlName="password"> 
+                <label for="password-input">Password</label>
+            </span>
+        </div>
 
-    <p-button [disabled]="form.invalid" label="Create user" class="ui-button-info" (click)="saveProfessor()"></p-button>
-    <p-button label="" label="Cancel" class="form-user__p-button" (click)="cancel()">  </p-button>
+        <div class="p-field p-col-12 p-md-6">
+            <p-button [disabled]="form.invalid" icon="pi pi-pencil" label="Create user" class="p-button-secondary" (click)="saveProfessor()"></p-button>
+        </div>
+        <div class="p-field p-col-12 p-md-6">
+            <p-button icon="pi pi-times" label="Cancel" class="p-button-danger" (click)="cancel()">  </p-button>
+        </div>
+    </div>
 </form>
