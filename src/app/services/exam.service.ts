@@ -12,7 +12,7 @@ export class ExamService {
   constructor(private http : HttpClient) { }
 
   public getExams() : Observable<Array<ExamDto>> {
-    return this.http.get<Array<ExamDto>>(environment.apiURL + 'exam');
+    return this.http.get<Array<ExamDto>>(environment.apiURL + 'exam/all');
   }
 
   public saveExam(exam : ExamDto) : Observable<ExamDto> {
