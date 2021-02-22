@@ -21,9 +21,9 @@ import { AccordionModule } from 'primeng/accordion';
 import { PageNotFoundComponent } from './Componentes/page-not-found/page-not-found.component';
 import { CreateProfessorComponent } from './Componentes/create-professor/create-professor.component';
 import { ProfessorMainViewComponent } from './Componentes/professor-main-view/professor-main-view.component';
-import { CreateExamComponent } from './Componentes/create-exam/create-exam.component';
 import { ProfessorInteractionComponent } from './Componentes/professor-interaction/professor-interaction.component';
 import { ExamMainViewComponent } from './Componentes/exam-main-view/exam-main-view.component';
+import { ExamFormComponent } from './Componentes/exam-form/exam-form.component';
 
 
 
@@ -33,7 +33,7 @@ import { ExamMainViewComponent } from './Componentes/exam-main-view/exam-main-vi
     PageNotFoundComponent,
     CreateProfessorComponent,
     ProfessorMainViewComponent,
-    CreateExamComponent,
+    ExamFormComponent,
     ProfessorInteractionComponent,
     ExamMainViewComponent
   ],
