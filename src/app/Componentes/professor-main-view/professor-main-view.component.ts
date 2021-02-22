@@ -14,7 +14,7 @@ export class ProfessorMainViewComponent implements OnInit {
   constructor() { 
     this.display = false;
     this.barMenuItems = [{
-      icon: 'pi pi-chevron-right',
+      icon: 'pi pi-bars',
       command: (event) => {
         this.display = true ;
       } 
