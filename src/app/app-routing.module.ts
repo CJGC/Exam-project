@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { CreateExamComponent } from './Componentes/create-exam/create-exam.component';
 import { CreateProfessorComponent } from './Componentes/create-professor/create-professor.component';
 import { ExamMainViewComponent } from './Componentes/exam-main-view/exam-main-view.component';
 import { PageNotFoundComponent } from './Componentes/page-not-found/page-not-found.component';
@@ -13,7 +12,6 @@ const routes: Routes = [
       {path: 'exam-main-view', component: ExamMainViewComponent}
     ]
   },
-  { path: 'create-exam', component: CreateExamComponent },
   { path: '', redirectTo: 'ProfessorMainViewComponent', pathMatch: 'full'},
   { path: '**', component: PageNotFoundComponent}
 ];
