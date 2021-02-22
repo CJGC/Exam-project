@@ -1,0 +1,18 @@
+<div class="p-fluid p-formgrid p-grid">
+    <div class="p-field p-col-12 p-md-6">
+        <label for="name">Name</label>
+        <input id="name" type="text" pInputText> 
+    </div>
+    <div class="p-field p-col-12 p-md-6">
+        <label for="durability">Durability</label>
+        <input id="durability" type="text" pInputText> 
+    </div>
+    <div class="p-field p-col-12">
+        <label for="maxGrade">Max grade</label>
+        <p-inputNumber id="maxGrade" mode="decimal" [max]="5" [min]="0" [step]="0.01" [minFractionDigits]="1" [maxFractionDigits]="2"></p-inputNumber>
+    </div>
+    <div class="p-field p-col-12">
+        <label for="description">Description</label>
+        <textarea id="description" [rows]="4" [autoResize]="true" pInputTextarea></textarea>
+    </div>
+</div>
