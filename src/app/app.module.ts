@@ -15,6 +15,7 @@ import { TableModule } from 'primeng/table';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { InputTextModule } from 'primeng/inputtext';
 import { InputTextareaModule } from 'primeng/inputtextarea';
+import { AccordionModule } from 'primeng/accordion';
 
 
 import { PageNotFoundComponent } from './Componentes/page-not-found/page-not-found.component';
@@ -51,7 +52,8 @@ import { ExamMainViewComponent } from './Componentes/exam-main-view/exam-main-vi
     TableModule,
     InputNumberModule,
     InputTextModule,
-    InputTextareaModule
+    InputTextareaModule,
+    AccordionModule
   ],
   providers: [],
   bootstrap: [AppComponent]
