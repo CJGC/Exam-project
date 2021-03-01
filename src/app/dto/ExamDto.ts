@@ -1,7 +1,5 @@
-import { Directive } from '@angular/core';
 import { ProfessorDto } from './ProfessorDto';
 
-@Directive()
 export class ExamDto {
 
     public id : Number;
