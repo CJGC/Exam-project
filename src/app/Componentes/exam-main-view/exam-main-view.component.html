@@ -1,11 +1,11 @@
-<p-accordion>
-    <p-accordionTab header="New exam / Edit exam">
-        <app-exam-form></app-exam-form>
+<p-accordion (onOpen)="onTabOpen($event)">
+    <p-accordionTab header="New exam / Edit exam" [selected]="selectedAccordition">
+        <app-exam-form (emitExam)="addExamToArray($event)" [(form)]="form" [(selectedAccordition)]="selectedAccordition" [(creatingExam)]="creatingExam"></app-exam-form>
     </p-accordionTab>
 </p-accordion>
 
 <br>
-<p-table [value]="exams">
+<p-table [value]="exams" [paginator]="true" [rows]="10" sortMode="multiple">
     <ng-template pTemplate="header">
         <tr>
             <th>Name</th>
@@ -20,8 +20,8 @@
             <td>{{exam.durability}}</td>
             <td>{{exam.maxGrade}}</td>
             <td>
-                <p-button icon="pi pi-pencil" label="Edit" class="p-button-secondary p-button-rounded p-button-outlined" (click)="editExam()"></p-button>
-                <p-button icon="pi pi-times" label="Del" class="p-button-danger p-button-rounded p-button-outlined" (click)="delExam()"></p-button>
+                <button [disabled]="!creatingExam" pButton type="button" icon="pi pi-pencil" class="p-button-text" (click)="editExam(exam)"></button>
+                <button [disabled]="!creatingExam" pButton type="button" icon="pi pi-trash" class="p-button-text" (click)="delExam(exam)"></button>
             </td>
         </tr>
     </ng-template>
