@@ -1,6 +1,3 @@
-import { Directive } from '@angular/core';
-
-@Directive()
 export class StudentDto {
 
     public id : number;
