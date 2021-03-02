@@ -15,6 +15,12 @@ export class ExamService {
     return this.http.get<Array<ExamDto>>(environment.apiURL + 'exam/all');
   }
 
+  public getExamByProfessor(professorID : Number) : Observable<Array<ExamDto>> {
+    let url : string = environment.apiURL + 'exam/' + professorID.toString();
+    console.log(url);
+    return this.http.get<Array<ExamDto>>(url);
+  }
+
   public saveExam(exam : ExamDto) : Observable<ExamDto> {
     return this.http.post<ExamDto>(environment.apiURL + 'exam', exam);
   }
