@@ -16,7 +16,7 @@ import { InputNumberModule } from 'primeng/inputnumber';
 import { InputTextModule } from 'primeng/inputtext';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { AccordionModule } from 'primeng/accordion';
-
+import { FieldsetModule } from 'primeng/fieldset';
 
 import { PageNotFoundComponent } from './Componentes/page-not-found/page-not-found.component';
 import { CreateProfessorComponent } from './Componentes/create-professor/create-professor.component';
@@ -24,8 +24,6 @@ import { ProfessorMainViewComponent } from './Componentes/professor-main-view/pr
 import { ProfessorInteractionComponent } from './Componentes/professor-interaction/professor-interaction.component';
 import { ExamMainViewComponent } from './Componentes/exam-main-view/exam-main-view.component';
 import { ExamFormComponent } from './Componentes/exam-form/exam-form.component';
-
-
 
 @NgModule({
   declarations: [
@@ -53,7 +51,8 @@ import { ExamFormComponent } from './Componentes/exam-form/exam-form.component';
     InputNumberModule,
     InputTextModule,
     InputTextareaModule,
-    AccordionModule
+    AccordionModule,
+    FieldsetModule
   ],
   providers: [],
   bootstrap: [AppComponent]
