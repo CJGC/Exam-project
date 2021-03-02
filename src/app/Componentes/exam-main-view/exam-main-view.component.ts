@@ -20,7 +20,7 @@ export class ExamMainViewComponent implements OnInit {
   constructor( 
     private formBuilder : FormBuilder,
     private examService : ExamService,
-    private messageService : MessageService
+    private messageService : MessageService,
   ) { 
     this.creatingExam = true;
     this.selectedAccordition = false;
@@ -37,7 +37,8 @@ export class ExamMainViewComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.examService.getExams().subscribe(
+    //This code should no be here
+    this.examService.getExamByProfessor(1).subscribe(
       response => {this.exams = response;},
       error => {console.log(error);}
     );
