@@ -29,8 +29,8 @@ export class ExamFormComponent implements OnInit {
   constructor(
     private formBuilder : FormBuilder,
     private examService : ExamService,
-    private professorService : ProfessorService,
-    private messageService : MessageService
+    private messageService : MessageService,
+    private professorService : ProfessorService
     ) { 
       this.selectedAccordition = false;
       this.selectedAccorditionChange = new EventEmitter<boolean>();
@@ -50,12 +50,12 @@ export class ExamFormComponent implements OnInit {
       this.formChange = new EventEmitter<FormGroup>();
     }
 
-  ngOnInit(): void {
-    /* temporal code, this must not be used */
-    this.professorService.getByUsername("ramirez").subscribe(
-      response => { this.professor = response;},
+  ngOnInit(): void { 
+    //This code should no be here
+    this.professorService.getByUsername("professor").subscribe(
+      response => {this.professor = response;},
       error => {console.log(error);}
-    )
+    );
   }
 
   private resetForm() : void {
