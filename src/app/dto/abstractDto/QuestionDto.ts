@@ -2,19 +2,19 @@ import {ExamDto } from '../ExamDto';
 
 export abstract class QuestionDto {
 
-    private id : number;
-    private description : String;
-    // private questionImage : File;
-    private weight : number;
-    private exam : ExamDto;
-    private type : String;
+    public id : number;
+    public description : String;
+    // public questionImage : File;
+    public weight : number;
+    public exam : ExamDto;
+    public type : String;
 
     constructor() {
         this.id = 0;
         this.description = new String;
         // this.questionImage = File();
         this.weight = 0.0;
-        this.type = new String("");
+        this.type = new String("open");
         this.exam = new ExamDto;
     }
 }
