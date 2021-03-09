@@ -23,7 +23,7 @@ export class ProfessorInteractionComponent implements OnInit {
           this.display = false;
           this.emitDisplay();
         }  ,
-        routerLink: ['./exam-main-view']
+        routerLink: ['./manage-exam-view']
       },
       {label: 'Account', icon: 'pi pi-user-edit',
         command: (event) => {
