@@ -1,5 +1,5 @@
 <p-toast></p-toast>
-<form [formGroup]="form">
+<form [formGroup]="examForm">
     <div class="p-fluid p-formgrid p-grid">
         <div class="p-field p-col-12 p-md-6">
             <label for="name">Name</label>
@@ -16,21 +16,19 @@
         <div class="p-field p-col-12">
             <label for="description">Description</label>
             <textarea id="description" [rows]="4" [autoResize]="true" pInputTextarea formControlName="description"></textarea>
-        </div>
-
-
+        </div>    
         <div *ngIf="creatingExam" class="p-field p-col-12 p-md-6">
-            <p-button [disabled]="form.invalid" icon="pi pi-check" label="Create" class="p-button-secondary" (click)="saveExam()"></p-button>
+            <p-button [disabled]="examForm.invalid" icon="pi pi-check" label="Create exam" class="p-button-secondary" (click)="saveExam()"></p-button>
         </div>
-        <div *ngIf="creatingExam" class="p-field p-col-12 p-md-6">
+        <div *ngIf="creatingExam && examForm.touched" class="p-field p-col-12 p-md-6">
             <p-button icon="pi pi-times" label="Cancel" class="p-button-secondary" (click)="cancelNewExam()"></p-button>
         </div>
         <div *ngIf="!creatingExam" class="p-field p-col-12 p-md-6">
-            <p-button [disabled]="form.invalid" icon="pi pi-pencil" label="Update" class="p-button-secondary" (click)="updateExam()"></p-button>
+            <p-button [disabled]="examForm.invalid" icon="pi pi-pencil" label="Update exam" class="p-button-secondary" (click)="updateExam()"></p-button>
         </div>
         <div *ngIf="!creatingExam" class="p-field p-col-12 p-md-6">
             <p-button icon="pi pi-times" label="Cancel" class="p-button-secondary" (click)="cancelUpdateExam()"></p-button>
         </div>
-        
     </div>
 </form>
+<app-exam-main-view [(examForm)]="examForm" [(creatingExam)]="creatingExam" [(exam)]="exam" [(exams)]="exams"></app-exam-main-view>
