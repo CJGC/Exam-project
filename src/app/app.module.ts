@@ -15,8 +15,8 @@ import { TableModule } from 'primeng/table';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { InputTextModule } from 'primeng/inputtext';
 import { InputTextareaModule } from 'primeng/inputtextarea';
-import { AccordionModule } from 'primeng/accordion';
-import { FieldsetModule } from 'primeng/fieldset';
+import { TabViewModule } from 'primeng/tabview';
+import { AutoCompleteModule } from 'primeng/autocomplete';
 
 import { PageNotFoundComponent } from './Componentes/page-not-found/page-not-found.component';
 import { CreateProfessorComponent } from './Componentes/create-professor/create-professor.component';
@@ -24,6 +24,10 @@ import { ProfessorMainViewComponent } from './Componentes/professor-main-view/pr
 import { ProfessorInteractionComponent } from './Componentes/professor-interaction/professor-interaction.component';
 import { ExamMainViewComponent } from './Componentes/exam-main-view/exam-main-view.component';
 import { ExamFormComponent } from './Componentes/exam-form/exam-form.component';
+import { QuestionFormComponent } from './Componentes/question-form/question-form.component';
+import { QuestionMainViewComponent } from './Componentes/question-main-view/question-main-view.component';
+import { ManageExamComponent } from './Componentes/manage-exam/manage-exam.component';
+
 
 @NgModule({
   declarations: [
@@ -33,7 +37,10 @@ import { ExamFormComponent } from './Componentes/exam-form/exam-form.component';
     ProfessorMainViewComponent,
     ExamFormComponent,
     ProfessorInteractionComponent,
-    ExamMainViewComponent
+    ExamMainViewComponent,
+    QuestionFormComponent,
+    QuestionMainViewComponent,
+    ManageExamComponent
   ],
   imports: [
     BrowserAnimationsModule,
@@ -51,8 +58,8 @@ import { ExamFormComponent } from './Componentes/exam-form/exam-form.component';
     InputNumberModule,
     InputTextModule,
     InputTextareaModule,
-    AccordionModule,
-    FieldsetModule
+    TabViewModule,
+    AutoCompleteModule
   ],
   providers: [],
   bootstrap: [AppComponent]
