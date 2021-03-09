@@ -1,10 +1,4 @@
-<p-accordion (onOpen)="onTabOpen($event)">
-    <p-accordionTab header="New exam / Edit exam" [selected]="selectedAccordition">
-        <app-exam-form (emitExam)="addExamToArray($event)" [(form)]="form" [(selectedAccordition)]="selectedAccordition" [(creatingExam)]="creatingExam"></app-exam-form>
-    </p-accordionTab>
-</p-accordion>
-
-<br>
+<p-toast></p-toast>
 <p-table [value]="exams" [paginator]="true" [rows]="10" sortMode="multiple">
     <ng-template pTemplate="header">
         <tr>
