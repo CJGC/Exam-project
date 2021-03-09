@@ -1,0 +1,20 @@
+<p-toast></p-toast>
+<p-table [value]="questions" [paginator]="true" [rows]="10" sortMode="multiple">
+    <ng-template pTemplate="header">
+        <tr>
+            <th>Question</th>
+            <th>Weight</th>
+            <th>Action</th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-question>
+        <tr>
+            <td>{{question.description}}</td>
+            <td>{{question.weight}}</td>
+            <td>
+                <button [disabled]="!creatingQuestion" pButton type="button" icon="pi pi-pencil" class="p-button-text" (click)="updateQuestion(question)"></button>
+                <button [disabled]="!creatingQuestion" pButton type="button" icon="pi pi-trash" class="p-button-text" (click)="delQuestion(question)"></button>
+            </td>
+        </tr>
+    </ng-template>
+</p-table>
