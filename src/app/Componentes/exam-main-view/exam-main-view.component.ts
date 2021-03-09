@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 import { MessageService } from 'primeng/api';
 import { ExamDto } from 'src/app/dto/ExamDto';
 import { ExamService } from 'src/app/services/exam.service';
@@ -12,70 +12,62 @@ import { ExamService } from 'src/app/services/exam.service';
 })
 export class ExamMainViewComponent implements OnInit {
 
-  public exams : Array<ExamDto>;
-  public creatingExam : boolean;
-  public selectedAccordition : boolean;
-  public form : FormGroup;
+  @Input() public exams : Array<ExamDto>;
+  @Output() public examsChange : any;
+
+  @Input() public exam : ExamDto;
+  @Output() public examChange : any;
+  
+  @Input() public creatingExam : boolean;
+  @Output() public creatingExamChange : any;
+
+  @Input() public examForm : FormGroup;
+  @Output() public examFormChange : any;
 
   constructor( 
-    private formBuilder : FormBuilder,
     private examService : ExamService,
-    private messageService : MessageService,
+    private messageService : MessageService
   ) { 
+    this.exam = new ExamDto;
     this.creatingExam = true;
-    this.selectedAccordition = false;
     this.exams = new Array<ExamDto>();
-    this.form = this.formBuilder.group({
-      id : ['', []],
-      professor : new FormControl('', []),
-      name : new FormControl('', [Validators.required, Validators.maxLength(100)]),
-      durability : new FormControl('', [Validators.required, Validators.min(1), Validators.max(7200)]),
-      maxGrade : new FormControl('', [Validators.required, Validators.min(0.0), Validators.max(5.0)]),
-      description : new FormControl('', [Validators.required, Validators.min(1), Validators.max(1024)]),
-      link : new FormControl('',[])
+    this.examChange = new EventEmitter<ExamDto>();
+    this.examForm = new FormGroup({});
+
+    this.examsChange = new EventEmitter<Array<ExamDto>>();
+    this.examFormChange = new EventEmitter<FormGroup>();
+    this.creatingExamChange = new EventEmitter<boolean>();
+  }
+
+  ngOnInit(): void { }
+
+  private putExamInfoIntoExamForm(exam : ExamDto) : void {
+    this.examForm.setValue({
+      name : exam.name,
+      durability : exam.durability,
+      maxGrade : exam.maxGrade,
+      description : exam.description
     });
-  }
-
-  ngOnInit(): void {
-    //This code should no be here
-    this.examService.getExamByProfessor(1).subscribe(
-      response => {this.exams = response;},
-      error => {console.log(error);}
-    );
-  }
-
-  public addExamToArray(exam : ExamDto) : void {
-    let index = this.exams.findIndex( (e) => e.id === exam.id );
-    (index !== -1) ? this.exams.splice(index, 1, exam) : this.exams.push(exam);
+    this.examFormChange.emit(this.examForm); 
   }
 
   public editExam(exam : ExamDto) : void {
     this.creatingExam = false;
-    this.selectedAccordition = true;
-
-    this.form.setValue({
-      id : exam.id,
-      professor : exam.professor,
-      name : exam.name,
-      durability : exam.durability,
-      maxGrade : exam.maxGrade,
-      description : exam.description,
-      link : exam.link
-    });
-    
+    this.creatingExamChange.emit(this.creatingExam);
+    this.exam = exam;
+    this.examChange.emit(this.exam);
+    this.putExamInfoIntoExamForm(exam);
   }
 
   public delExam(exam : ExamDto) : void {
     this.examService.delExam(exam).subscribe(
       response => {
-        this.messageService.add({severity:'success', summary:'Success', detail:'Exam deleted successfully'});
+        this.messageService.add({severity:'success', summary:'Success', detail:'Exam \"' + response.name + '\" was deleted successfully'});
         this.exams.splice(this.exams.indexOf(exam), 1);
+        this.examsChange.emit(this.exams);
       },
-      error => {console.log(error);}
-    )
+      error => console.log(error)
+    );
   }
 
-  public onTabOpen(event : any) : void {
-    this.selectedAccordition = true;
-  }
 }
