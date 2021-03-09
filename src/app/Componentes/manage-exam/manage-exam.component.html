@@ -1,0 +1,13 @@
+<p-tabView>
+    <p-tabPanel header="Manage exam">
+        <app-exam-form [(exams)]="exams"></app-exam-form>
+    </p-tabPanel>
+
+    <p-tabPanel header="Manage questions">
+        <app-question-form [exams]="exams"> </app-question-form>
+    </p-tabPanel>
+
+    <p-tabPanel header="Manage answer options">
+        Question info
+    </p-tabPanel>
+</p-tabView>
