@@ -17,6 +17,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { TabViewModule } from 'primeng/tabview';
 import { AutoCompleteModule } from 'primeng/autocomplete';
+import { ToggleButtonModule } from 'primeng/togglebutton';
 
 import { PageNotFoundComponent } from './Componentes/page-not-found/page-not-found.component';
 import { CreateProfessorComponent } from './Componentes/create-professor/create-professor.component';
@@ -27,10 +28,14 @@ import { ExamFormComponent } from './Componentes/exam-form/exam-form.component';
 import { QuestionFormComponent } from './Componentes/question-form/question-form.component';
 import { QuestionMainViewComponent } from './Componentes/question-main-view/question-main-view.component';
 import { ManageExamComponent } from './Componentes/manage-exam/manage-exam.component';
+import { AnswerOptionFormComponent } from './Componentes/answer-option-form/answer-option-form.component';
+import { AnswerOptionMainViewComponent } from './Componentes/answer-option-main-view/answer-option-main-view.component';
+import { correctAnswerPipe } from './pipes/correctAns';
 
 
 @NgModule({
   declarations: [
+    correctAnswerPipe,
     AppComponent,
     PageNotFoundComponent,
     CreateProfessorComponent,
@@ -40,7 +45,9 @@ import { ManageExamComponent } from './Componentes/manage-exam/manage-exam.compo
     ExamMainViewComponent,
     QuestionFormComponent,
     QuestionMainViewComponent,
-    ManageExamComponent
+    ManageExamComponent,
+    AnswerOptionFormComponent,
+    AnswerOptionMainViewComponent
   ],
   imports: [
     BrowserAnimationsModule,
@@ -59,7 +66,8 @@ import { ManageExamComponent } from './Componentes/manage-exam/manage-exam.compo
     InputTextModule,
     InputTextareaModule,
     TabViewModule,
-    AutoCompleteModule
+    AutoCompleteModule,
+    ToggleButtonModule
   ],
   providers: [],
   bootstrap: [AppComponent]
