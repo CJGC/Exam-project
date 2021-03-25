@@ -4,7 +4,8 @@
 
 export const environment = {
   production: false,
-  apiURL : 'http://localhost:8090/'
+  apiURL : 'http://localhost:8090/',
+  urlExams : 'http://localhost:4200/present-exam/'
 };
 
 /*
