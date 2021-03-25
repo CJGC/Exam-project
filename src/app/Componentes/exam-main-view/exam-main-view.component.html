@@ -16,6 +16,7 @@
             <td>
                 <button [disabled]="!creatingExam" pButton type="button" icon="pi pi-pencil" class="p-button-text" (click)="editExam(exam)"></button>
                 <button [disabled]="!creatingExam" pButton type="button" icon="pi pi-trash" class="p-button-text" (click)="delExam(exam)"></button>
+                <button [disabled]="!creatingExam" pButton type="button" icon="pi pi-eye" class="p-button-text" (click)="showExam(exam)"></button>
             </td>
         </tr>
     </ng-template>
