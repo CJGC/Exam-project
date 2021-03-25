@@ -18,6 +18,8 @@ import { InputTextareaModule } from 'primeng/inputtextarea';
 import { TabViewModule } from 'primeng/tabview';
 import { AutoCompleteModule } from 'primeng/autocomplete';
 import { ToggleButtonModule } from 'primeng/togglebutton';
+import { DynamicDialogModule } from 'primeng/dynamicdialog';
+import { OrderListModule } from 'primeng/orderlist';
 
 import { PageNotFoundComponent } from './Componentes/page-not-found/page-not-found.component';
 import { CreateProfessorComponent } from './Componentes/create-professor/create-professor.component';
@@ -31,6 +33,7 @@ import { ManageExamComponent } from './Componentes/manage-exam/manage-exam.compo
 import { AnswerOptionFormComponent } from './Componentes/answer-option-form/answer-option-form.component';
 import { AnswerOptionMainViewComponent } from './Componentes/answer-option-main-view/answer-option-main-view.component';
 import { correctAnswerPipe } from './pipes/correctAns';
+import { ExamDetailsViewComponent } from './Componentes/exam-details-view/exam-details-view.component';
 
 
 @NgModule({
@@ -47,7 +50,8 @@ import { correctAnswerPipe } from './pipes/correctAns';
     QuestionMainViewComponent,
     ManageExamComponent,
     AnswerOptionFormComponent,
-    AnswerOptionMainViewComponent
+    AnswerOptionMainViewComponent,
+    ExamDetailsViewComponent
   ],
   imports: [
     BrowserAnimationsModule,
@@ -67,8 +71,11 @@ import { correctAnswerPipe } from './pipes/correctAns';
     InputTextareaModule,
     TabViewModule,
     AutoCompleteModule,
-    ToggleButtonModule
+    ToggleButtonModule,
+    DynamicDialogModule,
+    OrderListModule
   ],
+  entryComponents: [ExamDetailsViewComponent],
   providers: [],
   bootstrap: [AppComponent]
 })
