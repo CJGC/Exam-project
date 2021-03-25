@@ -1,14 +1,16 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { MessageService } from 'primeng/api';
+import { DialogService } from 'primeng/dynamicdialog';
 import { ExamDto } from 'src/app/dto/ExamDto';
 import { ExamService } from 'src/app/services/exam.service';
+import { ExamDetailsViewComponent } from '../exam-details-view/exam-details-view.component';
 
 @Component({
   selector: 'app-exam-main-view',
   templateUrl: './exam-main-view.component.html',
   styleUrls: ['./exam-main-view.component.css'],
-  providers: [MessageService]
+  providers: [MessageService, DialogService]
 })
 export class ExamMainViewComponent implements OnInit {
 
@@ -26,7 +28,8 @@ export class ExamMainViewComponent implements OnInit {
 
   constructor( 
     private examService : ExamService,
-    private messageService : MessageService
+    private messageService : MessageService,
+    private dialogService : DialogService
   ) { 
     this.exam = new ExamDto;
     this.creatingExam = true;
@@ -68,6 +71,14 @@ export class ExamMainViewComponent implements OnInit {
       },
       error => console.log(error)
     );
+  }
+
+  public showExam(exam : ExamDto) : void {
+    this.dialogService.open(ExamDetailsViewComponent, {
+      data : exam,
+      header: 'Exam ' + exam.name + ' details',
+      width: '70%'
+  });
   }
 
 }
