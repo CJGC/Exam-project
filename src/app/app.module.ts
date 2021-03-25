@@ -34,6 +34,7 @@ import { AnswerOptionFormComponent } from './Componentes/answer-option-form/answ
 import { AnswerOptionMainViewComponent } from './Componentes/answer-option-main-view/answer-option-main-view.component';
 import { correctAnswerPipe } from './pipes/correctAns';
 import { ExamDetailsViewComponent } from './Componentes/exam-details-view/exam-details-view.component';
+import { PresentExamComponent } from './present-exam/present-exam.component';
 
 
 @NgModule({
@@ -51,7 +52,8 @@ import { ExamDetailsViewComponent } from './Componentes/exam-details-view/exam-d
     ManageExamComponent,
     AnswerOptionFormComponent,
     AnswerOptionMainViewComponent,
-    ExamDetailsViewComponent
+    ExamDetailsViewComponent,
+    PresentExamComponent
   ],
   imports: [
     BrowserAnimationsModule,
