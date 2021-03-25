@@ -5,6 +5,8 @@ import { ExamDto } from 'src/app/dto/ExamDto';
 import { ProfessorDto } from 'src/app/dto/ProfessorDto';
 import { ExamService } from 'src/app/services/exam.service';
 import { ProfessorService } from 'src/app/services/Professor.service';
+import * as shajs from 'js-sha256';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-exam-form',
@@ -78,7 +80,8 @@ export class ExamFormComponent implements OnInit {
   }
 
   private generateExamLink() : string {
-    return 'localhost:4242/present-exam';
+    let currentDate = new Date();
+    return environment.urlExams + shajs.sha256(currentDate.toString());;
   }
 
   private extractExamInfoFromExamForm() : void {
