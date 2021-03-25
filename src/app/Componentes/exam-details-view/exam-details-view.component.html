@@ -1,0 +1,32 @@
+<b>Professor: </b> {{exam.professor.name}} {{exam.professor.lastname}}
+
+<ul>    
+    <li><b>Exam name: </b> {{exam.name}}</li>
+    <li><b>Description: </b> {{exam.description}}</li>
+    <li><b>Link: </b> {{exam.link}}</li>
+    <li><b>Max grade: </b> {{exam.maxGrade}}</li>
+    <li><b>Durability: </b> {{exam.durability}}</li>
+</ul>
+
+<p-orderList header="Questions belonging to exam" [metaKeySelection]="true" [value]="questions" 
+    [dragdrop]="false" (onSelectionChange)="setAnswerOpts($event)" filterBy="description,weight,type">
+    <ng-template let-question pTemplate="item">
+        <div>
+            <img src="assets/showcase/images/demo" style="display:inline-block;margin:2px 0 2px 2px" width="48">
+            <div style="font-size:14px;float:right;margin:15px 5px 0 0">
+                {{question.description}} - {{question.weight}} - {{question.type}}
+            </div>
+        </div>
+    </ng-template>
+</p-orderList>
+
+<div *ngIf="ansOpts.length!==0">
+    <p-orderList header="Answer options belonging to selected question" [metaKeySelection]="true"  
+    [dragdrop]="false" [value]="ansOpts" filterBy="description,weight,correctAnswer">
+        <ng-template let-ansOpt pTemplate="item">
+            <div>
+                <div> {{ansOpt.description}} - {{ansOpt.weight}} - {{ansOpt.correctAnswer}}</div>
+            </div>
+        </ng-template>
+    </p-orderList>
+</div>
