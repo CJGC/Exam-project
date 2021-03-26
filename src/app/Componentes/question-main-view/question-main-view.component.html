@@ -3,6 +3,7 @@
     <ng-template pTemplate="header">
         <tr>
             <th>Question</th>
+            <th>Kind of question</th>
             <th>Weight</th>
             <th>Action</th>
         </tr>
@@ -10,6 +11,7 @@
     <ng-template pTemplate="body" let-question>
         <tr>
             <td>{{question.description}}</td>
+            <td>{{question.type | questionType}}</td>
             <td>{{question.weight}}</td>
             <td>
                 <button [disabled]="!creatingQuestion" pButton type="button" icon="pi pi-pencil" class="p-button-text" (click)="updateQuestion(question)"></button>
