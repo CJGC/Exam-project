@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, Output } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MessageService } from 'primeng/api';
 import { QuestionDto } from 'src/app/dto/abstractDto/QuestionDto';
@@ -58,7 +58,7 @@ export class AnswerOptionFormComponent implements OnInit {
 
   public searchExam(event : any) : void {
     this.exam = new ExamDto; this.question = new MultiQuestionDto;
-    this.dropListExams = new Array<ExamDto>();
+    this.dropListExams = new Array<ExamDto>(); this.dropListQuestions = new Array<MultiQuestionDto>();
     this.exams.forEach( exam => {
       (exam.name.indexOf(event.query) !== -1) ? this.dropListExams.push(exam) : false
     });
@@ -73,8 +73,14 @@ export class AnswerOptionFormComponent implements OnInit {
   }
 
   public setQuestions() : void {
+    this.questions = new Array<MultiQuestionDto>();
     this.questionService.getQuestionByExam(this.exam.id).subscribe(
-      response => this.questions = response,
+      response => {
+        response.forEach(question => {
+          // load all kind of question except open questions
+          (question.type!=='op') ? this.questions.push(question) : false;
+        });
+      },
       error => console.log(error)
     );
   }
@@ -89,7 +95,7 @@ export class AnswerOptionFormComponent implements OnInit {
   private resetAnsOptForm() : void {
     this.ansOptForm.reset({
       weight : 0.0,
-      correctAnswer : 'No',
+      correctAnswer : true,
       description : ''
     })
   }
@@ -131,6 +137,7 @@ export class AnswerOptionFormComponent implements OnInit {
       },
       error => console.log(error)
     );
+    this.creatingAnsOpt = true;
     this.resetAnsOptForm();
   }
 
