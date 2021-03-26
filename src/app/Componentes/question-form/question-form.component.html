@@ -10,6 +10,10 @@
     <form [formGroup]="questionForm">
         <div class="p-fluid p-formgrid p-grid">
             <div class="p-field p-col-12">
+                <label for="questionType">Kind of question</label>
+                <p-dropdown id="questionType" [options]="questionTypes" optionLabel="name" formControlName="type"></p-dropdown>
+            </div>
+            <div class="p-field p-col-12">
                 <label for="weight">Weight</label>
                 <p-inputNumber id="weight" mode="decimal" [max]="5" [min]="0" [step]="0.01" [minFractionDigits]="1" [maxFractionDigits]="2" formControlName="weight"></p-inputNumber>
             </div>

@@ -15,6 +15,7 @@ export class QuestionFormComponent implements OnInit {
 
   @Input() public exams : Array<ExamDto>;
   public dropListExams : Array<ExamDto>;
+  public questionTypes : Array<any>;
   public exam : ExamDto;
   public questionForm : FormGroup;
   public question : OpenQuestionDto;
@@ -26,12 +27,20 @@ export class QuestionFormComponent implements OnInit {
     private formBuilder : FormBuilder,
     private messageService : MessageService
     ) {
+
+      this.questionTypes = [
+        {code : "op", name : "Open question"},
+        {code : "mu", name : "Multiple unique"}, 
+        {code : "mm", name : "Multiple multiple"}
+      ];
+
       this.dropListExams = new Array<ExamDto>();
       this.exams = new Array<ExamDto>();
       this.questions = new Array<OpenQuestionDto>();
       this.exam = new ExamDto;
       this.questionForm = this.formBuilder.group({
         weight : new FormControl(0.0, [Validators.required, Validators.min(0), Validators.max(5)]),
+        type : new FormControl(this.questionTypes[0], [Validators.required]),
         description : new FormControl('', [Validators.required, Validators.min(1), Validators.max(200)])
       });
 
@@ -60,13 +69,15 @@ export class QuestionFormComponent implements OnInit {
   private resetQuestionForm() : void {
     this.questionForm.reset({
       weight : 0.0,
+      type : this.questionTypes[0],
       description : ''
     });
   }
 
   private getInfoFromQuestionForm(question : OpenQuestionDto) : void {
-    let questionForm : OpenQuestionDto = <OpenQuestionDto> this.questionForm.value;
+    let questionForm  =  this.questionForm.value;
     question.weight = questionForm.weight;
+    question.type = questionForm.type.code;
     question.description = questionForm.description;
   }
 
