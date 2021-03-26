@@ -1,15 +1,15 @@
 export class StudentDto {
 
     public id : number;
-    public identificationCard : String;
-    public name : String;
-    public lastname : String;
+    public identificationCard : string;
+    public name : string;
+    public lastname : string;
 
     constructor() {
         this.id = 0;
-        this.identificationCard = new String;
-        this.name = new String;
-        this.lastname = new String;
+        this.identificationCard = "";
+        this.name = "";
+        this.lastname = "";
     }
 
 }
