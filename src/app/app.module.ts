@@ -21,7 +21,8 @@ import { ToggleButtonModule } from 'primeng/togglebutton';
 import { DynamicDialogModule } from 'primeng/dynamicdialog';
 import { OrderListModule } from 'primeng/orderlist';
 import { DropdownModule } from 'primeng/dropdown';
-
+import { RadioButtonModule } from 'primeng/radiobutton';
+import { CheckboxModule } from 'primeng/checkbox';
 
 import { PageNotFoundComponent } from './Componentes/page-not-found/page-not-found.component';
 import { CreateProfessorComponent } from './Componentes/create-professor/create-professor.component';
@@ -38,6 +39,7 @@ import { correctAnswerPipe } from './pipes/correctAns';
 import { ExamDetailsViewComponent } from './Componentes/exam-details-view/exam-details-view.component';
 import { StudentFormComponent } from './Componentes/student-form/student-form.component';
 import { QuestionTypePipe } from './pipes/question-type.pipe';
+import { SolveExamComponent } from './Componentes/solve-exam/solve-exam.component';
 
 
 @NgModule({
@@ -57,7 +59,8 @@ import { QuestionTypePipe } from './pipes/question-type.pipe';
     AnswerOptionMainViewComponent,
     ExamDetailsViewComponent,
     StudentFormComponent,
-    QuestionTypePipe
+    QuestionTypePipe,
+    SolveExamComponent
   ],
   imports: [
     BrowserAnimationsModule,
@@ -80,7 +83,9 @@ import { QuestionTypePipe } from './pipes/question-type.pipe';
     ToggleButtonModule,
     DynamicDialogModule,
     OrderListModule,
-    DropdownModule
+    DropdownModule,
+    RadioButtonModule,
+    CheckboxModule
   ],
   entryComponents: [ExamDetailsViewComponent],
   providers: [],
