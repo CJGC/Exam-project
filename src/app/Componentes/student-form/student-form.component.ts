@@ -1,9 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ExamDto } from 'src/app/dto/ExamDto';
-import { AnswerOptionService } from 'src/app/services/answer-option.service';
 import { ExamService } from 'src/app/services/exam.service';
-import { QuestionService } from 'src/app/services/question.service';
 import { environment } from 'src/environments/environment';
 import { map } from 'rxjs/operators';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
@@ -26,14 +24,12 @@ export class StudentFormComponent implements OnInit {
   public isQueryingStudent : boolean;
   public student : StudentDto;
   public examStudent : ExamStudentDto;
-  public examNoStarted : boolean;
+  public examStarted : boolean;
 
   constructor(
     public route : ActivatedRoute,
     private formBuilder : FormBuilder,
     public examService : ExamService,
-    public questionService : QuestionService,
-    public ansOptService : AnswerOptionService,
     public studentService : StudentService,
     public examStudentService : ExamStudentService,
     public messageService : MessageService
@@ -54,7 +50,7 @@ export class StudentFormComponent implements OnInit {
     this.isQueryingStudent = true;
     this.student = new StudentDto;
     this.examStudent = new ExamStudentDto;
-    this.examNoStarted = true;
+    this.examStarted = false;
   }
 
   ngOnInit(): void {
@@ -111,6 +107,6 @@ export class StudentFormComponent implements OnInit {
       examStudent => this.examStudent = examStudent,
       error => console.log(error)
     );
-    this.examNoStarted = false;
+    this.examStarted = true;
   }
 }
