@@ -20,6 +20,8 @@ import { AutoCompleteModule } from 'primeng/autocomplete';
 import { ToggleButtonModule } from 'primeng/togglebutton';
 import { DynamicDialogModule } from 'primeng/dynamicdialog';
 import { OrderListModule } from 'primeng/orderlist';
+import { DropdownModule } from 'primeng/dropdown';
+
 
 import { PageNotFoundComponent } from './Componentes/page-not-found/page-not-found.component';
 import { CreateProfessorComponent } from './Componentes/create-professor/create-professor.component';
@@ -34,7 +36,8 @@ import { AnswerOptionFormComponent } from './Componentes/answer-option-form/answ
 import { AnswerOptionMainViewComponent } from './Componentes/answer-option-main-view/answer-option-main-view.component';
 import { correctAnswerPipe } from './pipes/correctAns';
 import { ExamDetailsViewComponent } from './Componentes/exam-details-view/exam-details-view.component';
-import { PresentExamComponent } from './present-exam/present-exam.component';
+import { PresentExamComponent } from './Componentes/present-exam/present-exam.component';
+import { QuestionTypePipe } from './pipes/question-type.pipe';
 
 
 @NgModule({
@@ -53,7 +56,8 @@ import { PresentExamComponent } from './present-exam/present-exam.component';
     AnswerOptionFormComponent,
     AnswerOptionMainViewComponent,
     ExamDetailsViewComponent,
-    PresentExamComponent
+    PresentExamComponent,
+    QuestionTypePipe
   ],
   imports: [
     BrowserAnimationsModule,
@@ -75,7 +79,8 @@ import { PresentExamComponent } from './present-exam/present-exam.component';
     AutoCompleteModule,
     ToggleButtonModule,
     DynamicDialogModule,
-    OrderListModule
+    OrderListModule,
+    DropdownModule
   ],
   entryComponents: [ExamDetailsViewComponent],
   providers: [],
