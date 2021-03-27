@@ -3,7 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { CreateProfessorComponent } from './Componentes/create-professor/create-professor.component';
 import { ManageExamComponent } from './Componentes/manage-exam/manage-exam.component';
 import { PageNotFoundComponent } from './Componentes/page-not-found/page-not-found.component';
-import { PresentExamComponent } from './Componentes/present-exam/present-exam.component';
+import { StudentFormComponent } from './Componentes/student-form/student-form.component';
 import { ProfessorMainViewComponent } from './Componentes/professor-main-view/professor-main-view.component';
 
 const routes: Routes = [
@@ -13,7 +13,7 @@ const routes: Routes = [
       {path: 'manage-exam-view', component: ManageExamComponent}
     ]
   },
-  { path: 'present-exam/:id', component: PresentExamComponent},
+  { path: 'present-exam/:id', component: StudentFormComponent},
   { path: '', redirectTo: 'professor-main-view', pathMatch: 'full'},
   { path: '**', component: PageNotFoundComponent}
 ];
