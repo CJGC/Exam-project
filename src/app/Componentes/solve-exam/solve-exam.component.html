@@ -1,0 +1,34 @@
+<div *ngIf="questions.length!==0">
+    <div *ngIf="question.id!==0">
+        <img src="question.questionImage" alt="question image">
+        <b> {{ question.description }}</b>
+    </div>
+
+    <div *ngIf="question.type==='op'">    
+        <form [formGroup]="openResponseForm">
+            <div class="p-fluid p-formgrid p-grid">
+                <div class="p-field p-col-12">
+                    <label for="content">Your response</label>
+                    <textarea id="content" [rows]="4" [autoResize]="true" pInputTextarea formControlName="content"></textarea>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div *ngIf="question.type==='mu'">
+        <div *ngFor="let ansOpt of ansOpts" class="p-field-radiobutton">
+            <p-radioButton [inputId]="ansOpt.id.toString()" name="multipleUniqueGroup" [value]="ansOpt" [(ngModel)]="selectedAnsOpt"></p-radioButton>
+            <label [for]="ansOpt.id">{{ansOpt.description}}</label>
+        </div>
+    </div>
+
+    <div *ngIf="question.type==='mm'">
+        <div *ngFor="let ansOpt of ansOpts" class="p-field-checkbox">
+            <p-checkbox [inputId]="ansOpt.id.toString()" name="multipleMultipleGroup" [value]="ansOpt"  [(ngModel)]="selectedAnsOpts"></p-checkbox>
+            <label [for]="ansOpt.id">{{ansOpt.description}}</label>
+        </div>
+    </div>
+
+    <button [disabled]="questionIndex-1<0" pButton type="button" icon="pi pi-arrow-left" class="p-button-text" (click)="back()"></button>
+    <button [disabled]="questionIndex+1>=questions.length" pButton type="button" icon="pi pi-arrow-right" class="p-button-text" (click)="next()"></button>
+</div>
