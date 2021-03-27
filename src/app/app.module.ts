@@ -36,7 +36,7 @@ import { AnswerOptionFormComponent } from './Componentes/answer-option-form/answ
 import { AnswerOptionMainViewComponent } from './Componentes/answer-option-main-view/answer-option-main-view.component';
 import { correctAnswerPipe } from './pipes/correctAns';
 import { ExamDetailsViewComponent } from './Componentes/exam-details-view/exam-details-view.component';
-import { PresentExamComponent } from './Componentes/present-exam/present-exam.component';
+import { StudentFormComponent } from './Componentes/student-form/student-form.component';
 import { QuestionTypePipe } from './pipes/question-type.pipe';
 
 
@@ -56,7 +56,7 @@ import { QuestionTypePipe } from './pipes/question-type.pipe';
     AnswerOptionFormComponent,
     AnswerOptionMainViewComponent,
     ExamDetailsViewComponent,
-    PresentExamComponent,
+    StudentFormComponent,
     QuestionTypePipe
   ],
   imports: [
