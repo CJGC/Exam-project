@@ -27,7 +27,8 @@ export class SolveExamComponent implements OnInit {
   public question : QuestionDto;
   public questionIndex : number;
   public openResponseForm : FormGroup;
-  public ansOpts : Array<AnswerOptionDto>;
+  public ansOpts : Array<any>;
+  public loadedAnsOpts : Array<AnswerOptionDto>;
 
   public responses : Array<Array<any>>;
 
@@ -47,7 +48,8 @@ export class SolveExamComponent implements OnInit {
     this.question = new OpenQuestionDto;
     this.question.type = "";
     this.questionIndex = 0;
-    this.ansOpts = new Array<AnswerOptionDto>();
+    this.ansOpts = [];
+    this.loadedAnsOpts = new Array<AnswerOptionDto>();
 
     this.responses = [];
     this.openResponseForm = this.formBuilder.group({
@@ -75,16 +77,19 @@ export class SolveExamComponent implements OnInit {
     this.question = this.questions[FIRST_QUESTION];
 
     // if question type is not open question, set answer options
-    (this.question.type!=='op') ? this.setAnsOpts(this.question) : false
+    (this.question.type!=='op') ? this.getAnsOpts(this.question) : false;
   }
 
   private setResponses() : void {
     this.questions.forEach( question => this.responses.push([]));
   }
 
-  private setAnsOpts(question : QuestionDto) : void {
+  private getAnsOpts(question : QuestionDto) : void {
     this.ansOptService.getAnsOptByQuestion(question.id).subscribe(
-      ansOpts => this.ansOpts = ansOpts,
+      ansOpts => {
+        this.ansOpts.push({question : question, ansOpts : ansOpts})
+        this.loadAnsOpts();
+      },
       error => console.log(error)
     );
   }
@@ -125,7 +130,7 @@ export class SolveExamComponent implements OnInit {
     })
   }
 
-  private loadOpenResponseInfo() : void {
+  private loadOpenResponse() : void {
     if (this.responses[this.questionIndex].length > 0) {
       let RESPONSE = 0;
       let savedOpenResponse : OpenResponseDto = this.responses[this.questionIndex][RESPONSE]; 
@@ -162,6 +167,23 @@ export class SolveExamComponent implements OnInit {
     this.selectedAnsOpts = this.responses[this.questionIndex];
   }
 
+  private loadAnsOpts() : boolean {
+    for (let i=0; i<this.ansOpts.length; i++) {
+      let pair = this.ansOpts[i];
+      if (pair.question === this.question) {
+          this.loadedAnsOpts = pair.ansOpts;
+          return true;
+      }
+    }
+    return false;
+  }
+
+  private checkAndLoadAnsOpts() : void {
+    let existAnsOpts : boolean = false;
+    existAnsOpts = this.loadAnsOpts();
+    (!existAnsOpts) ? this.getAnsOpts(this.question) : false;
+  }
+
   private processStudentResponses(questionIndexOperation : number) : void {
     /* processing the answer of current question */ 
     if (this.question.type==="op") {
@@ -180,14 +202,14 @@ export class SolveExamComponent implements OnInit {
     this.question = this.questions[this.questionIndex];
 
     if (this.question.type==="op") {
-      this.loadOpenResponseInfo();
+      this.loadOpenResponse();
     }
     else if (this.question.type==="mu") {
-      this.setAnsOpts(this.question);
+      this.checkAndLoadAnsOpts();
       this.loadMultiUniqueResponse();
     } // mm question type
     else {
-      this.setAnsOpts(this.question);
+      this.checkAndLoadAnsOpts();
       this.loadMultiMultiResponse();
     }
   }
