@@ -26,7 +26,7 @@
                 <p-button [disabled]="studentForm.invalid" icon="pi pi-check" label="Log up student" class="p-button-secondary" (click)="createStudent()"></p-button>
             </div>
             <div *ngIf="student.id!==0" class="p-field p-col-12 p-md-12">
-                <p-button [disabled]="studentForm.invalid" icon="pi pi-check" label="Start exam" class="p-button-secondary" (click)="createExamStudent()"></p-button>
+                <p-button [disabled]="studentForm.invalid" icon="pi pi-check" label="Start exam" class="p-button-secondary" (click)="startExam()"></p-button>
             </div>
         </div>
     </form>
