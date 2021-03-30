@@ -99,14 +99,9 @@ export class StudentFormComponent implements OnInit {
     );
   }
 
-  public createExamStudent() : void {
-    let examStudent : ExamStudentDto = new ExamStudentDto;
-    examStudent.exam = this.exam;
-    examStudent.student = this.student;
-    this.examStudentService.saveExamStudent(examStudent).subscribe(
-      examStudent => this.examStudent = examStudent,
-      error => console.log(error)
-    );
+  public startExam() : void {
+    this.examStudent.exam = this.exam;
+    this.examStudent.student = this.student;
     this.examStarted = true;
   }
 }
