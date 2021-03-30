@@ -1,3 +1,4 @@
+<p-toast></p-toast>
 <div *ngIf="questions.length!==0">
     <div *ngIf="question.id!==0">
         <img src="question.questionImage">
@@ -31,4 +32,5 @@
 
     <button [disabled]="questionIndex-1<0" pButton type="button" icon="pi pi-arrow-left" class="p-button-text" (click)="back()"></button>
     <button [disabled]="questionIndex+1>=questions.length" pButton type="button" icon="pi pi-arrow-right" class="p-button-text" (click)="next()"></button>
+    <button [disabled]="questionIndex+1!==questions.length" pButton type="button" value="Send responses" icon="pi pi-check" (click)="saveStudentExam()"></button>
 </div>
