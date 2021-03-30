@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { MessageService } from 'primeng/api';
 import { QuestionDto } from 'src/app/dto/abstractDto/QuestionDto';
 import { AnswerOptionDto } from 'src/app/dto/AnswerOptionDto';
 import { ExamDto } from 'src/app/dto/ExamDto';
@@ -10,12 +11,15 @@ import { SelectedResponseDto } from 'src/app/dto/SelectedResponseDto';
 import { StudentDto } from 'src/app/dto/StudentDto';
 import { AnswerOptionService } from 'src/app/services/answer-option.service';
 import { ExamStudentService } from 'src/app/services/exam-student.service';
+import { OpenResponseService } from 'src/app/services/open-response.service';
 import { QuestionService } from 'src/app/services/question.service';
+import { SelectedResponseService } from 'src/app/services/selected-response.service';
 
 @Component({
   selector: 'app-solve-exam',
   templateUrl: './solve-exam.component.html',
-  styleUrls: ['./solve-exam.component.css']
+  styleUrls: ['./solve-exam.component.css'],
+  providers: [MessageService]
 })
 export class SolveExamComponent implements OnInit {
 
@@ -29,6 +33,7 @@ export class SolveExamComponent implements OnInit {
   public openResponseForm : FormGroup;
   public ansOpts : Array<any>;
   public loadedAnsOpts : Array<AnswerOptionDto>;
+  public maxGrade : number;
 
   public responses : Array<Array<any>>;
 
@@ -36,10 +41,13 @@ export class SolveExamComponent implements OnInit {
   public selectedAnsOpts : Array<AnswerOptionDto>;
 
   constructor(
-    public questionService : QuestionService,
-    public ansOptService : AnswerOptionService,
-    public examStudentService : ExamStudentService,
-    private formBuilder : FormBuilder
+    private questionService : QuestionService,
+    private ansOptService : AnswerOptionService,
+    private examStudentService : ExamStudentService,
+    private openResponseService : OpenResponseService,
+    private selectedResponseService : SelectedResponseService,
+    private formBuilder : FormBuilder,
+    public messageService : MessageService
   ) { 
     this.exam = new ExamDto;
     this.student = new StudentDto;
@@ -50,6 +58,7 @@ export class SolveExamComponent implements OnInit {
     this.questionIndex = 0;
     this.ansOpts = [];
     this.loadedAnsOpts = new Array<AnswerOptionDto>();
+    this.maxGrade = 5.0;
 
     this.responses = [];
     this.openResponseForm = this.formBuilder.group({
@@ -102,7 +111,7 @@ export class SolveExamComponent implements OnInit {
     openResponse.valoration = 0.0;
   }
 
-  private saveOpenResponse() : void {
+  private addOpenResponse() : void {
     let openResponseExist : boolean = !(this.responses[this.questionIndex].length===0);
     let response : OpenResponseDto; let RESPONSE = 0;
     
@@ -138,7 +147,7 @@ export class SolveExamComponent implements OnInit {
     }
   }
 
-  private saveMultiUniqueResponse() : void {
+  private addMultiUniqueResponse() : void {
     let multiUniqueResponseExist : boolean = !(this.responses[this.questionIndex].length===0);
     
     if (multiUniqueResponseExist) {
@@ -159,7 +168,7 @@ export class SolveExamComponent implements OnInit {
     }
   }
 
-  private saveMultiMultiResponse() : void {
+  private addeMultiMultiResponse() : void {
     this.responses[this.questionIndex] = this.selectedAnsOpts;
   }
 
@@ -184,20 +193,24 @@ export class SolveExamComponent implements OnInit {
     (!existAnsOpts) ? this.getAnsOpts(this.question) : false;
   }
 
-  private processStudentResponses(questionIndexOperation : number) : void {
-    /* processing the answer of current question */ 
+  private addStudentResponse() : void {
     if (this.question.type==="op") {
-      this.saveOpenResponse();
+      this.addOpenResponse();
       this.clearOpenResponseForm();
     }
     else if (this.question.type==="mu") {
-      this.saveMultiUniqueResponse();
+      this.addMultiUniqueResponse();
     } // mm question type
     else {
-      this.saveMultiMultiResponse();
+      this.addeMultiMultiResponse();
     }
+  }
 
-    /* loading the answer of next/back question if exist */
+  private processStudentResponses(questionIndexOperation : number) : void {
+    /* adding student answer of current question */ 
+    this.addStudentResponse();
+
+    /* loading student answer of next/back question if it exist */
     this.questionIndex += questionIndexOperation;
     this.question = this.questions[this.questionIndex];
 
@@ -220,5 +233,85 @@ export class SolveExamComponent implements OnInit {
 
   public next() : void {
     this.processStudentResponses(1);
+  }
+
+  private saveOpenResponse(openResponse : OpenResponseDto) : void {
+    this.openResponseService.saveOpenResponse(openResponse).subscribe(
+      openResponse => openResponse,
+      error => console.log(error)
+    );
+  }
+
+  private saveSelectedResponse(selectedResponse : SelectedResponseDto) : void {
+    this.selectedResponseService.saveSelectedResponse(selectedResponse).subscribe(
+      selectedResponse => selectedResponse,
+      error => console.log(error)
+    );
+  }
+
+  private setSelectedResponseInfo(question : QuestionDto, selectedResponse : SelectedResponseDto, 
+    selectedAnsOpt : AnswerOptionDto) : void {
+    selectedResponse.valoration = question.weight * selectedAnsOpt.weight * this.maxGrade;
+    selectedResponse.examStudent = this.examStudent;
+    selectedResponse.answerOption = selectedAnsOpt;
+  }
+
+  private saveExamStudent() : void {
+    this.examStudentService.saveExamStudent(this.examStudent).subscribe(
+      examStudent => {
+        this.examStudent = examStudent;
+        this.messageService.add({severity:'success', summary:'Success', detail:'Your responses have been saved'});
+        this.saveStudentResponses();
+      },
+      error => {
+        console.log(error);
+        this.messageService.add({sticky:true, severity:'error', summary:'Error', detail:'There were errors saving your responses!'});
+      }
+    );
+  }
+
+  public saveStudentExam() : void {
+    this.saveExamStudent();
+  }
+
+  private saveStudentResponses() : void {
+    this.addStudentResponse();
+    let QUESTION_INDEX = 0;
+    let studentGrade : number = 0.0;
+
+    this.questions.forEach( question => {
+      // save OPen responses
+      if (question.type === "op") {
+        let OPEN_RESPONSE_INDEX = 0;
+        let openResponse : OpenResponseDto = this.responses[QUESTION_INDEX][OPEN_RESPONSE_INDEX];
+        openResponse.examStudent = this.examStudent;
+        studentGrade += question.weight * openResponse.valoration;
+        this.saveOpenResponse(openResponse);
+      } 
+      
+      // save Multple Unique response
+      else if (question.type === "mu") {
+        let UNIQUE_RESPONSE_INDEX = 0;
+        let selectedResponse = new SelectedResponseDto;
+        let selectedAnsOpt : AnswerOptionDto = this.responses[QUESTION_INDEX][UNIQUE_RESPONSE_INDEX];
+        this.setSelectedResponseInfo(question, selectedResponse, selectedAnsOpt);
+        studentGrade += selectedResponse.valoration;
+        this.saveSelectedResponse(selectedResponse);
+      }
+      
+      // save Multiple Multiple responses
+      else {
+        this.responses[QUESTION_INDEX].forEach( selectedAnsOPt => {
+          let selectedResponse = new SelectedResponseDto;
+          this.setSelectedResponseInfo(question, selectedResponse, selectedAnsOPt);
+          studentGrade += selectedResponse.valoration;
+          this.saveSelectedResponse(selectedResponse);
+        });
+      }
+
+      QUESTION_INDEX += 1;
+    });
+
+    this.questions = new Array<QuestionDto>();
   }
 }
