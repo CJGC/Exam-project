@@ -1,0 +1,27 @@
+<ul>
+    <li> <b>Question description: </b> {{selectedQuestion.description}} </li>
+    <li> <b>Question weight </b> {{selectedQuestion.weight}} </li>
+</ul>
+
+<h3> {{examStudent.student.name}} {{examStudent.student.lastname}} response </h3>
+<form [formGroup]="gradeForm">
+    <div class="p-fluid p-formgrid p-grid">
+        <div class="p-field p-col-12 p-md-12">
+            <textarea [rows]="4" [autoResize]="true" pInputTextarea formControlName="content"></textarea>
+        </div>
+
+        <div class="p-field p-col-12 p-md-12">
+            <label for="grade">Grade</label>
+            <p-inputNumber id="grade" mode="decimal" [max]="5" [min]="0" [step]="0.01" [minFractionDigits]="1" [maxFractionDigits]="2" formControlName="grade"></p-inputNumber>
+        </div>
+
+        <div class="p-field p-col-12 p-md-6">
+            <p-button [disabled]="gradeForm.invalid" icon="pi pi-pencil" label="Grade" class="p-button-secondary" (click)="grade()"></p-button>
+        </div>
+
+        <div class="p-field p-col-12 p-md-6">
+            <p-button icon="pi pi-times" label="Cancel" class="p-button-secondary" (click)="cancel()"></p-button>
+        </div>
+
+    </div>
+</form>
