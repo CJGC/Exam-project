@@ -25,6 +25,13 @@ export class ProfessorInteractionComponent implements OnInit {
         }  ,
         routerLink: ['./manage-exam-view']
       },
+      {label: 'Grades', icon: 'pi pi-star', 
+        command: (event) => {
+          this.display = false;
+          this.emitDisplay();
+        }  ,
+        routerLink: ['./exam-grade-main-view']
+      },
       {label: 'Account', icon: 'pi pi-user-edit',
         command: (event) => {
           this.display = false;
