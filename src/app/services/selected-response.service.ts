@@ -14,6 +14,11 @@ export class SelectedResponseService {
     return this.http.get<Array<SelectedResponseDto>>(environment.apiURL + 'selectedResponse/all');
   }
 
+  public getSelectedResponseByExamStudentAndQuestion(examStudentId : number, ansOptId : number,) : Observable<SelectedResponseDto> {
+    return this.http.get<SelectedResponseDto>(environment.apiURL + 
+      'selectedResponse/byexamstudentandquestion/?examStudentId=' + examStudentId + '&ansOptId=' + ansOptId);
+  }
+
   public saveSelectedResponse(selectedResponse : SelectedResponseDto) : Observable<SelectedResponseDto> {
     return this.http.post<SelectedResponseDto>(environment.apiURL + 'selectedResponse', selectedResponse);
   }
