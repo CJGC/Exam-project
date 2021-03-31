@@ -40,6 +40,11 @@ import { ExamDetailsViewComponent } from './Componentes/exam-details-view/exam-d
 import { StudentFormComponent } from './Componentes/student-form/student-form.component';
 import { QuestionTypePipe } from './pipes/question-type.pipe';
 import { SolveExamComponent } from './Componentes/solve-exam/solve-exam.component';
+import { ExamGradeMainViewComponent } from './Componentes/exam-grade-main-view/exam-grade-main-view.component';
+import { ExamStudentsResponsesComponent } from './Componentes/exam-students-responses/exam-students-responses.component';
+import { ExamStudentResponseDetailComponent } from './Componentes/exam-student-response-detail/exam-student-response-detail.component';
+import { ExamStudenOpenResponseComponent } from './Componentes/exam-studen-open-response/exam-studen-open-response.component';
+import { ExamStudenSelectedResponseComponent } from './Componentes/exam-studen-selected-response/exam-studen-selected-response.component';
 
 
 @NgModule({
@@ -60,7 +65,12 @@ import { SolveExamComponent } from './Componentes/solve-exam/solve-exam.componen
     ExamDetailsViewComponent,
     StudentFormComponent,
     QuestionTypePipe,
-    SolveExamComponent
+    SolveExamComponent,
+    ExamGradeMainViewComponent,
+    ExamStudentsResponsesComponent,
+    ExamStudentResponseDetailComponent,
+    ExamStudenOpenResponseComponent,
+    ExamStudenSelectedResponseComponent
   ],
   imports: [
     BrowserAnimationsModule,
