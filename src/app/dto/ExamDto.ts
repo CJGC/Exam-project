@@ -2,7 +2,7 @@ import { ProfessorDto } from './ProfessorDto';
 
 export class ExamDto {
 
-    public id : Number;
+    public id : number;
     public professor : ProfessorDto;
     public description : String;
     public link : String;
