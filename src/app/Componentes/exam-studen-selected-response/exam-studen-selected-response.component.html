@@ -1,0 +1,19 @@
+<ul>
+    <li> <b>Question description: </b> {{selectedQuestion.description}} </li>
+    <li> <b>Question weight </b> {{selectedQuestion.weight}} </li>
+</ul>
+
+<h3> {{examStudent.student.name}} {{examStudent.student.lastname}} response </h3>
+<div *ngIf="selectedQuestion.type==='mu'">
+    <div *ngFor="let ansOpt of asnOpts" class="p-field-radiobutton">
+        <p-radioButton [disabled]="true" [inputId]="ansOpt.id.toString()" name="multipleUniqueGroup" [value]="ansOpt" [(ngModel)]="selectedAnsOpt"></p-radioButton>
+        <label [for]="ansOpt.id">{{ansOpt.description}}</label>
+    </div>
+</div>
+
+<div *ngIf="selectedQuestion.type==='mm'">
+    <div *ngFor="let ansOpt of asnOpts" class="p-field-checkbox">
+        <p-checkbox [readonly]="true" [inputId]="ansOpt.id.toString()" name="multipleMultipleGroup" [value]="ansOpt"  [(ngModel)]="selectedAnsOpts"></p-checkbox>
+        <label [for]="ansOpt.id">{{ansOpt.description}}</label>
+    </div>
+</div>
