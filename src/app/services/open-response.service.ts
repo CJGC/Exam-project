@@ -14,6 +14,11 @@ export class OpenResponseService {
     return this.http.get<Array<OpenResponseDto>>(environment.apiURL + 'openResponse/all');
   }
 
+  public getOpenResponsesByExamStudentAndQuestion(examStudentId : number, questionId : number,) : Observable<OpenResponseDto> {
+    return this.http.get<OpenResponseDto>(environment.apiURL + 
+      'openResponse/byexamstudentandquestion/?examStudentId=' + examStudentId + '&questionId=' + questionId);
+  }
+
   public saveOpenResponse(openResponse : OpenResponseDto) : Observable<OpenResponseDto> {
     return this.http.post<OpenResponseDto>(environment.apiURL + 'openResponse', openResponse);
   }
