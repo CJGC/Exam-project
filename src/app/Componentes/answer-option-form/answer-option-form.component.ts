@@ -1,39 +1,35 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MessageService } from 'primeng/api';
+import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { QuestionDto } from 'src/app/dto/abstractDto/QuestionDto';
 import { AnswerOptionDto } from 'src/app/dto/AnswerOptionDto';
-import { ExamDto } from 'src/app/dto/ExamDto';
-import { MultiQuestionDto } from 'src/app/dto/MultiQuestionDto';
 import { AnswerOptionService } from 'src/app/services/answer-option.service';
-import { QuestionService } from 'src/app/services/question.service';
 
 @Component({
   selector: 'app-answer-option-form',
   templateUrl: './answer-option-form.component.html',
   styleUrls: ['./answer-option-form.component.css'],
-  providers: [MessageService]
+  providers: [ MessageService ]
 })
 export class AnswerOptionFormComponent implements OnInit {
-
-  @Input() public exams : Array<ExamDto>;
-  public questions : Array<QuestionDto>;
 
   public creatingAnsOpt : boolean;
   public ansOpts : Array<AnswerOptionDto>;
   public ansOpt : AnswerOptionDto;
   public ansOptForm : FormGroup;
   public question : QuestionDto;
-  public exam : ExamDto;
-  public dropListExams : Array<ExamDto>;
-  public dropListQuestions : Array<MultiQuestionDto>
+  public maxWeight : number;
 
   constructor(
     private formBuilder : FormBuilder,
     private ansOptService : AnswerOptionService,
-    private questionService : QuestionService,
+    private config: DynamicDialogConfig,
+    private ref : DynamicDialogRef,
     private messageService : MessageService
   ) {
+    this.question = this.config.data.question;
+    this.ansOpts = this.config.data.asnOpts;
     
     this.ansOptForm = this.formBuilder.group({
       weight : new FormControl (0.0, [Validators.required, Validators.min(0.0), Validators.max(5.0)]),
@@ -42,52 +38,39 @@ export class AnswerOptionFormComponent implements OnInit {
     });
 
     this.ansOpt = new AnswerOptionDto;
-    this.ansOpts = new Array<AnswerOptionDto>();
     this.creatingAnsOpt = true;
+    this.maxWeight = 1;
+    
+    if (this.ansOpts.length) {
+      this.calculateMaxAvailableGrade();
+    }
 
-    this.exams = new Array<ExamDto>();
-    this.exam = new ExamDto;
-    this.questions = new Array<QuestionDto>();
-    this.question = new MultiQuestionDto;
-    this.dropListExams = new Array<ExamDto>();
-    this.dropListQuestions = new Array<MultiQuestionDto>();
   }
 
   ngOnInit(): void {
+    (this.question.id !== 0) ? this.setAnsOpts() : false;
   }
 
-  public searchExam(event : any) : void {
-    this.exam = new ExamDto; this.question = new MultiQuestionDto;
-    this.dropListExams = new Array<ExamDto>(); this.dropListQuestions = new Array<MultiQuestionDto>();
-    this.exams.forEach( exam => {
-      (exam.name.indexOf(event.query) !== -1) ? this.dropListExams.push(exam) : false
+  private subMaxWeight(ansOpt : AnswerOptionDto) : void {
+    this.maxWeight -= ansOpt.weight;
+    this.maxWeight = Number (this.maxWeight.toPrecision(2));
+  }
+
+  private calculateMaxAvailableGrade() : void {
+    let maxWeight : number = 1;
+    this.ansOpts.forEach( ansOpt => {
+      maxWeight -= ansOpt.weight;
+      maxWeight = Number (maxWeight.toPrecision(2));
     });
-  }
-
-  public searchQuestion(event : any) : void {
-    this.question = new MultiQuestionDto;
-    this.dropListQuestions = new Array<MultiQuestionDto>();
-    this.questions.forEach( question => {
-      (question.description.indexOf(event.query) !== -1) ? this.dropListQuestions.push(<MultiQuestionDto> question) : false
-    });
-  }
-
-  public setQuestions() : void {
-    this.questions = new Array<MultiQuestionDto>();
-    this.questionService.getQuestionByExam(this.exam.id).subscribe(
-      response => {
-        response.forEach(question => {
-          // load all kind of question except open questions
-          (question.type!=='op') ? this.questions.push(question) : false;
-        });
-      },
-      error => console.log(error)
-    );
+    this.maxWeight = maxWeight;
   }
 
   public setAnsOpts() : void {
     this.ansOptService.getAnsOptByQuestion(this.question.id).subscribe(
-      response => this.ansOpts = response,
+      ansOpts => {
+        this.ansOpts = ansOpts;
+        this.calculateMaxAvailableGrade();
+      },
       error => console.log(error)
     );
   }
@@ -111,15 +94,8 @@ export class AnswerOptionFormComponent implements OnInit {
     let ansOpt = new AnswerOptionDto;
     this.extractAnsOptInfoFromAnsOptForm(ansOpt);
     ansOpt.question = this.question;
-
-    this.ansOptService.saveQAnsOpt(ansOpt).subscribe(
-      response => {
-        this.messageService.add({severity:'success', summary:'Success', detail:'Answer option created successfully'});
-        this.ansOpts.push(response);
-      },
-      error => console.log(error)
-    );
-
+    this.subMaxWeight(ansOpt);
+    this.ansOpts.push(ansOpt);
     this.resetAnsOptForm();
   }
 
@@ -129,20 +105,92 @@ export class AnswerOptionFormComponent implements OnInit {
 
   public updateAnsOpt() : void {
     this.extractAnsOptInfoFromAnsOptForm(this.ansOpt);
-    this.ansOptService.updateAnsOpt(this.ansOpt).subscribe(
-      response => {
-        this.messageService.add({severity:'success', summary:'Success', detail:'Answer option updated successfully'});
-        let index = this.ansOpts.indexOf(this.ansOpt);
-        this.ansOpts.splice(index, 1, response);
-      },
-      error => console.log(error)
-    );
+    let index = this.ansOpts.indexOf(this.ansOpt);
+    this.ansOpts.splice(index, 1, this.ansOpt);
     this.creatingAnsOpt = true;
+    this.calculateMaxAvailableGrade();
     this.resetAnsOptForm();
   }
 
   public cancelUpdateAnsOpt() : void {
     this.creatingAnsOpt = true;
+    this.subMaxWeight(this.ansOpt);
     this.resetAnsOptForm();
+  }
+
+  private notValidAnsOpts() : boolean {
+
+    // answer options should not be emtpy
+    if (!(this.ansOpts.length > 0)) {
+      this.messageService.add({sticky:true, severity:'warning', summary:'Warning', detail:'Answer options cannot be empty!'});
+      return true;
+    }
+
+    let atLeastIsThereACorrectAns = false;
+    let isThereWeightInNotCorrectAns = false;
+    let isThereACorrectAnsOptWithoutWeight = false;
+    let consideredWeight = 0.0;
+
+    this.ansOpts.forEach( ansOpt => {
+
+      // check if a not correct answer has a weight
+      if (ansOpt.correctAnswer && ansOpt.weight === 0) {
+        isThereACorrectAnsOptWithoutWeight = true;
+      }
+
+      // check if is not there at least one correct answer
+      // check if 100 percent weights have been considered with all correct answer
+      if (ansOpt.correctAnswer) {
+        atLeastIsThereACorrectAns = true;
+        consideredWeight += ansOpt.weight;
+        consideredWeight = Number(consideredWeight.toPrecision(2));
+      }
+
+      // check if a no correct answer has a weight
+      if (!ansOpt.correctAnswer && ansOpt.weight !== 0) {
+        isThereWeightInNotCorrectAns = true;
+      }
+
+    });
+    
+    let isAllOk = true;
+    if (!atLeastIsThereACorrectAns) {
+      this.messageService.add({sticky:true, severity:'warn', summary:'Warning', detail:'There should be at least one correct answer!'});
+      isAllOk = false;
+    }
+
+    if (isThereACorrectAnsOptWithoutWeight) {
+      this.messageService.add({sticky:true, severity:'warn', summary:'Warning', detail:'A correct answer option should has a weight!'});
+      isAllOk = false;
+    }
+
+    if (isThereWeightInNotCorrectAns) {
+      this.messageService.add({sticky:true, severity:'warn', summary:'Warning', detail:'There should not be weight in a not correct answer!'});
+      isAllOk = false;
+    }
+
+    if (consideredWeight !== 1) {
+      this.messageService.add({sticky:true, severity:'warn', summary:'Warning', detail:'You should consider use 100 percent in weight for every correct answer option!'});
+      isAllOk = false;
+    }
+
+    if (isAllOk) {
+      return false;
+    }
+    else {
+      return true;
+    }
+    
+  }
+
+  public accept() : void {
+    if (this.notValidAnsOpts()) {
+      return;
+    }
+    this.ref.close(this.ansOpts);
+  }
+
+  public cancel() : void {
+    this.ref.close();
   }
 }
