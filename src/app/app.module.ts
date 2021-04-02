@@ -23,6 +23,7 @@ import { OrderListModule } from 'primeng/orderlist';
 import { DropdownModule } from 'primeng/dropdown';
 import { RadioButtonModule } from 'primeng/radiobutton';
 import { CheckboxModule } from 'primeng/checkbox';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
 
 import { PageNotFoundComponent } from './Componentes/page-not-found/page-not-found.component';
 import { CreateProfessorComponent } from './Componentes/create-professor/create-professor.component';
@@ -95,7 +96,8 @@ import { ExamStudenSelectedResponseComponent } from './Componentes/exam-studen-s
     OrderListModule,
     DropdownModule,
     RadioButtonModule,
-    CheckboxModule
+    CheckboxModule,
+    ConfirmDialogModule
   ],
   entryComponents: [ExamDetailsViewComponent],
   providers: [],
