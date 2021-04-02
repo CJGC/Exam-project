@@ -1,14 +1,12 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { MessageService } from 'primeng/api';
 import { AnswerOptionDto } from 'src/app/dto/AnswerOptionDto';
-import { AnswerOptionService } from 'src/app/services/answer-option.service';
 
 @Component({
   selector: 'app-answer-option-main-view',
   templateUrl: './answer-option-main-view.component.html',
   styleUrls: ['./answer-option-main-view.component.css'],
-  providers: [MessageService]
+  providers: []
 })
 export class AnswerOptionMainViewComponent implements OnInit {
 
@@ -24,22 +22,31 @@ export class AnswerOptionMainViewComponent implements OnInit {
   @Input() public ansOptForm : FormGroup;
   @Output() public ansOptFormChange : any;
 
+  @Input() public maxWeight : number;
+  @Output() public maxWeightChange : any;
+
   constructor(
-    private messageService : MessageService,
-    private answerOptionService : AnswerOptionService
-  ) { 
+  ) {
     this.creatingAnsOpt = true;
     this.ansOpts = new Array<AnswerOptionDto>();
     this.ansOpt = new AnswerOptionDto;
     this.ansOptForm = new FormGroup({});
+    this.maxWeight = 0;
 
     this.creatingAnsOptChange = new EventEmitter<boolean>();
     this.ansOptsChange = new EventEmitter<Array<AnswerOptionDto>>();
     this.ansOptChange = new EventEmitter<AnswerOptionDto>();
     this.ansOptFormChange = new EventEmitter<FormGroup>();
+    this.maxWeightChange = new EventEmitter<number>();
   }
 
   ngOnInit(): void {
+  }
+
+  private addMaxWeight(ansOpt : AnswerOptionDto) : void {
+    this.maxWeight += ansOpt.weight;
+    this.maxWeight = Number (this.maxWeight.toPrecision(2));
+    this.maxWeightChange.emit(this.maxWeight);
   }
 
   private putAnsOptInfoIntoAnsOptForm(ansOpt : AnswerOptionDto) : void {
@@ -56,17 +63,13 @@ export class AnswerOptionMainViewComponent implements OnInit {
     this.creatingAnsOptChange.emit(this.creatingAnsOpt);
     this.ansOpt = ansOpt;
     this.ansOptChange.emit(this.ansOpt);
+    this.addMaxWeight(ansOpt);
     this.putAnsOptInfoIntoAnsOptForm(ansOpt);
   }
 
   public delAnsOpt(ansOpt : AnswerOptionDto) : void {
-    this.answerOptionService.delAnsOpt(ansOpt).subscribe(
-      response => {
-        this.messageService.add({severity:'success', summary:'Success', detail:'Answer option deleted successfully'})
-        this.ansOpts.splice(this.ansOpts.indexOf(ansOpt), 1);
-        this.ansOptsChange.emit(this.ansOpts);
-      },
-      error => console.log(error)
-    );
+    this.ansOpts.splice(this.ansOpts.indexOf(ansOpt), 1);
+    this.ansOptsChange.emit(this.ansOpts);
+    this.addMaxWeight(ansOpt);
   }
 }
