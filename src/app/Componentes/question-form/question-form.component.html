@@ -12,16 +12,16 @@
     <form [formGroup]="questionForm">
         <div class="p-fluid p-formgrid p-grid">
             <div class="p-field p-col-12">
-                <label for="question-image">Select an image (png or jpeg)</label>                
-                <input pButton (change)="loadSelectedImage($event)" id="question-image" type="file" accept="image/png, image/jpeg" formControlName="questionImage">
+                <input type="file" accept="image/png, image/jpeg" (change)="onFileChanged($event)">
+                <img [src]="imgURL" height="25" *ngIf="imgURL">
             </div>
             <div class="p-field p-col-6">
                 <label for="questionType">Kind of question</label>
                 <p-dropdown id="questionType" (onChange)="manageAnsOpts($event)" [options]="questionTypes" optionLabel="name" formControlName="type"></p-dropdown>
             </div>
-            <div class="p-field p-col-6">
+            <div *ngIf="ansOpts.length!==0" class="p-field p-col-6">
                 <label for="upAnsOptButton"> Update answer options </label>
-                <p-button id="upAnsOptButton" [disabled]="!(ansOpts.length>0)" icon="pi pi-pencil" label="Update" class="p-button-secondary" (click)="updateAnsOpt()"></p-button>
+                <p-button id="upAnsOptButton" icon="pi pi-pencil" label="Update" class="p-button-secondary" (click)="updateAnsOpt()"></p-button>
             </div>
             <div class="p-field p-col-12">
                 <label for="weight">Weight</label>
