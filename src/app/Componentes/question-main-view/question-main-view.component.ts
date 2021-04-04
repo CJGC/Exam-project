@@ -28,7 +28,6 @@ export class QuestionMainViewComponent implements OnInit {
   @Input() maxWeight : number;
   @Output() maxWeightChange : any;
 
-  
   constructor(
     private formBuilder : FormBuilder,
     private messageService : MessageService,
@@ -54,9 +53,20 @@ export class QuestionMainViewComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  private putQuestionInfoIntoQuestionForm(question : OpenQuestionDto) : void {
+  private putQuestionInfoIntoQuestionForm(question : QuestionDto) : void {
+    
+    let type : any;
+    if (question.type === "op") {
+      type = {code : "op", name : "Open question"};
+    } else if (question.type === "mu") {
+      type = {code : "mu", name : "Multiple unique"};
+    } else {
+      type = {code : "mm", name : "Multiple multiple"};
+    }
+
     this.questionForm.setValue({
       weight : question.weight,
+      type : type,
       description : question.description
     });
   }
@@ -79,6 +89,9 @@ export class QuestionMainViewComponent implements OnInit {
   public delQuestion(question : OpenQuestionDto) : void {
     this.questionService.delQuestion(question).subscribe(
       response => {
+        if (question.questionImage !== "") {
+          this.questionService.delImage(question.questionImage);
+        }
         this.messageService.add({severity:'success', summary:'Success', detail:'Question deleted successfully'});
         this.questions.splice(this.questions.indexOf(question), 1);
         this.questionsChange.emit(this.questions);
