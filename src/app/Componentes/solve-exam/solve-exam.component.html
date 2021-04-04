@@ -1,7 +1,7 @@
 <p-toast></p-toast>
 <div *ngIf="questions.length!==0">
     <div *ngIf="question.id!==0">
-        <img src="question.questionImage">
+        <img [src]="imgUrl" height="25" *ngIf="imgUrl">
         <b> {{ question.description }}</b>
     </div>
 
