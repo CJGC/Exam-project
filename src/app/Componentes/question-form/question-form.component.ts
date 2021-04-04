@@ -29,6 +29,8 @@ export class QuestionFormComponent implements OnInit {
   public creatingQuestion : boolean;
   public ansOpts : Array<AnswerOptionDto>;
   public maxWeight : number;
+  public imgURL : any;
+  public loadedImage : any;
 
   constructor(
     private questionService : QuestionService,
@@ -52,7 +54,6 @@ export class QuestionFormComponent implements OnInit {
       this.maxWeight = 1;
 
       this.questionForm = this.formBuilder.group({
-        questionImage : new FormControl(undefined, []),
         weight : new FormControl(0.0, [Validators.required, Validators.min(0.01), Validators.max(this.maxWeight)]),
         type : new FormControl(this.questionTypes[0], [Validators.required]),
         description : new FormControl('', [Validators.required, Validators.min(1), Validators.max(200)])
@@ -61,13 +62,27 @@ export class QuestionFormComponent implements OnInit {
       this.question = new OpenQuestionDto;
       this.creatingQuestion = true;
       this.ansOpts = new Array<AnswerOptionDto>();
+
+      this.loadedImage = undefined
+      this.imgURL = "";
   }
 
   ngOnInit(): void {
   }
 
-  public search(event : any) : void {
+  private resetComponentAttributes() : void {
     this.dropListExams = new Array<ExamDto>();
+    this.question = new OpenQuestionDto;
+    this.questions = new Array<QuestionDto>();
+    this.ansOpts = new Array<AnswerOptionDto>();
+    this.loadedImage = undefined;
+    this.imgURL = "";
+    this.creatingQuestion = true;
+    this.maxWeight = 1;
+  }
+
+  public search(event : any) : void {
+    this.resetComponentAttributes();
     this.exams.forEach( exam => {
       (exam.name.indexOf(event.query) != -1) ? this.dropListExams.push(exam) : false
     });
@@ -99,7 +114,6 @@ export class QuestionFormComponent implements OnInit {
 
   private resetQuestionForm() : void {
     this.questionForm.reset({
-      questionImage : undefined,
       weight : 0.0,
       type : this.questionTypes[0],
       description : ''
@@ -107,22 +121,29 @@ export class QuestionFormComponent implements OnInit {
   }
 
 
-  public loadSelectedImage(event : any) : void {
-    if (!event.target.files && !event.target.files[0]) {
-      return;
-    }
-    let file = event.target.files[0];
-    
-    let formData = new FormData();
-    formData.append(file, file.name);
-  
+  public onFileChanged(event : any) : void {
+    let selectedImage = event.target.files[0];
+
+    if (selectedImage) {
+
+      this.loadedImage = selectedImage;
+
+      // Below part is used to display the selected image
+      let readerBase64 = new FileReader();
+      readerBase64.readAsDataURL(selectedImage);
+      readerBase64.onload = () => { 
+        this.imgURL = readerBase64.result;
+      };
+    } else {
+      this.imgURL = "";
+      this.loadedImage = undefined;
+    }    
   }
 
   private getInfoFromQuestionForm(question : OpenQuestionDto) : void {
     let questionForm  =  this.questionForm.value;
     question.weight = questionForm.weight;
     question.type = questionForm.type.code;
-    question.questionImage = questionForm.questionImage.value;
     question.description = questionForm.description;
   }
 
@@ -137,11 +158,7 @@ export class QuestionFormComponent implements OnInit {
     this.ansOpts = new Array<AnswerOptionDto>();
   }
 
-  public saveQuestion() : void {
-    let question = new OpenQuestionDto;
-    this.getInfoFromQuestionForm(question);
-    this.resetQuestionForm();
-    question.exam = this.exam;
+  private saveQuestionIntoDataBase(question : QuestionDto) : void {
     this.questionService.saveQuestion(question).subscribe(
       question => {
         this.messageService.add({severity:'success', summary:'Success', detail:'Question created successfully'})
@@ -151,6 +168,32 @@ export class QuestionFormComponent implements OnInit {
       },
       error => console.log(error)
     );
+  }
+
+  private saveSelectedImageIntoDataBase(question : QuestionDto) : void {
+    this.questionService.saveImage(this.loadedImage).subscribe(
+      imageRoute => {
+        question.questionImage = imageRoute;
+        this.saveQuestionIntoDataBase(question);
+      },
+      error => console.log(error)
+    );
+  }
+
+  public saveQuestion() : void {
+    let question = new OpenQuestionDto;
+    question.exam = this.exam;
+    this.getInfoFromQuestionForm(question);
+    this.resetQuestionForm();
+
+    if (this.loadedImage) {
+      this.saveSelectedImageIntoDataBase(question);
+      this.loadedImage = undefined;
+      this.imgURL = "";
+    } else {
+      this.saveQuestionIntoDataBase(question);
+    }
+    
   }
 
   private updateAnswerOpt(question : QuestionDto) : void {
@@ -164,30 +207,64 @@ export class QuestionFormComponent implements OnInit {
     this.ansOpts = new Array<AnswerOptionDto>();
   }
 
-  public updateQuestion() : void {
-    let index = this.questions.findIndex( (q) => q === this.question );
-    if (index !== -1) {
-      this.getInfoFromQuestionForm(this.question);
-      this.questionService.updateQuestion(this.question).subscribe( 
-        question => {
-          this.messageService.add({severity:'success', summary:'Success', detail:'Question updated successfully'});
-          this.questions.splice(index, 1, question);
-          this.calculateMaxAvailableGrade();
-          this.updateAnswerOpt(question);
-        },
-        error => {
-          console.log(error);
-          this.subMaxWeight(this.question);
-        }
-      );
-    }
-    else {
-      console.log("question not found!");
+  private updateQuestionIntoDataBase(question : QuestionDto, index : number) : void {
+    this.questionService.updateQuestion(this.question).subscribe( 
+      question => {
+        this.messageService.add({severity:'success', summary:'Success', detail:'Question updated successfully'});
+        this.questions.splice(index, 1, question);
+        this.calculateMaxAvailableGrade();
+        this.updateAnswerOpt(question);
+      },
+      error => {
+        console.log(error);
+        this.subMaxWeight(this.question);
+      }
+    );
+  }
+
+  private updateSelectedImageIntoDataBase(question : QuestionDto, index : number) : void {
+    this.questionService.saveImage(this.loadedImage).subscribe(
+      imageRoute => {
+        question.questionImage = imageRoute;
+        this.updateQuestionIntoDataBase(question, index);
+      },
+      error => console.log(error)
+    );
+  }
+
+  private deleteModifiedImageIntoDataBase(question : QuestionDto) : void {
+    if (question.questionImage === "") {
+      return;
     }
 
+    this.questionService.delImage(question.questionImage).subscribe(
+      response => response,
+      error => console.log(error)
+    );
+  }
+
+  public updateQuestion() : void {
+    let index = this.questions.findIndex( (q) => q === this.question );
+    
+    if (index === -1) { 
+      console.log("question not found!");
+      return;
+    }
+
+    this.getInfoFromQuestionForm(this.question);
+
+    if (this.loadedImage) {
+      this.deleteModifiedImageIntoDataBase(this.question);
+      this.updateSelectedImageIntoDataBase(this.question, index);
+      this.loadedImage = undefined;
+      this.imgURL = "";
+    } else {
+      this.updateQuestionIntoDataBase(this.question, index);
+    }
+    
     this.question = new OpenQuestionDto;
-    this.resetQuestionForm();
     this.creatingQuestion = true;
+    this.resetQuestionForm();
   }
 
   public cancelUpdateQuestion() : void {
@@ -195,6 +272,7 @@ export class QuestionFormComponent implements OnInit {
     this.resetQuestionForm();
     this.creatingQuestion = true;
     this.question = new OpenQuestionDto;
+    this.ansOpts = new Array<AnswerOptionDto>();
   }
 
   private goTomanageAnsOpt(event : any) : void {
@@ -215,7 +293,6 @@ export class QuestionFormComponent implements OnInit {
         let questionForm = this.questionForm.value;
 
         this.questionForm.setValue({
-          questionImage : questionForm.questionImage,
           weight : questionForm.weight,
           type : this.questionTypes[OPEN_QUESTION_INDEX],
           description : questionForm.description
