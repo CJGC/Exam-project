@@ -34,6 +34,7 @@ export class SolveExamComponent implements OnInit {
   public ansOpts : Array<any>;
   public loadedAnsOpts : Array<AnswerOptionDto>;
   public maxGrade : number;
+  public imgUrl : any;
 
   public responses : Array<Array<any>>;
 
@@ -67,6 +68,7 @@ export class SolveExamComponent implements OnInit {
 
     this.selectedAnsOpt = new AnswerOptionDto;
     this.selectedAnsOpts = new Array<AnswerOptionDto>();
+    this.imgUrl = "";
   }
 
   ngOnInit(): void {
@@ -80,11 +82,36 @@ export class SolveExamComponent implements OnInit {
     );
   }
 
+  private getImage(question : QuestionDto) : void {
+
+    if (question.questionImage === "") {
+      return;
+    }
+    
+    this.questionService.getImage(question.questionImage).subscribe(
+      image => {
+        let reader = new FileReader();
+        reader.readAsDataURL(image);
+        reader.onload = () => {
+          this.imgUrl = reader.result;
+        }
+      },
+      error => console.error(error)
+    );
+  }
+
+  private resetImage() : void {
+    this.imgUrl = "";
+  }
+
   private setFirstQuestion() : void {
     let FIRST_QUESTION = 0;
     this.questionIndex = FIRST_QUESTION;
     this.question = this.questions[FIRST_QUESTION];
-
+    
+    if (this.question.questionImage !== "") {
+      this.getImage(this.question);
+    }
     // if question type is not open question, set answer options
     (this.question.type!=='op') ? this.getAnsOpts(this.question) : false;
   }
@@ -213,6 +240,8 @@ export class SolveExamComponent implements OnInit {
     /* loading student answer of next/back question if it exist */
     this.questionIndex += questionIndexOperation;
     this.question = this.questions[this.questionIndex];
+    this.resetImage();
+    this.getImage(this.question);
 
     if (this.question.type==="op") {
       this.loadOpenResponse();
