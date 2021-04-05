@@ -35,6 +35,8 @@ export class SolveExamComponent implements OnInit {
   public loadedAnsOpts : Array<AnswerOptionDto>;
   public maxGrade : number;
   public imgUrl : any;
+  public thereWereOpenQuestion : boolean;
+  public examHasBeenEnded : boolean;
 
   public responses : Array<Array<any>>;
 
@@ -69,6 +71,8 @@ export class SolveExamComponent implements OnInit {
     this.selectedAnsOpt = new AnswerOptionDto;
     this.selectedAnsOpts = new Array<AnswerOptionDto>();
     this.imgUrl = "";
+    this.thereWereOpenQuestion = false;
+    this.examHasBeenEnded = false;
   }
 
   ngOnInit(): void {
@@ -285,22 +289,25 @@ export class SolveExamComponent implements OnInit {
     selectedResponse.answerOption = selectedAnsOpt;
   }
 
-  private saveExamStudent() : void {
+  public saveExamStudent() : void {
     this.examStudentService.saveExamStudent(this.examStudent).subscribe(
       examStudent => {
         this.examStudent = examStudent;
-        this.messageService.add({severity:'success', summary:'Success', detail:'Your responses have been saved'});
+        this.messageService.add({severity:'success', summary:'Success', detail:'Your response to this exam has been saved'});
         this.saveStudentResponses();
       },
       error => {
         console.log(error);
-        this.messageService.add({sticky:true, severity:'error', summary:'Error', detail:'There were errors saving your responses!'});
+        this.messageService.add({sticky:true, severity:'error', summary:'Error', detail:'There was error saving you exam response!'});
       }
     );
   }
 
-  public saveStudentExam() : void {
-    this.saveExamStudent();
+  private updateExamStudent() : void {
+    this.examStudentService.updateExamStudent(this.examStudent).subscribe(
+      examStudent => this.examStudent = examStudent,
+      error => console.log(error)
+    );
   }
 
   private saveStudentResponses() : void {
@@ -316,6 +323,7 @@ export class SolveExamComponent implements OnInit {
         openResponse.examStudent = this.examStudent;
         studentGrade += question.weight * openResponse.valoration;
         this.saveOpenResponse(openResponse);
+        this.thereWereOpenQuestion = true;
       } 
       
       // save Multple Unique response
@@ -341,6 +349,9 @@ export class SolveExamComponent implements OnInit {
       QUESTION_INDEX += 1;
     });
 
+    this.examStudent.definitiveGrade = studentGrade;
+    this.updateExamStudent();
     this.questions = new Array<QuestionDto>();
+    this.examHasBeenEnded = true;
   }
 }
