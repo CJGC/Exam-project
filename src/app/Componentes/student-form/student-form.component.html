@@ -1,8 +1,19 @@
+<div *ngIf="examStudent.id !== 0">
+    <b>Your final grade was: </b> {{examStudent.definitiveGrade}}
+</div>
+
 <div *ngIf="exam.id===0">
     <h1> Exam could not be found! check your URL</h1>
 </div>
 
-<div *ngIf="exam.id!==0 && !examStarted">
+<div *ngIf="exam.id !== 0 && student.id !==0 && !examStarted && examStudent.id === 0" class="p-field p-col-12 p-md-12">
+    <h1> Exam description </h1>
+    <p>
+        {{exam.description}}
+    </p>
+</div>
+
+<div *ngIf="exam.id!==0 && !examStarted && examStudent.id === 0">
     <p-toast></p-toast>
     <form [formGroup]="studentForm">
         <div class="p-fluid p-formgrid p-grid">
