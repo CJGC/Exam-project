@@ -19,8 +19,12 @@ export class ExamStudentService {
     return this.http.get<ExamStudentDto>(environment.apiURL + 'examStudent/' + examStudentId);
   }
 
-  public getExamStudentsByExam(examStudentId : number) : Observable<Array<ExamStudentDto>> {
-    return this.http.get<Array<ExamStudentDto>>(environment.apiURL + 'examStudent/byexam/?id=' + examStudentId);
+  public getExamStudentsByExam(examId : number) : Observable<Array<ExamStudentDto>> {
+    return this.http.get<Array<ExamStudentDto>>(environment.apiURL + 'examStudent/byexam/?id=' + examId);
+  }
+
+  public getExamStudentsByStudent(studentId : number) : Observable<ExamStudentDto> {
+    return this.http.get<ExamStudentDto>(environment.apiURL + 'examStudent/bystudent/?id=' + studentId);
   }
 
   public saveExamStudent(examStudent : ExamStudentDto) : Observable<ExamStudentDto> {
