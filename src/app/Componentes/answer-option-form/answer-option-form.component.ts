@@ -122,13 +122,14 @@ export class AnswerOptionFormComponent implements OnInit {
 
     // answer options should not be emtpy
     if (!(this.ansOpts.length > 0)) {
-      this.messageService.add({sticky:true, severity:'warning', summary:'Warning', detail:'Answer options cannot be empty!'});
+      this.messageService.add({sticky:true, severity:'warn', summary:'Warning', detail:'Answer options cannot be empty!'});
       return true;
     }
 
     let atLeastIsThereACorrectAns = false;
     let isThereWeightInNotCorrectAns = false;
     let isThereACorrectAnsOptWithoutWeight = false;
+    let multipleUniqueQuestionNumOfCorrecAnsOpts = 0;
     let consideredWeight = 0.0;
 
     this.ansOpts.forEach( ansOpt => {
@@ -136,6 +137,11 @@ export class AnswerOptionFormComponent implements OnInit {
       // check if a not correct answer has a weight
       if (ansOpt.correctAnswer && ansOpt.weight === 0) {
         isThereACorrectAnsOptWithoutWeight = true;
+      }
+
+      // check if multiple unique question only has a correct answer
+      if (this.question.type === "mu" && ansOpt.correctAnswer) {
+        multipleUniqueQuestionNumOfCorrecAnsOpts += 1;
       }
 
       // check if is not there at least one correct answer
@@ -161,6 +167,11 @@ export class AnswerOptionFormComponent implements OnInit {
 
     if (isThereACorrectAnsOptWithoutWeight) {
       this.messageService.add({sticky:true, severity:'warn', summary:'Warning', detail:'A correct answer option should has a weight!'});
+      isAllOk = false;
+    }
+
+    if (this.question.type === "mu" && multipleUniqueQuestionNumOfCorrecAnsOpts != 1) {
+      this.messageService.add({sticky:true, severity:'warn', summary:'Warning', detail:'Multiple unique question should has only one correct answer!'});
       isAllOk = false;
     }
 
