@@ -57,6 +57,19 @@ export class StudentFormComponent implements OnInit {
 
   }
 
+  private checkIfStudentHasAreply() : void {
+    this.examStudentService.getExamStudentsByStudent(this.student.id).subscribe(
+      examStudent => {
+        if (examStudent) {
+          this.examStudent = examStudent;
+        } else {
+          this.isQueryingStudent = false;
+        }
+      },
+      error => console.log(error)
+    )
+  }
+
   private getExamByLink(link : string) : void {
     this.examService.getExamByLink(link).subscribe(
       exam => this.exam = exam,
@@ -77,7 +90,7 @@ export class StudentFormComponent implements OnInit {
     this.studentService.getStudentByIdentificationCard(student.identificationCard).subscribe(
       student => {
         this.student = student;
-        this.isQueryingStudent = false;
+        this.checkIfStudentHasAreply();
       },
       error => console.log(error)
     );
