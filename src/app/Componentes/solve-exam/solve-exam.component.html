@@ -30,7 +30,22 @@
         </div>
     </div>
 
-    <button [disabled]="questionIndex-1<0" pButton type="button" icon="pi pi-arrow-left" class="p-button-text" (click)="back()"></button>
-    <button [disabled]="questionIndex+1>=questions.length" pButton type="button" icon="pi pi-arrow-right" class="p-button-text" (click)="next()"></button>
-    <button [disabled]="questionIndex+1!==questions.length" pButton type="button" value="Send responses" icon="pi pi-check" (click)="saveStudentExam()"></button>
+    <div *ngIf="questionIndex-1>=0">
+        <button pButton type="button" icon="pi pi-arrow-left" class="p-button-text" (click)="back()"></button>
+    </div>
+
+    <div *ngIf="questionIndex+1<questions.length">
+        <button pButton type="button" icon="pi pi-arrow-right" class="p-button-text" (click)="next()"></button>
+    </div>
+
+    <div *ngIf="questionIndex+1===questions.length">
+        <button pButton type="button" value="Send responses" icon="pi pi-check" (click)="saveExamStudent()"></button>
+    </div>
+</div>
+
+<div *ngIf="examHasBeenEnded && !thereWereOpenQuestion">
+    <b>Your final grade is: </b> {{examStudent.definitiveGrade}}
+</div>
+<div *ngIf="examHasBeenEnded &&  thereWereOpenQuestion">
+    <b>You have been replied to this exam, wait for you final grade</b>
 </div>
