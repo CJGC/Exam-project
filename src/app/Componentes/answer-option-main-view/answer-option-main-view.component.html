@@ -11,7 +11,7 @@
     <ng-template pTemplate="body" let-ansOpt>
         <tr>
             <td>{{ansOpt.description}}</td>
-            <td>{{ansOpt.weight}}</td>
+            <td>{{ansOpt.weight | weight}}</td>
             <td>{{ansOpt.correctAnswer | correctAns}}</td>
             <td>
                 <button [disabled]="!creatingAnsOpt" pButton type="button" icon="pi pi-pencil" class="p-button-text" (click)="updateAnsOpt(ansOpt)"></button>
