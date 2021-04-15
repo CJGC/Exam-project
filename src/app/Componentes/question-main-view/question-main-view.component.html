@@ -12,7 +12,7 @@
         <tr>
             <td>{{question.description}}</td>
             <td>{{question.type | questionType}}</td>
-            <td>{{question.weight}}</td>
+            <td>{{question.weight | weight}}</td>
             <td>
                 <button [disabled]="!creatingQuestion" pButton type="button" icon="pi pi-pencil" class="p-button-text" (click)="updateQuestion(question)"></button>
                 <button [disabled]="!creatingQuestion" pButton type="button" icon="pi pi-trash" class="p-button-text" (click)="delQuestion(question)"></button>
