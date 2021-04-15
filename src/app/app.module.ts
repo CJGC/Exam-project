@@ -46,6 +46,8 @@ import { ExamStudentsResponsesComponent } from './Componentes/exam-students-resp
 import { ExamStudentResponseDetailComponent } from './Componentes/exam-student-response-detail/exam-student-response-detail.component';
 import { ExamStudenOpenResponseComponent } from './Componentes/exam-studen-open-response/exam-studen-open-response.component';
 import { ExamStudenSelectedResponseComponent } from './Componentes/exam-studen-selected-response/exam-studen-selected-response.component';
+import { AnsOptsDetailsComponent } from './Componentes/ans-opts-details/ans-opts-details.component';
+import { WeightPipe } from './pipes/weight.pipe';
 
 
 @NgModule({
@@ -71,7 +73,9 @@ import { ExamStudenSelectedResponseComponent } from './Componentes/exam-studen-s
     ExamStudentsResponsesComponent,
     ExamStudentResponseDetailComponent,
     ExamStudenOpenResponseComponent,
-    ExamStudenSelectedResponseComponent
+    ExamStudenSelectedResponseComponent,
+    AnsOptsDetailsComponent,
+    WeightPipe
   ],
   imports: [
     BrowserAnimationsModule,
