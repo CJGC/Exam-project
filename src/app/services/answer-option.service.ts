@@ -27,7 +27,7 @@ export class AnswerOptionService {
     return this.http.put<AnswerOptionDto>(environment.apiURL + 'ansopt', ansOpt);
   }
 
-  public delAnsOpt(ansOpt : AnswerOptionDto) : Observable<AnswerOptionDto> {
-    return this.http.delete<AnswerOptionDto>(environment.apiURL + 'ansopt/' + ansOpt.id);
+  public delAnsOpt(ansOpt : AnswerOptionDto) : Observable<String> {
+    return this.http.delete(environment.apiURL + 'ansopt/' + ansOpt.id, {responseType : 'text'});
   }
 }

@@ -27,7 +27,7 @@ export class StudentService {
     return this.http.put<StudentDto>(environment.apiURL + 'student', student);
   }
 
-  public delStudent(student : StudentDto) : Observable<StudentDto> {
-    return this.http.delete<StudentDto>(environment.apiURL + 'student/' + student.id);
+  public delStudent(student : StudentDto) : Observable<String> {
+    return this.http.delete(environment.apiURL + 'student/' + student.id, {responseType : 'text'});
   }
 }

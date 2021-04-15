@@ -27,7 +27,7 @@ export class OpenResponseService {
     return this.http.put<OpenResponseDto>(environment.apiURL + 'openResponse', openResponse);
   }
 
-  public delOpenResponse(openResponse : OpenResponseDto) : Observable<OpenResponseDto> {
-    return this.http.delete<OpenResponseDto>(environment.apiURL + 'openResponse/' + openResponse.id);
+  public delOpenResponse(openResponse : OpenResponseDto) : Observable<String> {
+    return this.http.delete(environment.apiURL + 'openResponse/' + openResponse.id, {responseType : 'text'});
   }
 }

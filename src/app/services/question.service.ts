@@ -41,7 +41,7 @@ export class QuestionService {
     return this.http.put<QuestionDto>(environment.apiURL + 'question', question);
   }
 
-  public delQuestion(question : QuestionDto) : Observable<QuestionDto> {
-    return this.http.delete<QuestionDto>(environment.apiURL + 'question/' + question.id);
+  public delQuestion(question : QuestionDto) : Observable<String> {
+    return this.http.delete(environment.apiURL + 'question/' + question.id, {responseType : 'text'});
   }
 }

@@ -35,7 +35,7 @@ export class ExamStudentService {
     return this.http.put<ExamStudentDto>(environment.apiURL + 'examStudent', examStudent);
   }
 
-  public delExamStudent(examStudent : ExamStudentDto) : Observable<ExamStudentDto> {
-    return this.http.delete<ExamStudentDto>(environment.apiURL + 'examStudent/' + examStudent.id);
+  public delExamStudent(examStudent : ExamStudentDto) : Observable<String> {
+    return this.http.delete(environment.apiURL + 'examStudent/' + examStudent.id, {responseType : 'text'});
   }
 }

@@ -27,7 +27,7 @@ export class ProfessorService {
     return this.http.put<ProfessorDto>(environment.apiURL + 'professor', professor);
   }
 
-  public delProfessor(professor : ProfessorDto) : Observable<ProfessorDto> {
-    return this.http.delete<ProfessorDto>(environment.apiURL + 'professor/' + professor.id);
+  public delProfessor(professor : ProfessorDto) : Observable<String> {
+    return this.http.delete(environment.apiURL + 'professor/' + professor.id, {responseType : 'text'});
   }
 }

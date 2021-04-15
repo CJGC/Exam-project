@@ -27,7 +27,7 @@ export class SelectedResponseService {
     return this.http.put<SelectedResponseDto>(environment.apiURL + 'selectedResponse', selectedResponse);
   }
 
-  public delSelectedResponse(selectedResponse : SelectedResponseDto) : Observable<SelectedResponseDto> {
-    return this.http.delete<SelectedResponseDto>(environment.apiURL + 'selectedResponse/' + selectedResponse.id);
+  public delSelectedResponse(selectedResponse : SelectedResponseDto) : Observable<String> {
+    return this.http.delete(environment.apiURL + 'selectedResponse/' + selectedResponse.id, {responseType : 'text'});
   }
 }
