@@ -7,7 +7,7 @@ export class WeightPipe implements PipeTransform {
 
   transform(weight: number): string {
     let data : string = "";
-    data = (weight * 100).toPrecision(2) + '%';
+    data = (weight == 1) ? "100%" : (weight * 100).toPrecision(2) + '%';
     return data;
   }
 
