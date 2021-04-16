@@ -19,8 +19,8 @@ export class QuestionService {
     return this.http.get<Array<QuestionDto>>(environment.apiURL + 'question/' + examID);
   }
 
-  public getImage(imageRoute : string) : Observable<any> {
-    return this.http.get(environment.apiURL + 'question/getImage/?imgRoute=' + imageRoute, {responseType: 'blob'});
+  public getImage(fileName : string) : Observable<any> {
+    return this.http.get(environment.apiURL + 'question/getImage/?filename=' + fileName, {responseType: 'blob'});
   }
 
   public saveQuestion(question : QuestionDto) : Observable<QuestionDto> {
@@ -28,13 +28,13 @@ export class QuestionService {
   }
 
   public saveImage(image : File) : Observable<string> {
-    let params : FormData = new FormData();
-    params.append("file", image);
-    return this.http.post(environment.apiURL + 'question/saveImage', params, {responseType: 'text'});
+    let imageFile : FormData = new FormData();
+    imageFile.append("file", image);
+    return this.http.post(environment.apiURL + 'question/saveImage', imageFile, {responseType: 'text'});
   }
 
-  public delImage(imageRoute : string) : Observable<string> {
-    return this.http.delete(environment.apiURL + 'question/delImage/?imgRoute=' + imageRoute, {responseType : 'text'});
+  public delImage(fileName : string) : Observable<string> {
+    return this.http.delete(environment.apiURL + 'question/delImage/?filename=' + fileName, {responseType : 'text'});
   }
 
   public updateQuestion(question : QuestionDto) : Observable<QuestionDto> {
