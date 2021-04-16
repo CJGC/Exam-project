@@ -55,7 +55,9 @@ export class ExamStudenSelectedResponseComponent implements OnInit {
           this.selectedAnsOpt = ansOpt;
         }
         else if(selectedResponse && this.selectedQuestion.type === "mm" && selectedResponse.answerOption.id === ansOpt.id) {
-          this.selectedAnsOpts.push(ansOpt);
+          let temp : Array<AnswerOptionDto> = [ansOpt];
+          this.selectedAnsOpts.forEach( item => {temp.push(item);});
+          this.selectedAnsOpts = temp;
         }
       },
       error => console.log(error),
