@@ -60,7 +60,7 @@ export class StudentFormComponent implements OnInit {
   private checkIfStudentHasAreply() : void {
     this.examStudentService.getExamStudentsByStudent(this.student.id).subscribe(
       examStudent => {
-        if (examStudent) {
+        if (examStudent && examStudent.exam.id === this.exam.id) {
           this.examStudent = examStudent;
         } else {
           this.isQueryingStudent = false;
