@@ -1,4 +1,11 @@
-.first_button {
-    position:relative;
-    left: 80px;
+.left_button {
+    display: inline;
+    float: left;
+    size: 1em;
+}
+
+.right_button {
+    display: inline;
+    float: right;
+    size: 1em;
 }
