@@ -30,15 +30,15 @@
         </div>
     </div>
 
-    <div *ngIf="questionIndex-1>=0">
+    <div *ngIf="questionIndex-1>=0" class="left_button">
         <button pButton type="button" icon="pi pi-arrow-left" class="p-button-text" (click)="back()"></button>
     </div>
 
-    <div *ngIf="questionIndex+1<questions.length">
+    <div *ngIf="questionIndex+1<questions.length" class="right_button">
         <button pButton type="button" icon="pi pi-arrow-right" class="p-button-text" (click)="next()"></button>
     </div>
 
-    <div *ngIf="questionIndex+1===questions.length">
+    <div *ngIf="questionIndex+1===questions.length" class="right_button">
         <button pButton type="button" value="Send responses" icon="pi pi-check" (click)="saveExamStudent()"></button>
     </div>
 </div>
