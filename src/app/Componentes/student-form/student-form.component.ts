@@ -20,11 +20,14 @@ import { ExamStudentDto } from 'src/app/dto/ExamStudentDto';
 export class StudentFormComponent implements OnInit {
 
   public exam : ExamDto;
+  public queryStudentForm : FormGroup;
   public studentForm : FormGroup;
   public isQueryingStudent : boolean;
   public student : StudentDto;
   public examStudent : ExamStudentDto;
   public examStarted : boolean;
+  public isThereAStudentResponse : boolean;
+  public isThereAValidExam : boolean;
 
   constructor(
     public route : ActivatedRoute,
@@ -42,25 +45,31 @@ export class StudentFormComponent implements OnInit {
     );
 
     this.studentForm = this.formBuilder.group({
-      identificationCard : new FormControl(0.0, [Validators.required, Validators.min(0)]),
-      name : new FormControl('student name', [Validators.required]),
-      lastname : new FormControl('student lastname', [Validators.required])
+      name : new FormControl('', [Validators.required]),
+      lastname : new FormControl('', [Validators.required])
     });
 
+    this.queryStudentForm = this.formBuilder.group({
+      identificationCard : new FormControl(null, [Validators.required, Validators.min(1)])
+    });
+
+    this.isThereAStudentResponse = false;
     this.isQueryingStudent = true;
     this.student = new StudentDto;
     this.examStudent = new ExamStudentDto;
     this.examStarted = false;
+    this.isThereAValidExam = false;
   }
 
   ngOnInit(): void {
 
   }
 
-  private checkIfStudentHasAreply() : void {
-    this.examStudentService.getExamStudentsByStudent(this.student.id).subscribe(
+  private checkIfStudentHasAreply(student : StudentDto) : void {
+    this.examStudentService.getExamStudentsByExamAndStudent(this.exam.id, student.id).subscribe(
       examStudent => {
         if (examStudent && examStudent.exam.id === this.exam.id) {
+          this.isThereAStudentResponse = true;
           this.examStudent = examStudent;
         } else {
           this.isQueryingStudent = false;
@@ -72,25 +81,33 @@ export class StudentFormComponent implements OnInit {
 
   private getExamByLink(link : string) : void {
     this.examService.getExamByLink(link).subscribe(
-      exam => this.exam = exam,
+      exam => {
+        if (exam) {
+          this.exam = exam
+          this.isThereAValidExam = true;
+        }
+      },
       error => console.log(error)
     );
   }
 
   private extracInfoFromStudentForm(student : StudentDto) : void {
     let studentForm : StudentDto = <StudentDto> this.studentForm.value;
-    student.identificationCard = studentForm.identificationCard
     student.name = studentForm.name;
     student.lastname = studentForm.lastname;
   }
 
+  private extracInfoFromQueryStudentForm(student : StudentDto) : void {
+    let studentForm : StudentDto = <StudentDto> this.queryStudentForm.value;
+    student.identificationCard = studentForm.identificationCard
+  }
+
   public queryStudent() : void {
-    let student = new StudentDto;
-    this.extracInfoFromStudentForm(student);
-    this.studentService.getStudentByIdentificationCard(student.identificationCard).subscribe(
+    this.extracInfoFromQueryStudentForm(this.student);
+    this.studentService.getStudentByIdentificationCard(this.student.identificationCard).subscribe(
       student => {
-        this.student = student;
-        this.checkIfStudentHasAreply();
+        this.student = (student) ? student : this.student;
+        this.checkIfStudentHasAreply(this.student);
       },
       error => console.log(error)
     );
@@ -98,9 +115,8 @@ export class StudentFormComponent implements OnInit {
   }
 
   public createStudent() : void {
-    let student : StudentDto = new StudentDto;
-    this.extracInfoFromStudentForm(student);
-    this.studentService.saveStudent(student).subscribe(
+    this.extracInfoFromStudentForm(this.student);
+    this.studentService.saveStudent(this.student).subscribe(
       student => {
         this.student = student;
         this.messageService.add({severity:'success', summary:'Success', detail:'Student logged up successfully'})

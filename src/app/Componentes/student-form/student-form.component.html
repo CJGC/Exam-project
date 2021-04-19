@@ -1,48 +1,51 @@
-<div *ngIf="examStudent.id !== 0">
-    <b>Your final grade was: </b> {{examStudent.definitiveGrade}}
+<div *ngIf="isThereAStudentResponse">
+    <h1>Your final grade was: {{examStudent.definitiveGrade}} </h1>
 </div>
 
-<div *ngIf="exam.id===0">
+<div *ngIf="!isThereAValidExam">
     <h1> Exam could not be found! check your URL</h1>
 </div>
 
-<div *ngIf="exam.id !== 0 && student.id !==0 && !examStarted && examStudent.id === 0" class="p-field p-col-12 p-md-12">
-    <h1> Exam description </h1>
-    <p>
-        {{exam.description}}
-    </p>
-</div>
-
-<div *ngIf="exam.id!==0 && !examStarted && examStudent.id === 0">
-    <p-toast></p-toast>
-    <form [formGroup]="studentForm">
+<div *ngIf="isQueryingStudent && isThereAValidExam && !isThereAStudentResponse">
+    <form [formGroup]="queryStudentForm">
         <div class="p-fluid p-formgrid p-grid">
             <div class="p-field p-col-12">
                 <label for="identificationCard">Identification card</label>
                 <p-inputNumber id="identificationCard" [min]="1" formControlName="identificationCard"></p-inputNumber>
             </div>
-            <div *ngIf="student.id===0 && !isQueryingStudent" class="p-field p-col-12 p-md-6">
-                <label for="student-name">Name</label>
-                <input id="student-name" type="text" pInputText formControlName="name"> 
-            </div>
-            <div *ngIf="student.id===0 && !isQueryingStudent" class="p-field p-col-12 p-md-6">
-                <label for="student-lastname">Lastname</label>
-                <input id="student-lastname" type="text" pInputText formControlName="lastname">
-            </div>
-
-            <div *ngIf="isQueryingStudent" class="p-field p-col-12 p-md-12">
-                <p-button [disabled]="studentForm.invalid" icon="pi pi-check" label="Query student" class="p-button-secondary" (click)="queryStudent()"></p-button>
-            </div>
-            <div *ngIf="student.id===0 && !isQueryingStudent" class="p-field p-col-12 p-md-12">
-                <p-button [disabled]="studentForm.invalid" icon="pi pi-check" label="Log up student" class="p-button-secondary" (click)="createStudent()"></p-button>
-            </div>
-            <div *ngIf="student.id!==0" class="p-field p-col-12 p-md-12">
-                <p-button [disabled]="studentForm.invalid" icon="pi pi-check" label="Start exam" class="p-button-secondary" (click)="startExam()"></p-button>
+            <div class="p-field p-col-12 p-md-12">
+                <p-button [disabled]="queryStudentForm.invalid" icon="pi pi-check" label="Query student" class="p-button-secondary" (click)="queryStudent()"></p-button>
             </div>
         </div>
     </form>
 </div>
 
-<div *ngIf="examStarted">
+<div *ngIf="!isQueryingStudent && !isThereAStudentResponse && !examStarted">
+    <p-toast></p-toast>
+    <form [formGroup]="studentForm">
+        <div class="p-fluid p-formgrid p-grid">
+            <div *ngIf="student.id===0" class="p-field p-col-12 p-md-6">
+                <label for="student-name">Name</label>
+                <input id="student-name" type="text" pInputText formControlName="name"> 
+            </div>
+            <div *ngIf="student.id===0" class="p-field p-col-12 p-md-6">
+                <label for="student-lastname">Lastname</label>
+                <input id="student-lastname" type="text" pInputText formControlName="lastname">
+            </div>
+            <div *ngIf="student.id===0" class="p-field p-col-12 p-md-12">
+                <p-button [disabled]="studentForm.invalid" icon="pi pi-check" label="Log up student" class="p-button-secondary" (click)="createStudent()"></p-button>
+            </div>
+            <div *ngIf="student.id!==0" class="p-field p-col-12 p-md-12">
+                <p-button icon="pi pi-check" label="Start exam" class="p-button-secondary" (click)="startExam()"></p-button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<div *ngIf="examStarted" class="p-field p-col-12 p-md-12">
+    <h1> Exam description </h1>
+    <p>
+        {{exam.description}}
+    </p>
     <app-solve-exam [exam]="exam" [student]="student" [examStudent]="examStudent"></app-solve-exam>
 </div>
