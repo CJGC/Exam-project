@@ -1,5 +1,6 @@
 <p-toast></p-toast>
-<p-table [value]="ansOpts" [paginator]="true" [rows]="10" sortMode="multiple">
+<p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle"></p-confirmDialog>
+<p-table [value]="manageAnsOpts.ansOpts" [paginator]="true" [rows]="10" sortMode="multiple">
     <ng-template pTemplate="header">
         <tr>
             <th>Description</th>
