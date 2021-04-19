@@ -1,21 +1,20 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormGroup } from '@angular/forms';
+import { ConfirmationService } from 'primeng/api';
 import { AnswerOptionDto } from 'src/app/dto/AnswerOptionDto';
+import { ManageAnsOpts } from 'src/app/tools/manageAnsOpts';
 
 @Component({
   selector: 'app-answer-option-main-view',
   templateUrl: './answer-option-main-view.component.html',
   styleUrls: ['./answer-option-main-view.component.css'],
-  providers: []
+  providers: [ConfirmationService]
 })
 export class AnswerOptionMainViewComponent implements OnInit {
 
   @Input() public creatingAnsOpt : boolean;
   @Output() public creatingAnsOptChange : any;
-  
-  @Input() public ansOpts : Array<AnswerOptionDto>;
-  @Output() public ansOptsChange : any;
-  
+    
   @Input() public ansOpt : AnswerOptionDto;
   @Output() public ansOptChange : any;
 
@@ -25,19 +24,24 @@ export class AnswerOptionMainViewComponent implements OnInit {
   @Input() public maxWeight : number;
   @Output() public maxWeightChange : any;
 
+  @Input() public manageAnsOpts : ManageAnsOpts;
+  @Output() public manageAnsOptsChange : any;
+
   constructor(
+    private confirmDialog : ConfirmationService,
   ) {
     this.creatingAnsOpt = true;
-    this.ansOpts = new Array<AnswerOptionDto>();
     this.ansOpt = new AnswerOptionDto;
     this.ansOptForm = new FormGroup({});
     this.maxWeight = 0;
+    this.manageAnsOpts = new ManageAnsOpts;
 
     this.creatingAnsOptChange = new EventEmitter<boolean>();
-    this.ansOptsChange = new EventEmitter<Array<AnswerOptionDto>>();
     this.ansOptChange = new EventEmitter<AnswerOptionDto>();
     this.ansOptFormChange = new EventEmitter<FormGroup>();
     this.maxWeightChange = new EventEmitter<number>();
+    this.manageAnsOptsChange = new EventEmitter<ManageAnsOpts>();
+
   }
 
   ngOnInit(): void {
@@ -68,8 +72,17 @@ export class AnswerOptionMainViewComponent implements OnInit {
   }
 
   public delAnsOpt(ansOpt : AnswerOptionDto) : void {
-    this.ansOpts.splice(this.ansOpts.indexOf(ansOpt), 1);
-    this.ansOptsChange.emit(this.ansOpts);
-    this.addMaxWeight(ansOpt);
+    this.confirmDialog.confirm({
+      message: 'Are you sure that want to proceed?',
+      accept: () => {
+        this.manageAnsOpts.ansOpts.splice(this.manageAnsOpts.ansOpts.indexOf(ansOpt), 1);
+        this.manageAnsOpts.addItemIntoDelAnsOpts(ansOpt);
+        this.manageAnsOptsChange.emit(this.manageAnsOpts);
+        this.addMaxWeight(ansOpt);
+      },
+      reject: () => {
+
+      }
+    });
   }
 }
