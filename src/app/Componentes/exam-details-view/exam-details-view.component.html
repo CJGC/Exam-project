@@ -18,14 +18,14 @@
             <th>View answer options details</th>
         </tr>
     </ng-template>
-    <ng-template pTemplate="body" let-q>
+    <ng-template pTemplate="body" let-question>
         <tr>
-            <td><img [src]="q.image" height="25" *ngIf/></td>
-            <td>{{q.question.description}}</td>
-            <td>{{q.question.type | questionType}}</td>
-            <td>{{q.question.weight | weight}}</td>
-            <td *ngIf="q.question.type !== 'op'">
-                <button pButton type="button" icon="pi pi-eye" class="p-button-text" (click)="setAnswerOpts(q.question)"></button>
+            <td><img [src]="question.questionImage" height="25" *ngIf="question.questionImage !== ''" /></td>
+            <td>{{question.description}}</td>
+            <td>{{question.type | questionType}}</td>
+            <td>{{question.weight | weight}}</td>
+            <td *ngIf="question.type !== 'op'">
+                <button pButton type="button" icon="pi pi-eye" class="p-button-text" (click)="setAnswerOpts(question)"></button>
             </td>
         </tr>
     </ng-template>
