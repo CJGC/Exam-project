@@ -1,16 +1,18 @@
 import { Component, OnInit } from '@angular/core';
-import { DynamicDialogConfig } from 'primeng/dynamicdialog';
+import { DialogService, DynamicDialogConfig } from 'primeng/dynamicdialog';
 import { QuestionDto } from 'src/app/dto/abstractDto/QuestionDto';
 import { AnswerOptionDto } from 'src/app/dto/AnswerOptionDto';
 import { ExamDto } from 'src/app/dto/ExamDto';
 import { AnswerOptionService } from 'src/app/services/answer-option.service';
-import { ExamService } from 'src/app/services/exam.service';
 import { QuestionService } from 'src/app/services/question.service';
+import { environment } from 'src/environments/environment';
+import { AnsOptsDetailsComponent } from '../ans-opts-details/ans-opts-details.component';
 
 @Component({
   selector: 'app-exam-details-view',
   templateUrl: './exam-details-view.component.html',
-  styleUrls: ['./exam-details-view.component.css']
+  styleUrls: ['./exam-details-view.component.css'],
+  providers: [DialogService]
 })
 export class ExamDetailsViewComponent implements OnInit {
 
@@ -21,7 +23,8 @@ export class ExamDetailsViewComponent implements OnInit {
   constructor(
     private questionService : QuestionService,
     private ansOptService : AnswerOptionService,
-    private config : DynamicDialogConfig
+    private config : DynamicDialogConfig,
+    private dialogService : DialogService
     ) { 
 
       this.exam = new ExamDto
@@ -36,15 +39,35 @@ export class ExamDetailsViewComponent implements OnInit {
 
   private getQuestions() : void {
     this.questionService.getQuestionByExam(this.exam.id).subscribe(
-      response => { this.questions = response},
+      questions => {
+        let QUESTION_INDEX = 0;
+        questions.forEach( question => {
+          question.questionImage = 
+            (question.questionImage !== "") ? `${environment.apiURL}question/getImage/?filename=${question.questionImage}` : "";
+          this.questions.push(question);
+          question
+          QUESTION_INDEX += 1;
+        });
+      },
       error => console.log(error)
     );
   }
 
-  public setAnswerOpts(event : any) : void {
-    let question : QuestionDto = <QuestionDto> event.value[0];
-    this.ansOptService.getAnsOptByQuestion(question.id).subscribe(
-      response => this.ansOpts = response,
+  private viewAnsOptDetails() : void {
+    this.dialogService.open(AnsOptsDetailsComponent, {
+      data : this.ansOpts,
+      header: 'Answer options details',
+      width: '70%'
+    });
+  }
+
+  public setAnswerOpts(selectedQuestion : QuestionDto) : void {
+
+    this.ansOptService.getAnsOptByQuestion(selectedQuestion.id).subscribe(
+      ansOpts => {
+        this.ansOpts = ansOpts;
+        this.viewAnsOptDetails();
+      },
       error => console.log(error)
     );
   }
