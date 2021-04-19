@@ -1,17 +1,17 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { MessageService } from 'primeng/api';
+import { ConfirmationService, MessageService } from 'primeng/api';
 import { QuestionDto } from 'src/app/dto/abstractDto/QuestionDto';
-import { AnswerOptionDto } from 'src/app/dto/AnswerOptionDto';
 import { OpenQuestionDto } from 'src/app/dto/OpenQuestionDto';
 import { AnswerOptionService } from 'src/app/services/answer-option.service';
 import { QuestionService } from 'src/app/services/question.service';
+import { ManageAnsOpts } from 'src/app/tools/manageAnsOpts';
 
 @Component({
   selector: 'app-question-main-view',
   templateUrl: './question-main-view.component.html',
   styleUrls: ['./question-main-view.component.css'],
-  providers: [MessageService]
+  providers: [MessageService, ConfirmationService]
 })
 export class QuestionMainViewComponent implements OnInit {
 
@@ -30,14 +30,15 @@ export class QuestionMainViewComponent implements OnInit {
   @Input() maxWeight : number;
   @Output() maxWeightChange : any;
 
-  @Input() ansOpts : Array<AnswerOptionDto>;
-  @Output() ansOptsChange : any;
+  @Input() manageAnsOpts : ManageAnsOpts;
+  @Output() manageAnsOptsChange : any;
 
   constructor(
     private formBuilder : FormBuilder,
     private messageService : MessageService,
     private questionService : QuestionService,
-    private ansOptService : AnswerOptionService
+    private ansOptService : AnswerOptionService,
+    private confirmationService : ConfirmationService
     ) {
 
     this.questions = new Array<OpenQuestionDto>();
@@ -55,8 +56,8 @@ export class QuestionMainViewComponent implements OnInit {
     this.maxWeight = 0;
     this.maxWeightChange = new EventEmitter<number>();
 
-    this.ansOpts = new Array<AnswerOptionDto>();
-    this.ansOptsChange = new EventEmitter<Array<AnswerOptionDto>>();
+    this.manageAnsOpts = new ManageAnsOpts;
+    this.manageAnsOptsChange = new EventEmitter<ManageAnsOpts>();
   }
 
   ngOnInit(): void {
@@ -94,8 +95,8 @@ export class QuestionMainViewComponent implements OnInit {
 
     this.ansOptService.getAnsOptByQuestion(question.id).subscribe(
       ansOpts => {
-        this.ansOpts = ansOpts;
-        this.ansOptsChange.emit(this.ansOpts);
+        this.manageAnsOpts.ansOpts = ansOpts;
+        this.manageAnsOptsChange.emit(this.manageAnsOpts);
       },
       error => console.log(error)
     );
@@ -118,16 +119,24 @@ export class QuestionMainViewComponent implements OnInit {
   }
 
   public delQuestion(question : OpenQuestionDto) : void {
-    this.questionService.delQuestion(question).subscribe(
-      response => {
-        this.delQuestImage(question);
-        this.messageService.add({severity:'success', summary:'Success', detail:'Question deleted successfully'});
-        this.questions.splice(this.questions.indexOf(question), 1);
-        this.questionsChange.emit(this.questions);
-        this.addMaxWeight(question);
+    this.confirmationService.confirm({
+      message: 'Are you sure that want to proceed?',
+      accept: () => {
+        this.questionService.delQuestion(question).subscribe(
+          response => {
+            this.delQuestImage(question);
+            this.messageService.add({severity:'success', summary:'Success', detail:'Question deleted successfully'});
+            this.questions.splice(this.questions.indexOf(question), 1);
+            this.questionsChange.emit(this.questions);
+            this.addMaxWeight(question);
+          },
+          error => console.log(error)
+        );
       },
-      error => console.log(error)
-    );
+      reject: () => {
+      }
+    });
+
   }
 
 }
