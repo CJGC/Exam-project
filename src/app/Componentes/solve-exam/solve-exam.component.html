@@ -47,5 +47,12 @@
     <b>Your final grade is: </b> {{examStudent.definitiveGrade}}
 </div>
 <div *ngIf="examHasBeenEnded &&  thereWereOpenQuestion">
-    <b>You have been replied to this exam, wait for you final grade</b>
+    <p>
+        You have been replied to this exam, but there are some open responses that
+        need to be checked by your professor.
+    </p>
+    <br>
+    <b>
+        You can check out your grade later by querying again with your document.
+    </b>
 </div>
