@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { MessageService } from 'primeng/api';
+import { ConfirmationService, MessageService } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
 import { ExamDto } from 'src/app/dto/ExamDto';
 import { ExamService } from 'src/app/services/exam.service';
@@ -10,7 +10,7 @@ import { ExamDetailsViewComponent } from '../exam-details-view/exam-details-view
   selector: 'app-exam-main-view',
   templateUrl: './exam-main-view.component.html',
   styleUrls: ['./exam-main-view.component.css'],
-  providers: [MessageService, DialogService]
+  providers: [MessageService, DialogService, ConfirmationService]
 })
 export class ExamMainViewComponent implements OnInit {
 
@@ -29,7 +29,8 @@ export class ExamMainViewComponent implements OnInit {
   constructor( 
     private examService : ExamService,
     private messageService : MessageService,
-    private dialogService : DialogService
+    private dialogService : DialogService,
+    private confirmationService : ConfirmationService
   ) { 
     this.exam = new ExamDto;
     this.creatingExam = true;
@@ -63,14 +64,21 @@ export class ExamMainViewComponent implements OnInit {
   }
 
   public delExam(exam : ExamDto) : void {
-    this.examService.delExam(exam).subscribe(
-      response => {
-        this.messageService.add({severity:'success', summary:'Success', detail:'Exam \"' + response.name + '\" was deleted successfully'});
-        this.exams.splice(this.exams.indexOf(exam), 1);
-        this.examsChange.emit(this.exams);
+    this.confirmationService.confirm({
+      message: 'Are you sure that want to proceed?',
+      accept: () => {
+        this.examService.delExam(exam).subscribe(
+          response => {
+            this.messageService.add({severity:'success', summary:'Success', detail:response.toString()});
+            this.exams.splice(this.exams.indexOf(exam), 1);
+            this.examsChange.emit(this.exams);
+          },
+          error => console.log(error)
+        );
       },
-      error => console.log(error)
-    );
+      reject: () => {
+      }
+    });
   }
 
   public showExam(exam : ExamDto) : void {
