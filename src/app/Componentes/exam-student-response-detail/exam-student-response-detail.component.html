@@ -17,13 +17,13 @@
             <th pSortableColumn="identificationCard">Description <p-sortIcon field="identificationCard"></p-sortIcon></th>
             <th pSortableColumn="name">Weight <p-sortIcon field="name"></p-sortIcon></th>
             <th pSortableColumn="lastname">Kind of question <p-sortIcon field="lastname"></p-sortIcon></th>
-            <th>Actions</th>
+            <th>Grade</th>
         </tr>
     </ng-template>
     <ng-template pTemplate="body" let-question>
         <tr>
             <td>{{question.description}}</td>
-            <td>{{question.weight}}</td>
+            <td>{{question.weight | weight}}</td>
             <td>{{question.type | questionType}}</td>
             <td>
                 <button pButton type="button" icon="pi pi-eye" class="p-button-text" (click)="showStudentResponse(question)"></button>
