@@ -82,7 +82,14 @@ export class ExamStudenOpenResponseComponent implements OnInit {
     this.examStudent.definitiveGrade += this.selectedQuestion.weight * this.openResponse.valoration
   }
 
+  private downgradeExamStudentDefinitiveGrade() : void {
+    this.examStudent.definitiveGrade -= this.selectedQuestion.weight * this.openResponse.valoration;
+  }
+
   public grade() : void {
+    if (this.openResponse.valoration !== 0) {
+      this.downgradeExamStudentDefinitiveGrade();
+    }
     this.getInfoFromGradeForm();
     this.updateOpenResponse();
     this.calculateNewExamStudentDefinitiveGrade();
