@@ -321,7 +321,7 @@ export class SolveExamComponent implements OnInit {
         let OPEN_RESPONSE_INDEX = 0;
         let openResponse : OpenResponseDto = this.responses[QUESTION_INDEX][OPEN_RESPONSE_INDEX];
         openResponse.examStudent = this.examStudent;
-        studentGrade += question.weight * openResponse.valoration;
+        //studentGrade += question.weight * openResponse.valoration;
         this.saveOpenResponse(openResponse);
         this.thereWereOpenQuestion = true;
       } 
