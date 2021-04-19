@@ -17,9 +17,9 @@
             </div>
             <div class="p-field p-col-6">
                 <label for="questionType">Kind of question</label>
-                <p-dropdown id="questionType" (onChange)="manageAnsOpts($event)" [options]="questionTypes" optionLabel="name" formControlName="type"></p-dropdown>
+                <p-dropdown id="questionType" (onChange)="addAnsOpts($event)" [options]="questionTypes" optionLabel="name" formControlName="type"></p-dropdown>
             </div>
-            <div *ngIf="ansOpts.length!==0" class="p-field p-col-6">
+            <div *ngIf="manageAnsOpts.ansOpts.length!==0" class="p-field p-col-6">
                 <label for="upAnsOptButton"> Update answer options </label>
                 <p-button id="upAnsOptButton" icon="pi pi-pencil" label="Update" class="p-button-secondary" (click)="updateAnsOpt()"></p-button>
             </div>
@@ -44,5 +44,5 @@
             </div>
         </div>
     </form>
-    <app-question-main-view [(ansOpts)]="ansOpts" [(maxWeight)]="maxWeight" [(questions)]="questions" [(question)]="question" [(questionForm)]="questionForm" [(creatingQuestion)]="creatingQuestion"></app-question-main-view>
+    <app-question-main-view [(manageAnsOpts)]="manageAnsOpts" [(maxWeight)]="maxWeight" [(questions)]="questions" [(question)]="question" [(questionForm)]="questionForm" [(creatingQuestion)]="creatingQuestion"></app-question-main-view>
 </div>

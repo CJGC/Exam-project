@@ -10,6 +10,7 @@ import { OpenQuestionDto } from 'src/app/dto/OpenQuestionDto';
 import { QuestionService } from 'src/app/services/question.service';
 import { AnswerOptionFormComponent } from '../answer-option-form/answer-option-form.component';
 import { AnswerOptionService } from 'src/app/services/answer-option.service';
+import { ManageAnsOpts } from 'src/app/tools/manageAnsOpts';
 
 @Component({
   selector: 'app-question-form',
@@ -27,10 +28,10 @@ export class QuestionFormComponent implements OnInit {
   public question : OpenQuestionDto;
   public questions : Array<OpenQuestionDto>;
   public creatingQuestion : boolean;
-  public ansOpts : Array<AnswerOptionDto>;
   public maxWeight : number;
   public imgURL : any;
   public loadedImage : any;
+  public manageAnsOpts : ManageAnsOpts;
 
   constructor(
     private questionService : QuestionService,
@@ -41,6 +42,7 @@ export class QuestionFormComponent implements OnInit {
     private answerOptionService : AnswerOptionService
     ) {
 
+      this.manageAnsOpts = new ManageAnsOpts();
       this.questionTypes = [
         {code : "op", name : "Open question"},
         {code : "mu", name : "Multiple unique"}, 
@@ -61,8 +63,6 @@ export class QuestionFormComponent implements OnInit {
 
       this.question = new OpenQuestionDto;
       this.creatingQuestion = true;
-      this.ansOpts = new Array<AnswerOptionDto>();
-
       this.loadedImage = undefined
       this.imgURL = "";
   }
@@ -74,7 +74,7 @@ export class QuestionFormComponent implements OnInit {
     this.dropListExams = new Array<ExamDto>();
     this.question = new OpenQuestionDto;
     this.questions = new Array<QuestionDto>();
-    this.ansOpts = new Array<AnswerOptionDto>();
+    this.manageAnsOpts = new ManageAnsOpts();
     this.loadedImage = undefined;
     this.imgURL = "";
     this.creatingQuestion = true;
@@ -148,14 +148,33 @@ export class QuestionFormComponent implements OnInit {
   }
 
   private saveAnswerOpt(question : QuestionDto) : void {
-    this.ansOpts.forEach( ansOpt => {
+    this.manageAnsOpts.newAnsOpts.forEach( ansOpt => {
       ansOpt.question = question;
       this.answerOptionService.saveQAnsOpt(ansOpt).subscribe(
         ansOpt => ansOpt,
         error => console.log(error)
       );
     });
-    this.ansOpts = new Array<AnswerOptionDto>();
+  }
+
+  private updateAnswerOpt(question : QuestionDto) : void {
+    this.manageAnsOpts.uptAnsOpts.forEach( ansOpt => {
+      ansOpt.question = question;
+      this.answerOptionService.updateAnsOpt(ansOpt).subscribe(
+        ansOpt => ansOpt,
+        error => console.log(error)
+      );
+    });
+  }
+
+  private delAnswerOpt(question : QuestionDto) : void {
+    this.manageAnsOpts.delAnsOpts.forEach( ansOpt => {
+      ansOpt.question = question;
+      this.answerOptionService.delAnsOpt(ansOpt).subscribe(
+        response => response,
+        error => console.log(error)
+      );
+    });
   }
 
   private saveQuestionIntoDataBase(question : QuestionDto) : void {
@@ -164,16 +183,21 @@ export class QuestionFormComponent implements OnInit {
         this.messageService.add({severity:'success', summary:'Success', detail:'Question created successfully'})
         this.questions.push(question);
         this.subMaxWeight(question);
+        this.manageAnsOpts.resolve();
         this.saveAnswerOpt(question);
+        this.manageAnsOpts.resetAttributes();
       },
-      error => console.log(error)
+      error => {
+        console.log(error);
+        this.manageAnsOpts.resetAttributes();
+      }
     );
   }
 
   private saveSelectedImageIntoDataBase(question : QuestionDto) : void {
     this.questionService.saveImage(this.loadedImage).subscribe(
-      imageRoute => {
-        question.questionImage = imageRoute;
+      imageName => {
+        question.questionImage = imageName;
         this.saveQuestionIntoDataBase(question);
       },
       error => console.log(error)
@@ -193,18 +217,6 @@ export class QuestionFormComponent implements OnInit {
     } else {
       this.saveQuestionIntoDataBase(question);
     }
-    
-  }
-
-  private updateAnswerOpt(question : QuestionDto) : void {
-    this.ansOpts.forEach( ansOpt => {
-      ansOpt.question = question;
-      this.answerOptionService.updateAnsOpt(ansOpt).subscribe(
-        ansOpt => ansOpt,
-        error => console.log(error)
-      );
-    });
-    this.ansOpts = new Array<AnswerOptionDto>();
   }
 
   private updateQuestionIntoDataBase(question : QuestionDto, index : number) : void {
@@ -213,11 +225,16 @@ export class QuestionFormComponent implements OnInit {
         this.messageService.add({severity:'success', summary:'Success', detail:'Question updated successfully'});
         this.questions.splice(index, 1, question);
         this.calculateMaxAvailableGrade();
+        this.manageAnsOpts.resolve();
+        this.saveAnswerOpt(question);
         this.updateAnswerOpt(question);
+        this.delAnswerOpt(question);
+        this.manageAnsOpts.resetAttributes();
       },
       error => {
         console.log(error);
         this.subMaxWeight(this.question);
+        this.manageAnsOpts.resetAttributes();
       }
     );
   }
@@ -272,21 +289,21 @@ export class QuestionFormComponent implements OnInit {
     this.resetQuestionForm();
     this.creatingQuestion = true;
     this.question = new OpenQuestionDto;
-    this.ansOpts = new Array<AnswerOptionDto>();
+    this.manageAnsOpts = new ManageAnsOpts;
   }
 
-  private goTomanageAnsOpt(event : any) : void {
+  private goToAddAnsOpt(event : any) : void {
     let questionType = event.value;
     this.question.type = questionType.code;
     let ref = this.dynamicService.open(AnswerOptionFormComponent, {
-      data : {question : this.question, asnOpts : this.ansOpts},
+      data : {question : this.question, manageAnsOpts : this.manageAnsOpts},
       header: 'Manage answer option',
       width: '70%'
     });
 
-    ref.onClose.subscribe((ansOpts : Array<AnswerOptionDto>) => {
-      if (ansOpts) {
-        this.ansOpts = ansOpts;
+    ref.onClose.subscribe((manageAnsOpts : ManageAnsOpts) => {
+      if (manageAnsOpts) {
+        this.manageAnsOpts = manageAnsOpts;
       }
       else {
         let OPEN_QUESTION_INDEX = 0;
@@ -301,18 +318,18 @@ export class QuestionFormComponent implements OnInit {
     });
   }
 
-  public manageAnsOpts(event : any) : void {
+  public addAnsOpts(event : any) : void {
 
     if (event.value.code === "op") {
       return;
     }
 
-    if (this.ansOpts.length) {
+    if (this.manageAnsOpts.ansOpts.length) {
       this.confirmDialog.confirm({
         message: 'if you want to proceed, saved answer options from last question will be erased!',
         accept: () => {
-          this.ansOpts = new Array<AnswerOptionDto>();
-          this.goTomanageAnsOpt(event);
+          this.manageAnsOpts.ansOpts = new Array<AnswerOptionDto>();
+          this.goToAddAnsOpt(event);
         },
         reject: () => {
 
@@ -320,20 +337,20 @@ export class QuestionFormComponent implements OnInit {
       });
     }
     else {
-      this.goTomanageAnsOpt(event);
+      this.goToAddAnsOpt(event);
     }
   }
 
   public updateAnsOpt() : void {
     let ref = this.dynamicService.open(AnswerOptionFormComponent, {
-      data : {question : this.question, asnOpts : this.ansOpts},
+      data : {question : this.question, manageAnsOpts : this.manageAnsOpts},
       header: 'Update answer options',
       width: '70%'
     });
 
-    ref.onClose.subscribe((ansOpts : Array<AnswerOptionDto>) => {
-      if (ansOpts) {
-        this.ansOpts = ansOpts;
+    ref.onClose.subscribe((manageAnsOpts : ManageAnsOpts) => {
+      if (manageAnsOpts) {
+        this.manageAnsOpts = manageAnsOpts;
       }
     });
   }
