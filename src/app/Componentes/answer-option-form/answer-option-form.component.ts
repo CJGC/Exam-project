@@ -5,6 +5,7 @@ import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { QuestionDto } from 'src/app/dto/abstractDto/QuestionDto';
 import { AnswerOptionDto } from 'src/app/dto/AnswerOptionDto';
 import { AnswerOptionService } from 'src/app/services/answer-option.service';
+import { ManageAnsOpts } from 'src/app/tools/manageAnsOpts';
 
 @Component({
   selector: 'app-answer-option-form',
@@ -15,11 +16,11 @@ import { AnswerOptionService } from 'src/app/services/answer-option.service';
 export class AnswerOptionFormComponent implements OnInit {
 
   public creatingAnsOpt : boolean;
-  public ansOpts : Array<AnswerOptionDto>;
   public ansOpt : AnswerOptionDto;
   public ansOptForm : FormGroup;
   public question : QuestionDto;
   public maxWeight : number;
+  public manageAnsOpts : ManageAnsOpts;
 
   constructor(
     private formBuilder : FormBuilder,
@@ -28,9 +29,9 @@ export class AnswerOptionFormComponent implements OnInit {
     private ref : DynamicDialogRef,
     private messageService : MessageService
   ) {
+    this.manageAnsOpts = this.config.data.manageAnsOpts;
     this.question = this.config.data.question;
-    this.ansOpts = this.config.data.asnOpts;
-    
+
     this.ansOptForm = this.formBuilder.group({
       weight : new FormControl (0.0, [Validators.required, Validators.min(0.0), Validators.max(5.0)]),
       correctAnswer : new FormControl (true, [Validators.required]),
@@ -41,14 +42,13 @@ export class AnswerOptionFormComponent implements OnInit {
     this.creatingAnsOpt = true;
     this.maxWeight = 1;
     
-    if (this.ansOpts.length) {
+    if (this.manageAnsOpts.ansOpts.length) {
       this.calculateMaxAvailableGrade();
     }
 
   }
 
   ngOnInit(): void {
-    (this.question.id !== 0) ? this.setAnsOpts() : false;
   }
 
   private subMaxWeight(ansOpt : AnswerOptionDto) : void {
@@ -58,21 +58,11 @@ export class AnswerOptionFormComponent implements OnInit {
 
   private calculateMaxAvailableGrade() : void {
     let maxWeight : number = 1;
-    this.ansOpts.forEach( ansOpt => {
+    this.manageAnsOpts.ansOpts.forEach( ansOpt => {
       maxWeight -= ansOpt.weight;
       maxWeight = Number (maxWeight.toPrecision(2));
     });
     this.maxWeight = maxWeight;
-  }
-
-  public setAnsOpts() : void {
-    this.ansOptService.getAnsOptByQuestion(this.question.id).subscribe(
-      ansOpts => {
-        this.ansOpts = ansOpts;
-        this.calculateMaxAvailableGrade();
-      },
-      error => console.log(error)
-    );
   }
 
   private resetAnsOptForm() : void {
@@ -95,7 +85,8 @@ export class AnswerOptionFormComponent implements OnInit {
     this.extractAnsOptInfoFromAnsOptForm(ansOpt);
     ansOpt.question = this.question;
     this.subMaxWeight(ansOpt);
-    this.ansOpts.push(ansOpt);
+    this.manageAnsOpts.ansOpts.push(ansOpt);
+    this.manageAnsOpts.addItemIntoNewAnsOpts(ansOpt);
     this.resetAnsOptForm();
   }
 
@@ -105,8 +96,9 @@ export class AnswerOptionFormComponent implements OnInit {
 
   public updateAnsOpt() : void {
     this.extractAnsOptInfoFromAnsOptForm(this.ansOpt);
-    let index = this.ansOpts.indexOf(this.ansOpt);
-    this.ansOpts.splice(index, 1, this.ansOpt);
+    let index = this.manageAnsOpts.ansOpts.indexOf(this.ansOpt);
+    this.manageAnsOpts.ansOpts.splice(index, 1, this.ansOpt);
+    this.manageAnsOpts.addItemIntoUptAnsOpts(this.ansOpt);
     this.creatingAnsOpt = true;
     this.calculateMaxAvailableGrade();
     this.resetAnsOptForm();
@@ -121,7 +113,7 @@ export class AnswerOptionFormComponent implements OnInit {
   private notValidAnsOpts() : boolean {
 
     // answer options should not be emtpy
-    if (!(this.ansOpts.length > 0)) {
+    if (!(this.manageAnsOpts.ansOpts.length > 0)) {
       this.messageService.add({sticky:true, severity:'warn', summary:'Warning', detail:'Answer options cannot be empty!'});
       return true;
     }
@@ -132,7 +124,7 @@ export class AnswerOptionFormComponent implements OnInit {
     let multipleUniqueQuestionNumOfCorrecAnsOpts = 0;
     let consideredWeight = 0.0;
 
-    this.ansOpts.forEach( ansOpt => {
+    this.manageAnsOpts.ansOpts.forEach( ansOpt => {
 
       // check if a not correct answer has a weight
       if (ansOpt.correctAnswer && ansOpt.weight === 0) {
@@ -198,7 +190,7 @@ export class AnswerOptionFormComponent implements OnInit {
     if (this.notValidAnsOpts()) {
       return;
     }
-    this.ref.close(this.ansOpts);
+    this.ref.close(this.manageAnsOpts);
   }
 
   public cancel() : void {
