@@ -4,7 +4,6 @@ import { MessageService } from 'primeng/api';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { QuestionDto } from 'src/app/dto/abstractDto/QuestionDto';
 import { AnswerOptionDto } from 'src/app/dto/AnswerOptionDto';
-import { AnswerOptionService } from 'src/app/services/answer-option.service';
 import { ManageAnsOpts } from 'src/app/tools/manageAnsOpts';
 
 @Component({
@@ -24,7 +23,6 @@ export class AnswerOptionFormComponent implements OnInit {
 
   constructor(
     private formBuilder : FormBuilder,
-    private ansOptService : AnswerOptionService,
     private config: DynamicDialogConfig,
     private ref : DynamicDialogRef,
     private messageService : MessageService
