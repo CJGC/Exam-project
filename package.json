@@ -21,6 +21,7 @@
     "@angular/platform-browser-dynamic": "~11.0.1",
     "@angular/router": "~11.0.1",
     "crypto-es": "^1.2.7",
+    "ngx-countdown": "^11.0.3",
     "primeflex": "^2.0.0",
     "primeicons": "^4.1.0",
     "primeng": "^11.1.0",
