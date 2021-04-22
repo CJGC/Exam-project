@@ -10,7 +10,7 @@
             <textarea [rows]="4" [autoResize]="true" pInputTextarea formControlName="content"></textarea>
         </div>
 
-        <div class="p-field p-col-12 p-md-12">
+        <div *ngIf="openResponse" class="p-field p-col-12 p-md-12">
             <label for="grade">Grade</label>
             <p-inputNumber id="grade" mode="decimal" [max]="5" [min]="0" [step]="0.01" [minFractionDigits]="1" [maxFractionDigits]="2" formControlName="grade"></p-inputNumber>
         </div>

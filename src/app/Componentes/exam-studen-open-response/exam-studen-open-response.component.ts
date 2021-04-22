@@ -43,11 +43,13 @@ export class ExamStudenOpenResponseComponent implements OnInit {
   private getOpenResponse() : void {
     this.openResponseService.getOpenResponsesByExamStudentAndQuestion(this.examStudent.id, this.selectedQuestion.id).subscribe(
       openResponse => {
-        this.openResponse = openResponse;
-        this.gradeForm.setValue({
-          grade : this.openResponse.valoration,
-          content : openResponse.content
-        });
+        if (openResponse) {
+          this.openResponse = openResponse;
+          this.gradeForm.setValue({
+            grade : this.openResponse.valoration,
+            content : openResponse.content
+          });
+        }
       },
       error => console.log(error)
     );
