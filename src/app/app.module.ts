@@ -6,6 +6,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 
 import { ToastModule } from 'primeng/toast'
+import { CountdownModule } from 'ngx-countdown';
 import { ButtonModule } from 'primeng/button';;
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MenubarModule } from 'primeng/menubar';
@@ -101,7 +102,8 @@ import { WeightPipe } from './pipes/weight.pipe';
     DropdownModule,
     RadioButtonModule,
     CheckboxModule,
-    ConfirmDialogModule
+    ConfirmDialogModule,
+    CountdownModule
   ],
   entryComponents: [ExamDetailsViewComponent],
   providers: [],
