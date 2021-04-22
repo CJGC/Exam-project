@@ -1,7 +1,7 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MessageService } from 'primeng/api';
-import { DialogService, DynamicDialogConfig } from 'primeng/dynamicdialog';
+import { DialogService } from 'primeng/dynamicdialog';
 import { ConfirmationService } from 'primeng/api';
 import { QuestionDto } from 'src/app/dto/abstractDto/QuestionDto';
 import { AnswerOptionDto } from 'src/app/dto/AnswerOptionDto';
@@ -21,6 +21,8 @@ import { ManageAnsOpts } from 'src/app/tools/manageAnsOpts';
 export class QuestionFormComponent implements OnInit {
 
   @Input() public exams : Array<ExamDto>;
+  @ViewChild('imageInput', {static: false}) imageElement : ElementRef;
+
   public dropListExams : Array<ExamDto>;
   public questionTypes : Array<any>;
   public exam : ExamDto;
@@ -65,10 +67,12 @@ export class QuestionFormComponent implements OnInit {
       this.creatingQuestion = true;
       this.loadedImage = undefined
       this.imgURL = "";
+      this.imageElement = new ElementRef(null);
   }
 
   ngOnInit(): void {
   }
+
 
   private resetComponentAttributes() : void {
     this.dropListExams = new Array<ExamDto>();
@@ -135,8 +139,7 @@ export class QuestionFormComponent implements OnInit {
         this.imgURL = readerBase64.result;
       };
     } else {
-      this.imgURL = "";
-      this.loadedImage = undefined;
+      this.resetImageField();
     }    
   }
 
@@ -149,11 +152,13 @@ export class QuestionFormComponent implements OnInit {
 
   private saveAnswerOpt(question : QuestionDto) : void {
     this.manageAnsOpts.newAnsOpts.forEach( ansOpt => {
-      ansOpt.question = question;
-      this.answerOptionService.saveQAnsOpt(ansOpt).subscribe(
-        ansOpt => ansOpt,
-        error => console.log(error)
-      );
+      if (ansOpt) {
+        ansOpt.question = question;
+        this.answerOptionService.saveQAnsOpt(ansOpt).subscribe(
+          ansOpt => ansOpt,
+          error => console.log(error)
+        );
+      }
     });
   }
 
@@ -204,6 +209,12 @@ export class QuestionFormComponent implements OnInit {
     );
   }
 
+  private resetImageField() : void {
+    this.loadedImage = undefined;
+    this.imgURL = "";
+    this.imageElement.nativeElement.value = "";
+  }
+
   public saveQuestion() : void {
     let question = new OpenQuestionDto;
     question.exam = this.exam;
@@ -212,8 +223,7 @@ export class QuestionFormComponent implements OnInit {
 
     if (this.loadedImage) {
       this.saveSelectedImageIntoDataBase(question);
-      this.loadedImage = undefined;
-      this.imgURL = "";
+      this.resetImageField();
     } else {
       this.saveQuestionIntoDataBase(question);
     }
@@ -273,8 +283,7 @@ export class QuestionFormComponent implements OnInit {
     if (this.loadedImage) {
       this.deleteModifiedImageIntoDataBase(this.question);
       this.updateSelectedImageIntoDataBase(this.question, index);
-      this.loadedImage = undefined;
-      this.imgURL = "";
+      this.resetImageField();
     } else {
       this.updateQuestionIntoDataBase(this.question, index);
     }
