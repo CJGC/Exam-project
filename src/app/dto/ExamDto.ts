@@ -8,7 +8,7 @@ export class ExamDto {
     public link : String;
     public maxGrade : Number;
     public name : String;
-    public durability : Number;
+    public durability : number;
 
     constructor() {
         this.id = 0;
