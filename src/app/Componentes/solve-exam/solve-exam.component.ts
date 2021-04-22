@@ -86,6 +86,12 @@ export class SolveExamComponent implements OnInit {
     );
   }
 
+  public finishExamByTimeOut(event : any) : void {
+    if (event.action === 'done') {
+      this.saveExamStudent();
+    }
+  }
+
   private getImage(question : QuestionDto) : void {
 
     if (question.questionImage === "") {
@@ -320,10 +326,11 @@ export class SolveExamComponent implements OnInit {
       if (question.type === "op") {
         let OPEN_RESPONSE_INDEX = 0;
         let openResponse : OpenResponseDto = this.responses[QUESTION_INDEX][OPEN_RESPONSE_INDEX];
-        openResponse.examStudent = this.examStudent;
-        //studentGrade += question.weight * openResponse.valoration;
-        this.saveOpenResponse(openResponse);
-        this.thereWereOpenQuestion = true;
+        if (openResponse) {
+          openResponse.examStudent = this.examStudent;
+          this.saveOpenResponse(openResponse);
+          this.thereWereOpenQuestion = true;
+        }
       } 
       
       // save Multple Unique response
@@ -331,19 +338,24 @@ export class SolveExamComponent implements OnInit {
         let UNIQUE_RESPONSE_INDEX = 0;
         let selectedResponse = new SelectedResponseDto;
         let selectedAnsOpt : AnswerOptionDto = this.responses[QUESTION_INDEX][UNIQUE_RESPONSE_INDEX];
-        this.setSelectedResponseInfo(question, selectedResponse, selectedAnsOpt);
-        studentGrade += selectedResponse.valoration;
-        this.saveSelectedResponse(selectedResponse);
+        if (selectedAnsOpt) {
+          this.setSelectedResponseInfo(question, selectedResponse, selectedAnsOpt);
+          studentGrade += selectedResponse.valoration;
+          this.saveSelectedResponse(selectedResponse);
+        }
       }
       
       // save Multiple Multiple responses
       else {
-        this.responses[QUESTION_INDEX].forEach( selectedAnsOPt => {
-          let selectedResponse = new SelectedResponseDto;
-          this.setSelectedResponseInfo(question, selectedResponse, selectedAnsOPt);
-          studentGrade += selectedResponse.valoration;
-          this.saveSelectedResponse(selectedResponse);
-        });
+        let selectedResponses = this.responses[QUESTION_INDEX];
+        if (selectedResponses) {
+          selectedResponses.forEach( selectedAnsOPt => {
+            let selectedResponse = new SelectedResponseDto;
+            this.setSelectedResponseInfo(question, selectedResponse, selectedAnsOPt);
+            studentGrade += selectedResponse.valoration;
+            this.saveSelectedResponse(selectedResponse);
+          });
+        }
       }
 
       QUESTION_INDEX += 1;
