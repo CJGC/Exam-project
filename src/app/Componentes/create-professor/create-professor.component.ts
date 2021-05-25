@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-
+import CryptoES from 'crypto-es';
 import { ProfessorDto } from '../../dto/ProfessorDto';
 import { ProfessorService } from '../../services/Professor.service';
 
@@ -33,12 +33,25 @@ export class CreateProfessorComponent  {
       });
     }
 
-  public saveProfessor() : void {    
-    this.ProfessorService.saveProfessor(<ProfessorDto> this.form.value).subscribe(
+
+  private getProfessorInfoFromForm() : ProfessorDto {
+    let professor = <ProfessorDto> this.form.value;
+    // this.cryptProfessorPassword(professor);
+    // console.log(CryptoES.AES.decrypt(<string> professor.password), "crypto");
+    return professor;
+  }
+
+  // private cryptProfessorPassword(professor : ProfessorDto) : void {
+  //   professor.password = CryptoES.AES.encrypt();
+  // }
+
+  public saveProfessor() : void {
+    let professor : ProfessorDto = this.getProfessorInfoFromForm();
+    this.ProfessorService.saveProfessor(professor).subscribe(
       response => {
         this.form.reset();
         this.messageService.add({severity:'success', summary:'Success', detail:'Professor created successfully'});
-        this.router.navigate(["/professor-main-view"]);
+        this.router.navigate(["/login"]);
       },
       error => {
         console.log(error);
@@ -54,7 +67,6 @@ export class CreateProfessorComponent  {
 
   public cancel() : void {
     this.form.reset();
-    
-    this.router.navigate(["/professor-main-view"]);
+    this.router.navigate(["/login"]);
   }
 }
