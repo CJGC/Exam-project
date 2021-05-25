@@ -8,10 +8,14 @@ import { ProfessorMainViewComponent } from './Componentes/professor-main-view/pr
 import { ExamGradeMainViewComponent } from './Componentes/exam-grade-main-view/exam-grade-main-view.component';
 import { ExamStudentsResponsesComponent } from './Componentes/exam-students-responses/exam-students-responses.component';
 import { ExamStudentResponseDetailComponent } from './Componentes/exam-student-response-detail/exam-student-response-detail.component';
+import { LogginComponent } from './Componentes/loggin/loggin.component';
+import { LoginGuard } from './login.guard';
+import { LogedGuard } from './loged.guard';
 
 const routes: Routes = [
+  { path: 'login', component: LogginComponent, canActivate: [LogedGuard]},
   { path: 'create-professor', component: CreateProfessorComponent},
-  { path: 'professor-main-view', component: ProfessorMainViewComponent, 
+  { path: 'professor-main-view', component: ProfessorMainViewComponent, canActivate: [LoginGuard],
     children: [
       {path: 'manage-exam-view', component: ManageExamComponent},
       {path: 'exam-grade-main-view', component: ExamGradeMainViewComponent},
@@ -20,7 +24,7 @@ const routes: Routes = [
     ]
   },
   { path: 'present-exam/:id', component: StudentFormComponent},
-  { path: '', redirectTo: 'professor-main-view', pathMatch: 'full'},
+  { path: '', redirectTo: 'login', pathMatch: 'full'},
   { path: '**', component: PageNotFoundComponent}
 ];
 @NgModule({
