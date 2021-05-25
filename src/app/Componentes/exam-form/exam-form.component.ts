@@ -46,18 +46,15 @@ export class ExamFormComponent implements OnInit {
   
 
   ngOnInit(): void { 
-      //This code should no be here
       this.setProfessor();
   }
 
   private setProfessor() : void {
-    this.professorService.getByUsername("professor").subscribe( 
-      response => {
-        this.professor = response;
-        this.setExams();
-      },
-      error => console.log(error)
-    );
+    let professorstringify = sessionStorage.getItem('professor');
+    if (professorstringify !== null) {
+      this.professor = <ProfessorDto> JSON.parse(professorstringify);
+      this.setExams();
+    }
   }
 
   private setExams() : void {
