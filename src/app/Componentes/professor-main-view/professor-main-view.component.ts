@@ -1,4 +1,6 @@
+import { Route } from '@angular/compiler/src/core';
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { MenuItem } from 'primeng/api';
 
 @Component({
@@ -11,7 +13,7 @@ export class ProfessorMainViewComponent implements OnInit {
   public barMenuItems: MenuItem[];
   public display : boolean;
 
-  constructor() { 
+  constructor(private router : Router) { 
     this.display = false;
     this.barMenuItems = [{
       icon: 'pi pi-bars',
@@ -26,6 +28,11 @@ export class ProfessorMainViewComponent implements OnInit {
 
   setDisplay(display : boolean) {
     this.display = display;
+  }
+
+  logOut() : void {
+    sessionStorage.clear();
+    this.router.navigate(['/login']);
   }
 
 }
