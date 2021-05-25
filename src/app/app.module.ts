@@ -25,6 +25,8 @@ import { DropdownModule } from 'primeng/dropdown';
 import { RadioButtonModule } from 'primeng/radiobutton';
 import { CheckboxModule } from 'primeng/checkbox';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { PasswordModule } from 'primeng/password';
+
 
 import { PageNotFoundComponent } from './Componentes/page-not-found/page-not-found.component';
 import { CreateProfessorComponent } from './Componentes/create-professor/create-professor.component';
@@ -49,6 +51,9 @@ import { ExamStudenOpenResponseComponent } from './Componentes/exam-studen-open-
 import { ExamStudenSelectedResponseComponent } from './Componentes/exam-studen-selected-response/exam-studen-selected-response.component';
 import { AnsOptsDetailsComponent } from './Componentes/ans-opts-details/ans-opts-details.component';
 import { WeightPipe } from './pipes/weight.pipe';
+import { LogginComponent } from './Componentes/loggin/loggin.component';
+import { LoginGuard } from './login.guard';
+import { LogedGuard } from './loged.guard';
 
 
 @NgModule({
@@ -76,7 +81,8 @@ import { WeightPipe } from './pipes/weight.pipe';
     ExamStudenOpenResponseComponent,
     ExamStudenSelectedResponseComponent,
     AnsOptsDetailsComponent,
-    WeightPipe
+    WeightPipe,
+    LogginComponent
   ],
   imports: [
     BrowserAnimationsModule,
@@ -103,10 +109,11 @@ import { WeightPipe } from './pipes/weight.pipe';
     RadioButtonModule,
     CheckboxModule,
     ConfirmDialogModule,
-    CountdownModule
+    CountdownModule,
+    PasswordModule
   ],
   entryComponents: [ExamDetailsViewComponent],
-  providers: [],
+  providers: [LoginGuard, LogedGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
