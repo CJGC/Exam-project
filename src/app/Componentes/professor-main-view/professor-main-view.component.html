@@ -1,6 +1,6 @@
 <div>
     <p-menubar [model]="barMenuItems" >
-        <button pButton label="Logout" icon="pi pi-power-off"></button>
+        <button pButton label="Logout" icon="pi pi-power-off" (click)="logOut()"></button>
     </p-menubar>
 </div>
 <app-professor-interaction (tellAboutDisplay)="setDisplay($event)" [display]="display"></app-professor-interaction>
