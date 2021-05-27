@@ -1,20 +1,29 @@
 <p-toast></p-toast>
-<form [formGroup]="loginForm">
-    <div class="p-fluid p-formgrid p-grid">
-        <div class="p-field p-col-12 p-md-6">
-            <label for="username">Username</label>
-            <input id="username" type="text" pInputText formControlName="username"> 
+
+<body>
+    <form class="login-form" [formGroup]="loginForm">
+        <div class="box">
+            <div class="img"> 
+                <img src="assets/user.png" alt="User photo"/>
+            </div>
+            <div class="heading">
+                <h4> Welcome to Exam App </h4>
+            </div>
+            <div class="form-fields"> 
+                <div class="input-box">
+                    <label for="username">Username</label>
+                    <input class="form-control" id="username" type="text" pInputText formControlName="username"> 
+                </div>
+                <div class="input-box">
+                    <label for="password">Password</label>
+                    <input class="form-control" id="password" type="password" pPassword formControlName="password">
+                </div>
+            
+                <div class="button-box">
+                    <button type="button" [disabled]="loginForm.invalid" (click)="logIn()"> Log in</button>
+                    <button type="button" (click)="logUp()"> Log up</button>
+                </div>
+            </div>
         </div>
-        <div class="p-field p-col-12 p-md-6">
-            <label for="password">Password</label>
-            <input id="password" type="password" pPassword formControlName="password">
-        </div>
-        
-        <div class="p-field p-col-12 p-md-6">
-            <p-button [disabled]="loginForm.invalid" icon="pi pi-check" label="Log in" class="p-button-secondary" (click)="logIn()"></p-button>
-        </div>
-        <div class="p-field p-col-12 p-md-6">
-            <p-button icon="pi pi-user" label="Log up" class="p-button-secondary" (click)="logUp()"></p-button>
-        </div>
-    </div>
-</form>
+    </form>
+</body>
