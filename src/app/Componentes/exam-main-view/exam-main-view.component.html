@@ -13,7 +13,7 @@
         <tr>
             <td>{{exam.name}}</td>
             <td>{{exam.durability}}</td>
-            <td>{{exam.maxGrade | weight}}</td>
+            <td>{{exam.maxGrade | grades}}</td>
             <td>
                 <button [disabled]="!creatingExam" pButton type="button" icon="pi pi-pencil" class="p-button-text" (click)="editExam(exam)"></button>
                 <button [disabled]="!creatingExam" pButton type="button" icon="pi pi-trash" class="p-button-text" (click)="delExam(exam)"></button>
