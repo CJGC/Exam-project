@@ -54,7 +54,7 @@ export class LogginComponent implements OnInit {
     let password : string = this.loginForm.value.password;
     if (professor.password === password) {
       sessionStorage.setItem('professor', JSON.stringify(this.professor));
-      this.router.navigate(["/professor-main-view"]);
+      this.router.navigate(["/professor-main-view/manage-exam-view"]);
     } else {
       this.messageService.add({severity:'error', summary:'Error', detail:'The password does not match', sticky : true});
     }
