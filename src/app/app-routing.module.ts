@@ -11,6 +11,7 @@ import { ExamStudentResponseDetailComponent } from './Componentes/exam-student-r
 import { LogginComponent } from './Componentes/loggin/loggin.component';
 import { LoginGuard } from './login.guard';
 import { LogedGuard } from './loged.guard';
+import { ProfessorDetailsComponent } from './Componentes/professor-details/professor-details.component';
 
 const routes: Routes = [
   { path: 'login', component: LogginComponent, canActivate: [LogedGuard]},
@@ -19,6 +20,7 @@ const routes: Routes = [
     children: [
       {path: 'manage-exam-view', component: ManageExamComponent},
       {path: 'exam-grade-main-view', component: ExamGradeMainViewComponent},
+      {path: 'account-details-view', component: ProfessorDetailsComponent},
       {path: 'exam-students-view', component:ExamStudentsResponsesComponent},
       {path: 'exam-student-response-detail', component:ExamStudentResponseDetailComponent}
     ]
