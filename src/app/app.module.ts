@@ -54,6 +54,9 @@ import { WeightPipe } from './pipes/weight.pipe';
 import { LogginComponent } from './Componentes/loggin/loggin.component';
 import { LoginGuard } from './login.guard';
 import { LogedGuard } from './loged.guard';
+import { ProfessorDetailsComponent } from './Componentes/professor-details/professor-details.component';
+import { ChangePasswordComponent } from './Componentes/change-password/change-password.component';
+import { GradesPipe } from './pipes/grades.pipe';
 
 
 @NgModule({
@@ -82,7 +85,10 @@ import { LogedGuard } from './loged.guard';
     ExamStudenSelectedResponseComponent,
     AnsOptsDetailsComponent,
     WeightPipe,
-    LogginComponent
+    LogginComponent,
+    ProfessorDetailsComponent,
+    ChangePasswordComponent,
+    GradesPipe
   ],
   imports: [
     BrowserAnimationsModule,
