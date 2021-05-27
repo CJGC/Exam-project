@@ -20,7 +20,7 @@
             <td>{{examStudent.student.identificationCard}}</td>
             <td>{{examStudent.student.name}}</td>
             <td>{{examStudent.student.lastname}}</td>
-            <td>{{examStudent.definitiveGrade}}</td>
+            <td>{{examStudent.definitiveGrade | grades}}</td>
             <td>
                 <button pButton type="button" icon="pi pi-star-o" class="p-button-text" (click)="grade(examStudent)"></button>
             </td>
