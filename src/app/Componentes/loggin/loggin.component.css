@@ -1,0 +1,90 @@
+body {
+    margin: 0px;
+    padding: 0px;
+    font-family: sans-serif;
+}
+
+* {
+    box-sizing:  border-box;
+    outline: none !important;
+    text-decoration: none !important;
+}
+
+.login-form {
+    height:  100vh;
+    background-size: cover;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.login-form .box {
+    min-width:15rem;
+    min-height:10rem;
+    background-color: #ffffff;
+    box-shadow: 0px 0px 10px #cccccc;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+}
+
+.login-form .box .img img {
+    width:  60px;
+    display: block;
+    margin: auto;
+}
+
+.login-form .box .heading h4 {
+    color: 0089fe;
+    font-size: 22px;
+    text-align: left;
+    margin: 15px 0px 20px;
+    border-bottom: 1px solid;
+    padding-bottom: 3px;
+    display: inline-block;
+}
+
+.login-form .box .form-fields {
+    display: flex;
+    flex-direction: column;
+}
+
+.login-form .box .form-fields .input-box {
+    position: relative;
+    margin-bottom: 20px;
+    width: 100%;
+}
+
+.login-form .box .form-fields .input-box .form-control {
+    height: 40px;
+    width: 100%;
+    color: #444444;
+    border: 1px solid #cccccc;
+}
+
+.login-form .box .form-fields .button-box {
+    width: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.login-form .box .form-fields .button-box button {
+    font-size: 16px;
+    padding: 8px 35px;
+    background-color: #0089fe;
+    transition:box-shadow .5s ease;
+    border: 1px solid transparent;
+    cursor: pointer;
+    margin-right: 15px;
+    border-radius: 5%;
+}
+
+.login-form .box .form-fields .button-box button:hover {
+    box-shadow: 0px 0px 10px #cccccc;
+}
+
+.login-form .box .form-fields {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
