@@ -36,7 +36,8 @@ export class ProfessorInteractionComponent implements OnInit {
         command: (event) => {
           this.display = false;
           this.emitDisplay();
-        }  
+        }  ,
+        routerLink : ['./account-details-view']
       }
   ];
   }
