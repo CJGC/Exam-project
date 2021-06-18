@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import CryptoES from 'crypto-es';
 import { ProfessorDto } from '../../dto/ProfessorDto';
 import { ProfessorService } from '../../services/Professor.service';
 
 import {MessageService} from 'primeng/api';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-create-professor',
@@ -16,12 +16,14 @@ import {MessageService} from 'primeng/api';
 export class CreateProfessorComponent  {
 
   public form : FormGroup;
+  public assetDir : string;
 
   constructor(private ProfessorService : ProfessorService,
     private formBuilder : FormBuilder,
     private router : Router,
     private messageService : MessageService
-    ) {  
+    ) { 
+      this.assetDir = environment.assetsDir;
       this.form = this.formBuilder.group({
         id : ['', []],
         identificationCard : new FormControl('', [Validators.pattern("[0-9]+"), Validators.maxLength(15)]),
