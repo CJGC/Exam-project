@@ -1,37 +1,44 @@
 <p-toast></p-toast>
-<form [formGroup]="form">
-    <div class="p-fluid p-formgrid p-grid">
-        <div class="p-field p-col-12 p-md-6">
-            <label for="inputtext">Identification Card</label>
-            <input id="identificationCard" type="text" pInputText formControlName="identificationCard"> 
-        </div>
-        <div class="p-field p-col-12 p-md-6">
-            <label for="name-input">Name</label>
-            <input id="name-input" type="text" pInputText formControlName="name"> 
-        </div>
-        <div class="p-field p-col-12 p-md-6">
-            <label for="lastname-input">Lastname</label>
-            <input id="lastname-input" type="text" pInputText formControlName="lastname"> 
-        </div>
-
-        <div class="p-field p-col-12 p-md-6">
-            <label for="email-input">Email</label>
-            <input id="email-input" type="email" pInputText formControlName="email"> 
-        </div>
-        <div class="p-field p-col-12 p-md-6">
-            <label for="username-input">Username</label>
-            <input id="username-input" type="text" pInputText formControlName="username"> 
-        </div>
-        <div class="form-p-field p-col-12 p-md-6">
-            <label for="password-input">Password</label>
-            <input id="password-input" type="password" pPassword formControlName="password"> 
-        </div>
-
-        <div class="p-field p-col-12 p-md-6">
-            <p-button [disabled]="form.invalid" icon="pi pi-pencil" label="Create user" class="p-button-secondary" (click)="saveProfessor()"></p-button>
-        </div>
-        <div class="p-field p-col-12 p-md-6">
-            <p-button icon="pi pi-times" label="Cancel" class="p-button-danger" (click)="cancel()">  </p-button>
-        </div>
+<div class="form-box">
+    <div class="main-header">
+        <h1> Log up new professor </h1>
+        <img src="{{assetDir}}" alt="Log up image" />
     </div>
-</form>
+    <form [formGroup]="form">
+        <div class="p-fluid p-formgrid p-grid">
+            <div class="p-field p-col-12 p-md-6">
+                <label for="inputtext">Identification Card</label>
+                <input id="identificationCard" type="text" pInputText formControlName="identificationCard"> 
+            </div>
+            <div class="p-field p-col-12 p-md-6">
+                <label for="name-input">Name</label>
+                <input id="name-input" type="text" pInputText formControlName="name"> 
+            </div>
+            <div class="p-field p-col-12 p-md-6">
+                <label for="lastname-input">Lastname</label>
+                <input id="lastname-input" type="text" pInputText formControlName="lastname"> 
+            </div>
+
+            <div class="p-field p-col-12 p-md-6">
+                <label for="email-input">Email</label>
+                <input id="email-input" type="email" pInputText formControlName="email"> 
+            </div>
+            <div class="p-field p-col-12 p-md-6">
+                <label for="username-input">Username</label>
+                <input id="username-input" type="text" pInputText formControlName="username"> 
+            </div>
+            <div class="p-field p-col-12 p-md-6">
+                <label for="password-input">Password</label>
+                <input id="password-input" type="password" pPassword formControlName="password"> 
+            </div>
+
+            <div class="p-field p-col-12 p-md-12"> </div>
+            <div class="p-field p-col-12 p-md-6">
+                <p-button [disabled]="form.invalid" icon="pi pi-pencil" label="Create user" class="p-button-secondary" (click)="saveProfessor()"></p-button>
+            </div>
+            <div class="p-field p-col-12 p-md-6">
+                <p-button icon="pi pi-times" label="Cancel" class="p-button-danger" (click)="cancel()">  </p-button>
+            </div>
+        </div>
+    </form>
+</div>
