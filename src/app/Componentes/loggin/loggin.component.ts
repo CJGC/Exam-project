@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { ProfessorDto } from 'src/app/dto/ProfessorDto';
 import { ProfessorService } from 'src/app/services/Professor.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-loggin',
@@ -15,6 +16,7 @@ export class LogginComponent implements OnInit {
 
   public professor : ProfessorDto;
   public loginForm : FormGroup;
+  public resourceUrl : String;
 
   constructor(
     formBuilder : FormBuilder,
@@ -26,7 +28,8 @@ export class LogginComponent implements OnInit {
       this.loginForm = formBuilder.group({
         username : new FormControl('', [Validators.required]),
         password : new FormControl('', [Validators.required])
-      })
+      });
+      this.resourceUrl = environment.assetsDir
   }
 
   ngOnInit(): void {
