@@ -1,48 +1,54 @@
 <p-toast></p-toast>
 <p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle"></p-confirmDialog>
 
-<div class="p-fluid p-formgrid p-grid">
-    <div class="p-field p-col-12">
-        <label for="auto-question-exam">Select an exam</label>
-        <p-autoComplete id="auto-question-exam" [(ngModel)]="exam" (onSelect)="setQuestions()" [suggestions]="dropListExams" [dropdown]="true" (completeMethod)="search($event)" field="name"></p-autoComplete>
-    </div>
-</div>
-
-<div *ngIf="exam.id !== 0">
-    <form [formGroup]="questionForm">
-        <div class="p-fluid p-formgrid p-grid">
-            <div class="p-field p-col-12">
-                <input #imageInput type="file" accept="image/png, image/jpeg" (change)="onFileChanged($event)">
-                <img [src]="imgURL" height="25" *ngIf="imgURL">
-            </div>
-            <div class="p-field p-col-6">
-                <label for="questionType">Kind of question</label>
-                <p-dropdown id="questionType" (onChange)="addAnsOpts($event)" [options]="questionTypes" optionLabel="name" formControlName="type"></p-dropdown>
-            </div>
-            <div *ngIf="manageAnsOpts.ansOpts.length!==0" class="p-field p-col-6">
-                <label for="upAnsOptButton"> Update answer options </label>
-                <p-button id="upAnsOptButton" icon="pi pi-pencil" label="Update" class="p-button-secondary" (click)="updateAnsOpt()"></p-button>
-            </div>
-            <div class="p-field p-col-12">
-                <label for="weight">Weight</label>
-                <p-inputNumber id="weight" mode="decimal" [max]="maxWeight" [min]="0.0" [step]="0.01" [minFractionDigits]="1.0" [maxFractionDigits]="2" formControlName="weight"></p-inputNumber>
-            </div>
-            <div class="p-field p-col-12">
-                <label for="question-description">Description</label>
-                <textarea id="question-description" [rows]="4" [autoResize]="true" pInputTextarea formControlName="description"></textarea>
-            </div>
-            <div *ngIf="creatingQuestion" class="p-field p-col-12 p-md-6">
-                <p-button [disabled]="questionForm.invalid" icon="pi pi-check" label="Add question" class="p-button-secondary" (click)="saveQuestion()"></p-button>
-            </div>
-
-            <div *ngIf="!creatingQuestion" class="p-field p-col-12 p-md-6">
-                <p-button [disabled]="questionForm.invalid" icon="pi pi-check" label="Update question" class="p-button-secondary" (click)="updateQuestion()"></p-button>
-            </div>
-
-            <div *ngIf="!creatingQuestion" class="p-field p-col-12 p-md-6">
-                <p-button icon="pi pi-times" label="Cancel" class="p-button-secondary" (click)="cancelUpdateQuestion()"></p-button>
-            </div>
+<div class="main-box">
+    <div class="p-fluid p-formgrid p-grid">
+        <div class="p-field p-col-12">
+            <label for="auto-question-exam">Select an exam</label>
+            <p-autoComplete id="auto-question-exam" [(ngModel)]="exam" (onSelect)="setQuestions()" [suggestions]="dropListExams" [dropdown]="true" (completeMethod)="search($event)" field="name"></p-autoComplete>
         </div>
-    </form>
-    <app-question-main-view [(manageAnsOpts)]="manageAnsOpts" [(maxWeight)]="maxWeight" [(questions)]="questions" [(question)]="question" [(questionForm)]="questionForm" [(creatingQuestion)]="creatingQuestion"></app-question-main-view>
+    </div>
+
+    <div *ngIf="exam.id !== 0">
+        <form [formGroup]="questionForm">
+            <div class="p-fluid p-formgrid p-grid">
+                <div class="p-field p-col-6">
+                    <label for="questionType">Kind of question</label>
+                    <p-dropdown id="questionType" (onChange)="addAnsOpts($event)" [options]="questionTypes" optionLabel="name" formControlName="type"></p-dropdown>
+                </div>
+                <div class="p-field p-col-6">
+                    <label> Select an image (png or jpeg)</label>
+                    <div class="p-formgroup-inline">
+                        <input #imageInput type="file" accept="image/png, image/jpeg" (change)="onFileChanged($event)">
+                        <img [src]="imgURL" height="50" *ngIf="imgURL">
+                        <button *ngIf="loadedImage" pButton class="p-button-rounded p-button-text p-button-danger" icon="pi pi-times" (click)="resetImageField()"></button>
+                    </div>
+                </div>
+                <div *ngIf="manageAnsOpts.ansOpts.length!==0" class="p-field p-col-6">
+                    <label for="upAnsOptButton"> Update answer options </label>
+                    <p-button id="upAnsOptButton" icon="pi pi-pencil" label="Update" class="p-button-secondary" (click)="updateAnsOpt()"></p-button>
+                </div>
+                <div class="p-field p-col-12">
+                    <label for="weight">Weight</label>
+                    <p-inputNumber id="weight" mode="decimal" [max]="maxWeight" [min]="0.0" [step]="0.01" [minFractionDigits]="1.0" [maxFractionDigits]="2" formControlName="weight"></p-inputNumber>
+                </div>
+                <div class="p-field p-col-12">
+                    <label for="question-description">Description</label>
+                    <textarea id="question-description" [rows]="4" [autoResize]="true" pInputTextarea formControlName="description"></textarea>
+                </div>
+                <div *ngIf="creatingQuestion" class="p-field p-col-12 p-md-6">
+                    <p-button [disabled]="questionForm.invalid" icon="pi pi-check" label="Add question" class="p-button-secondary" (click)="saveQuestion()"></p-button>
+                </div>
+
+                <div *ngIf="!creatingQuestion" class="p-field p-col-12 p-md-6">
+                    <p-button [disabled]="questionForm.invalid" icon="pi pi-check" label="Update question" class="p-button-secondary" (click)="updateQuestion()"></p-button>
+                </div>
+
+                <div *ngIf="!creatingQuestion" class="p-field p-col-12 p-md-6">
+                    <p-button icon="pi pi-times" label="Cancel" class="p-button-secondary" (click)="cancelUpdateQuestion()"></p-button>
+                </div>
+            </div>
+        </form>
+        <app-question-main-view [(manageAnsOpts)]="manageAnsOpts" [(maxWeight)]="maxWeight" [(questions)]="questions" [(question)]="question" [(questionForm)]="questionForm" [(creatingQuestion)]="creatingQuestion"></app-question-main-view>
+    </div>
 </div>
