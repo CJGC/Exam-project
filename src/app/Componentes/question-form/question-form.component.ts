@@ -209,7 +209,7 @@ export class QuestionFormComponent implements OnInit {
     );
   }
 
-  private resetImageField() : void {
+  public resetImageField() : void {
     this.loadedImage = undefined;
     this.imgURL = "";
     this.imageElement.nativeElement.value = "";
