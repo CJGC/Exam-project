@@ -42,11 +42,11 @@
     <p-table [value]="questions" [paginator]="true" [rows]="10" sortMode="multiple">
         <ng-template pTemplate="header">
             <tr>
-                <th>Image</th>
-                <th>Description</th>
-                <th>Kind of question</th>
-                <th>Weight</th>
-                <th>View answer options details</th>
+                <th> Image</th>
+                <th pSortableColumn="description"> Description <p-sortIcon field="description"></p-sortIcon></th>
+                <th pSortableColumn="type"> Kind of question <p-sortIcon field="type"></p-sortIcon></th>
+                <th pSortableColumn="weight"> Weight <p-sortIcon field="weight"> </p-sortIcon></th>
+                <th> View answer options details </th>
             </tr>
         </ng-template>
         <ng-template pTemplate="body" let-question>
