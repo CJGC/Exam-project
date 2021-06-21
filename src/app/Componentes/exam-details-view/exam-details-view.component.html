@@ -1,32 +1,64 @@
-<b>Professor: </b> {{exam.professor.name}} {{exam.professor.lastname}}
+<p-toast></p-toast>
 
-<ul>    
-    <li><b>Exam name: </b> {{exam.name}}</li>
-    <li><b>Description: </b> {{exam.description}}</li>
-    <li><b>Link: </b> {{exam.link}}</li>
-    <li><b>Max grade: </b> {{exam.maxGrade}}</li>
-    <li><b>Durability: </b> {{exam.durability}}</li>
-</ul>
+<div class="main-box">
+    <div class="form-box">
+        <div class="professor-title">
+            <b>Professor: </b> {{exam.professor.name}} {{exam.professor.lastname}}
+        </div>
+        <form [formGroup]="examDetails">
+            <div class="p-fluid p-formgrid p-grid">
+                <div class="p-field p-col-12 p-md-6">
+                    <label for="name"> Exam name </label>
+                    <input id="name" type="text" formControlName="name" pInputText>
+                </div>
 
-<p-table [value]="questions" [paginator]="true" [rows]="10" sortMode="multiple">
-    <ng-template pTemplate="header">
-        <tr>
-            <th>Image</th>
-            <th>Description</th>
-            <th>Kind of question</th>
-            <th>Weight</th>
-            <th>View answer options details</th>
-        </tr>
-    </ng-template>
-    <ng-template pTemplate="body" let-question>
-        <tr>
-            <td><img [src]="question.questionImage" height="25" *ngIf="question.questionImage !== ''" /></td>
-            <td>{{question.description}}</td>
-            <td>{{question.type | questionType}}</td>
-            <td>{{question.weight | weight}}</td>
-            <td *ngIf="question.type !== 'op'">
-                <button pButton type="button" icon="pi pi-eye" class="p-button-text" (click)="setAnswerOpts(question)"></button>
-            </td>
-        </tr>
-    </ng-template>
-</p-table>
+                <div class="p-field p-col-12 p-md-6">
+                    <label for="link"> Link </label>
+                    <div class="p-formgroup-inline">
+                        <input class="link-field" id="link" type="text" formControlName="link">
+                        <button pButton icon="pi pi-copy" class="p-button-rounded p-button-text" (click)="copyLink()"> </button>
+                    </div>
+                </div>
+
+                <div class="p-field p-col-12 p-md-6">
+                    <label for="maxGrade"> Max grade </label>
+                    <input id="maxGrade" type="text" formControlName="maxGrade" pInputText>
+                </div>
+
+                <div class="p-field p-col-12 p-md-6">
+                    <label for="durability"> Durability (seconds) </label>
+                    <input id="durability" type="text" formControlName="durability" pInputText>
+                </div>
+
+                <div class="p-field p-col-12 p-md-12">
+                    <label for="description"> Description </label>
+                    <textarea id="description" [rows]="4" [autoResize]="true" formControlName="description" pInputTextarea></textarea>
+                </div>
+                
+            </div>
+        </form>
+    </div>
+
+    <p-table [value]="questions" [paginator]="true" [rows]="10" sortMode="multiple">
+        <ng-template pTemplate="header">
+            <tr>
+                <th>Image</th>
+                <th>Description</th>
+                <th>Kind of question</th>
+                <th>Weight</th>
+                <th>View answer options details</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-question>
+            <tr>
+                <td><img [src]="question.questionImage" height="25" *ngIf="question.questionImage !== ''" /></td>
+                <td>{{question.description}}</td>
+                <td>{{question.type | questionType}}</td>
+                <td>{{question.weight | weight}}</td>
+                <td *ngIf="question.type !== 'op'">
+                    <button pButton type="button" icon="pi pi-eye" class="p-button-text" (click)="setAnswerOpts(question)"></button>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>
