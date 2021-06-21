@@ -2,9 +2,9 @@
     <p-table [value]="ansOpts" [paginator]="true" [rows]="10" sortMode="multiple">
         <ng-template pTemplate="header">
             <tr>
-                <th>Description</th>
-                <th>Is correct answer</th>
-                <th>Weight</th>
+                <th pSortableColumn="description"> Description <p-sortIcon field="description"></p-sortIcon></th>
+                <th pSortableColumn="correctAnswer"> Is correct answer <p-sortIcon field="correctAnswer"></p-sortIcon></th>
+                <th pSortableColumn="weight"> Weight <p-sortIcon field="weight"></p-sortIcon> </th>
             </tr>
         </ng-template>
         <ng-template pTemplate="body" let-ansOpt>
