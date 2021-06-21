@@ -6,7 +6,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class GradesPipe implements PipeTransform {
 
   transform(value: number): string {
-    return value.toString();
+    return (value * 100).toPrecision(2) + '%';
   }
 
 }
