@@ -3,9 +3,9 @@
 <p-table [value]="manageAnsOpts.ansOpts" [paginator]="true" [rows]="10" sortMode="multiple">
     <ng-template pTemplate="header">
         <tr>
-            <th>Description</th>
-            <th>Weight</th>
-            <th>Is correct</th>
+            <th pSortableColumn="description"> Description <p-sortIcon field="description"></p-sortIcon></th>
+            <th pSortableColumn="weight"> Weight <p-sortIcon field="weight"></p-sortIcon></th>
+            <th pSortableColumn="correctAnswer"> Is correct <p-sortIcon field="correctAnswer"></p-sortIcon></th>
             <th>Action</th>
         </tr>
     </ng-template>
