@@ -17,11 +17,11 @@
                     <p-dropdown id="questionType" (onChange)="addAnsOpts($event)" [options]="questionTypes" optionLabel="name" formControlName="type"></p-dropdown>
                 </div>
                 <div class="p-field p-col-6">
-                    <label> Select an image (png or jpeg)</label>
-                    <div class="p-formgroup-inline">
-                        <input #imageInput type="file" accept="image/png, image/jpeg" (change)="onFileChanged($event)">
-                        <img [src]="imgURL" height="50" *ngIf="imgURL">
-                        <button *ngIf="loadedImage" title="Remove image" pButton class="p-button-rounded p-button-text p-button-danger" icon="pi pi-times" (click)="resetImageField()"></button>
+                    <div class="p-formgroup-inline img-box">
+                        <label class="img-btn" for="img-input"> Select an image (png or jpeg)</label>
+                        <input #imageInput id="img-input" type="file" accept="image/png, image/jpeg" (change)="onFileChanged($event)">
+                        <img *ngIf="imgURL" [src]="imgURL" height="50">
+                        <button *ngIf="loadedImage" pButton class="p-button-rounded p-button-text p-button-danger" icon="pi pi-times" (click)="resetImageField()"></button>
                     </div>
                 </div>
                 <div *ngIf="manageAnsOpts.ansOpts.length!==0" class="p-field p-col-12">
