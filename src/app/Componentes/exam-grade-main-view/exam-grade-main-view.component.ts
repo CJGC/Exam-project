@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { ExamDto } from 'src/app/dto/ExamDto';
 import { ProfessorDto } from 'src/app/dto/ProfessorDto';
 import { ExamService } from 'src/app/services/exam.service';
-import { ProfessorService } from 'src/app/services/Professor.service';
 
 @Component({
   selector: 'app-exam-grade-main-view',
@@ -19,7 +18,6 @@ export class ExamGradeMainViewComponent implements OnInit {
 
   constructor(
     private examService : ExamService,
-    private professorService : ProfessorService,
     private router : Router
   ) { 
     this.professor = new ProfessorDto;
@@ -33,13 +31,11 @@ export class ExamGradeMainViewComponent implements OnInit {
   }
 
   private setProfessor() : void {
-    this.professorService.getByUsername("professor").subscribe( 
-      professor => {
-        this.professor = professor;
-        this.setExams();
-      },
-      error => console.log(error)
-    );
+    let professorStringified = sessionStorage.getItem('professor');
+    if (professorStringified !== null) {
+      this.professor = <ProfessorDto> JSON.parse(professorStringified);
+      this.setExams();
+    }
   }
 
   private setExams() : void {
