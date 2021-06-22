@@ -1,12 +1,37 @@
-<div >
-    <h1> Account details </h1>
-    <ul>
-        <li> <b>Professor's identification card:</b> {{professor.identificationCard }}</li>
-        <li> <b>Professor's name:</b> {{professor.name }}</li>
-        <li> <b>Professor's lastname:</b> {{professor.lastname }}</li>
-        <li> <b>Professor's email:</b> {{professor.email }}</li>
-        <li> <b>Professor's username:</b> {{professor.username }}</li>
-    </ul>
-</div>
+<div class="main-box">
+    <h1 class="h1-box"> Account details </h1>
+    <form class="form-box" [formGroup]="professorDetails">
+        <div class="p-fluid p-formgrid p-grid">
+            
+            <div class="p-field p-col-12 p-md-6"> 
+                <label for="identificationCard"> Professor's identification card: </label> 
+                <input type="text" id="identificationCard" formControlName="identificationCard" pInputText />
+            </div>
 
-<button type="button" (click)="changePassword()" pButton icon="pi pi-info-circle" label="Change password"></button>
+            <div class="p-field p-col-12 p-md-6"> 
+                <label for="name"> Professor's name: </label> 
+                <input type="text" id="name" formControlName="name" pInputText />
+            </div>
+
+            <div class="p-field p-col-12 p-md-6"> 
+                <label for="lastname"> Professor's lastname: </label> 
+                <input type="text" id="lastname" formControlName="lastname" pInputText />
+            </div>
+
+            <div class="p-field p-col-12 p-md-6"> 
+                <label for="email"> Professor's email: </label> 
+                <input type="text" id="email" formControlName="email" pInputText />
+            </div>
+
+            <div class="p-field p-col-12 p-md-6"> 
+                <label for="username"> Professor's username: </label> 
+                <input type="text" id="username" formControlName="username" pInputText />
+            </div>
+
+            <div class="p-field p-col-12 p-md-12">
+                <button type="button" (click)="changePassword()" pButton icon="pi pi-info-circle" label="Change password"></button>
+            </div>
+        </div>
+    </form>
+
+</div>

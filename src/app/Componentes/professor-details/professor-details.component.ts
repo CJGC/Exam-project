@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { ProfessorDto } from 'src/app/dto/ProfessorDto';
@@ -13,11 +14,20 @@ import { ChangePasswordComponent } from '../change-password/change-password.comp
 export class ProfessorDetailsComponent implements OnInit {
 
   public professor : ProfessorDto;
+  public professorDetails : FormGroup
 
   constructor(
     public dialogService: DialogService,
-    public messageService : MessageService
+    public messageService : MessageService,
+    private formBuilder : FormBuilder
   ) { 
+    this.professorDetails = this.formBuilder.group({
+      identificationCard : new FormControl({value : '', disabled: true}),
+      name : new FormControl({value : '', disabled: true}),
+      lastname: new FormControl({value : '', disabled: true}),
+      email: new FormControl({value : '', disabled: true}),
+      username: new FormControl({value : '', disabled: true})
+    });
     this.professor = new ProfessorDto;
   }
 
@@ -25,10 +35,21 @@ export class ProfessorDetailsComponent implements OnInit {
     this.setProfessor();
   }
 
+  private loadProfessorInfoIntoForm(professor : ProfessorDto) : void {
+    this.professorDetails.setValue({
+      identificationCard : professor.identificationCard,
+      name : professor.name,
+      lastname: professor.lastname,
+      email: professor.email,
+      username: professor.username
+    });
+  }
+
   public setProfessor() : void {
     let professorStringify = sessionStorage.getItem('professor');
     if (professorStringify !== null) {
       this.professor = <ProfessorDto> JSON.parse(professorStringify);
+      this.loadProfessorInfoIntoForm(this.professor);
     }
   }
 
