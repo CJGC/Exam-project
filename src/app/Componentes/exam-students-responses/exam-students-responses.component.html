@@ -1,29 +1,31 @@
-<p-table #dt1 [value]="examStudents" [paginator]="true" [rows]="10">
-    
-    <ng-template pTemplate="caption">
-        <div class="table-header">
-            Students that have responses
-        </div>
-    </ng-template>
+<div class="main-box">
+    <p-table #dt1 [value]="examStudents" [paginator]="true" [rows]="10">
+        
+        <ng-template pTemplate="caption">
+            <div class="table-header">
+                Students that have responses
+            </div>
+        </ng-template>
 
-    <ng-template pTemplate="header">
-        <tr>
-            <th pSortableColumn="identificationCard">Identification card <p-sortIcon field="identificationCard"></p-sortIcon></th>
-            <th pSortableColumn="name">Name <p-sortIcon field="name"></p-sortIcon></th>
-            <th pSortableColumn="lastname">Lastname <p-sortIcon field="lastname"></p-sortIcon></th>
-            <th pSortableColumn="FinalGrade">Final grade <p-sortIcon field="finalGrade"></p-sortIcon></th>
-            <th>Actions</th>
-        </tr>
-    </ng-template>
-    <ng-template pTemplate="body" let-examStudent>
-        <tr>
-            <td>{{examStudent.student.identificationCard}}</td>
-            <td>{{examStudent.student.name}}</td>
-            <td>{{examStudent.student.lastname}}</td>
-            <td>{{examStudent.definitiveGrade | grades}}</td>
-            <td>
-                <button pButton type="button" icon="pi pi-star-o" class="p-button-text" (click)="grade(examStudent)"></button>
-            </td>
-        </tr>
-    </ng-template>
-</p-table>
+        <ng-template pTemplate="header">
+            <tr>
+                <th pSortableColumn="identificationCard">Identification card <p-sortIcon field="identificationCard"></p-sortIcon></th>
+                <th pSortableColumn="name">Name <p-sortIcon field="name"></p-sortIcon></th>
+                <th pSortableColumn="lastname">Lastname <p-sortIcon field="lastname"></p-sortIcon></th>
+                <th pSortableColumn="FinalGrade">Final grade <p-sortIcon field="finalGrade"></p-sortIcon></th>
+                <th>Actions</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-examStudent>
+            <tr>
+                <td>{{examStudent.student.identificationCard}}</td>
+                <td>{{examStudent.student.name}}</td>
+                <td>{{examStudent.student.lastname}}</td>
+                <td>{{examStudent.definitiveGrade | grades}}</td>
+                <td>
+                    <button pButton type="button" icon="pi pi-star-o" class="p-button-text" (click)="grade(examStudent)"></button>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>
