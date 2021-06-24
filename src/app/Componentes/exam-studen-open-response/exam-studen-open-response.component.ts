@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { QuestionDto } from 'src/app/dto/abstractDto/QuestionDto';
 import { ExamStudentDto } from 'src/app/dto/ExamStudentDto';
@@ -18,6 +18,7 @@ export class ExamStudenOpenResponseComponent implements OnInit {
   public selectedQuestion : QuestionDto;
   public examStudent : ExamStudentDto;
   public openResponse : OpenResponseDto;
+  public questionForm : FormGroup;
 
   constructor(
     private openResponseService : OpenResponseService,
@@ -26,14 +27,18 @@ export class ExamStudenOpenResponseComponent implements OnInit {
     private formBuilder : FormBuilder,
     private examStudentService : ExamStudentService
   ) {
+    this.selectedQuestion = this.dynamicDialogConfig.data.selectedQuestion;
+    this.examStudent = this.dynamicDialogConfig.data.examStudent;
+    this.openResponse = new OpenResponseDto;
     this.gradeForm = this.formBuilder.group({
       grade : ['', [Validators.required, Validators.min(0.0), Validators.max(5.0)]],
       content : [{value : '', disabled : true }, [Validators.required]]
     });
-
-    this.selectedQuestion = this.dynamicDialogConfig.data.selectedQuestion;
-    this.examStudent = this.dynamicDialogConfig.data.examStudent;
-    this.openResponse = new OpenResponseDto;
+    let weight = (this.selectedQuestion.weight * 100).toPrecision(2) + '%';
+    this.questionForm = this.formBuilder.group({
+      description : new FormControl({value: this.selectedQuestion.description, disabled : true}),
+      weight : new FormControl({value: weight, disabled : true})
+    });
   }
 
   ngOnInit(): void {
