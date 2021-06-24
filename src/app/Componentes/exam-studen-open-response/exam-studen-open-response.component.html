@@ -1,27 +1,40 @@
-<ul>
-    <li> <b>Question description: </b> {{selectedQuestion.description}} </li>
-    <li> <b>Question weight </b> {{selectedQuestion.weight | weight}} </li>
-</ul>
-
-<h3> {{examStudent.student.name}} {{examStudent.student.lastname}} response </h3>
-<form [formGroup]="gradeForm">
-    <div class="p-fluid p-formgrid p-grid">
-        <div class="p-field p-col-12 p-md-12">
-            <textarea [rows]="4" [autoResize]="true" pInputTextarea formControlName="content"></textarea>
+<div class="main-box">
+    <h3 class="h3-box-1"> Question details </h3>
+    <form class="form-box-1" [formGroup]="questionForm">
+        <div class="p-fluid p-formgrid p-grid">
+            
+            <div class="p-field p-col-12 p-md-12">
+                <label for="questWeight"> Question weight </label> 
+                <input pInputText type="text" id="questWeight" formControlName= "weight" />
+            </div>
+            
+            <div class="p-field p-col-12 p-md-12">
+                <label for="questDescript"> Question description: </label> 
+                <textarea pInputTextarea id="questDescript" [rows]="4" [autoResize]="true" formControlName="description"></textarea>
+            </div>
         </div>
+    </form>
 
-        <div *ngIf="openResponse" class="p-field p-col-12 p-md-12">
-            <label for="grade">Grade</label>
-            <p-inputNumber id="grade" mode="decimal" [max]="5" [min]="0" [step]="0.01" [minFractionDigits]="1" [maxFractionDigits]="2" formControlName="grade"></p-inputNumber>
+    <h3 class="h3-box-2"> {{examStudent.student.name}} {{examStudent.student.lastname}} response </h3>
+    <form class="form-box-2" [formGroup]="gradeForm">
+        <div class="p-fluid p-formgrid p-grid">
+            <div class="p-field p-col-12 p-md-12">
+                <textarea [rows]="4" [autoResize]="true" pInputTextarea formControlName="content"></textarea>
+            </div>
+
+            <div *ngIf="openResponse" class="p-field p-col-12 p-md-12">
+                <label for="grade">Grade</label>
+                <p-inputNumber id="grade" mode="decimal" [max]="5" [min]="0" [step]="0.01" [minFractionDigits]="1" [maxFractionDigits]="2" formControlName="grade"></p-inputNumber>
+            </div>
+
+            <div class="p-field p-col-12 p-md-6">
+                <p-button [disabled]="gradeForm.invalid" icon="pi pi-pencil" label="Grade" class="p-button-secondary" (click)="grade()"></p-button>
+            </div>
+
+            <div class="p-field p-col-12 p-md-6">
+                <p-button icon="pi pi-times" label="Cancel" class="p-button-secondary" (click)="cancel()"></p-button>
+            </div>
+
         </div>
-
-        <div class="p-field p-col-12 p-md-6">
-            <p-button [disabled]="gradeForm.invalid" icon="pi pi-pencil" label="Grade" class="p-button-secondary" (click)="grade()"></p-button>
-        </div>
-
-        <div class="p-field p-col-12 p-md-6">
-            <p-button icon="pi pi-times" label="Cancel" class="p-button-secondary" (click)="cancel()"></p-button>
-        </div>
-
-    </div>
-</form>
+    </form>
+</div>
