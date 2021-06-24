@@ -1,19 +1,36 @@
-<ul>
-    <li> <b>Question description: </b> {{selectedQuestion.description}} </li>
-    <li> <b>Question weight </b> {{selectedQuestion.weight | weight}} </li>
-</ul>
+<div class="main-box">
 
-<h3> {{examStudent.student.name}} {{examStudent.student.lastname}} response </h3>
-<div *ngIf="selectedQuestion.type==='mu'">
-    <div *ngFor="let ansOpt of asnOpts" class="p-field-radiobutton">
-        <p-radioButton [disabled]="true" [inputId]="ansOpt.id.toString()" name="multipleUniqueGroup" [value]="ansOpt" [(ngModel)]="selectedAnsOpt"></p-radioButton>
-        <label [for]="ansOpt.id">{{ansOpt.description}}</label>
-    </div>
-</div>
+    <h3 class="h3-box-1"> Question details </h3>
+    <form class="form-box" [formGroup]="questionForm">
+        <div class="p-fluid p-formgrid p-grid">
+            
+            <div class="p-field p-col-12 p-md-12">
+                <label for="questWeight"> Question weight </label> 
+                <input pInputText type="text" id="questWeight" formControlName= "weight" />
+            </div>
+            
+            <div class="p-field p-col-12 p-md-12">
+                <label for="questDescript"> Question description: </label> 
+                <textarea pInputTextarea id="questDescript" [rows]="4" [autoResize]="true" formControlName="description"></textarea>
+            </div>
+        </div>
+    </form>
 
-<div *ngIf="selectedQuestion.type==='mm'">
-    <div *ngFor="let ansOpt of asnOpts" class="p-field-checkbox">
-        <p-checkbox [readonly]="true" [inputId]="ansOpt.id.toString()" name="multipleMultipleGroup" [value]="ansOpt"  [(ngModel)]="selectedAnsOpts"></p-checkbox>
-        <label [for]="ansOpt.id">{{ansOpt.description}}</label>
+    <h3 class="h3-box-2"> {{examStudent.student.name}} {{examStudent.student.lastname}} response </h3>
+
+    <div class="responses-box">
+        <div *ngIf="selectedQuestion.type==='mu'">
+            <div *ngFor="let ansOpt of asnOpts" class="p-field-radiobutton">
+                <p-radioButton [disabled]="true" [inputId]="ansOpt.id.toString()" name="multipleUniqueGroup" [value]="ansOpt" [(ngModel)]="selectedAnsOpt"></p-radioButton>
+                <label [for]="ansOpt.id">{{ansOpt.description}}</label>
+            </div>
+        </div>
+
+        <div *ngIf="selectedQuestion.type==='mm'">
+            <div *ngFor="let ansOpt of asnOpts" class="p-field-checkbox">
+                <p-checkbox [readonly]="true" [inputId]="ansOpt.id.toString()" name="multipleMultipleGroup" [value]="ansOpt"  [(ngModel)]="selectedAnsOpts"></p-checkbox>
+                <label [for]="ansOpt.id">{{ansOpt.description}}</label>
+            </div>
+        </div>
     </div>
 </div>
