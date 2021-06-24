@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { QuestionDto } from 'src/app/dto/abstractDto/QuestionDto';
 import { AnswerOptionDto } from 'src/app/dto/AnswerOptionDto';
@@ -16,7 +17,7 @@ export class ExamStudenSelectedResponseComponent implements OnInit {
   public selectedQuestion : QuestionDto;
   public examStudent : ExamStudentDto;
   public asnOpts : Array<AnswerOptionDto>;
-
+  public questionForm : FormGroup;
   public selectedAnsOpt : AnswerOptionDto;
   public selectedAnsOpts : Array<AnswerOptionDto>;
 
@@ -24,7 +25,7 @@ export class ExamStudenSelectedResponseComponent implements OnInit {
     private selectedResponseService : SelectedResponseService,
     private ansOptsService : AnswerOptionService,
     private dynamicDialogConfig : DynamicDialogConfig,
-    private dynamicDialogRef : DynamicDialogRef
+    private formBuilder : FormBuilder
   ) { 
     this.selectedQuestion = this.dynamicDialogConfig.data.selectedQuestion;
     this.examStudent = this.dynamicDialogConfig.data.examStudent;
@@ -32,6 +33,11 @@ export class ExamStudenSelectedResponseComponent implements OnInit {
 
     this.selectedAnsOpt = new AnswerOptionDto;
     this.selectedAnsOpts = new Array<AnswerOptionDto>();
+    let weight = (this.selectedQuestion.weight * 100).toPrecision(2) + '%';
+    this.questionForm = this.formBuilder.group({
+      description : new FormControl({value: this.selectedQuestion.description, disabled : true}),
+      weight : new FormControl({value: weight, disabled : true})
+    });
   }
 
   ngOnInit(): void {
