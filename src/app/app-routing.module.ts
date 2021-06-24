@@ -3,7 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { CreateProfessorComponent } from './Componentes/create-professor/create-professor.component';
 import { ManageExamComponent } from './Componentes/manage-exam/manage-exam.component';
 import { PageNotFoundComponent } from './Componentes/page-not-found/page-not-found.component';
-import { StudentFormComponent } from './Componentes/student-form/student-form.component';
+import { QueryStudentFormComponent } from './Componentes/query-student/query-student-form.component';
 import { ProfessorMainViewComponent } from './Componentes/professor-main-view/professor-main-view.component';
 import { ExamGradeMainViewComponent } from './Componentes/exam-grade-main-view/exam-grade-main-view.component';
 import { ExamStudentsResponsesComponent } from './Componentes/exam-students-responses/exam-students-responses.component';
@@ -25,7 +25,7 @@ const routes: Routes = [
       {path: 'exam-student-response-detail', component:ExamStudentResponseDetailComponent}
     ]
   },
-  { path: 'present-exam/:id', component: StudentFormComponent},
+  { path: 'present-exam/:id', component: QueryStudentFormComponent},
   { path: '', redirectTo: 'login', pathMatch: 'full'},
   { path: '**', component: PageNotFoundComponent}
 ];
