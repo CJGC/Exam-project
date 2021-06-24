@@ -41,7 +41,7 @@ import { AnswerOptionFormComponent } from './Componentes/answer-option-form/answ
 import { AnswerOptionMainViewComponent } from './Componentes/answer-option-main-view/answer-option-main-view.component';
 import { correctAnswerPipe } from './pipes/correctAns';
 import { ExamDetailsViewComponent } from './Componentes/exam-details-view/exam-details-view.component';
-import { StudentFormComponent } from './Componentes/student-form/student-form.component';
+import { QueryStudentFormComponent } from './Componentes/query-student/query-student-form.component';
 import { QuestionTypePipe } from './pipes/question-type.pipe';
 import { SolveExamComponent } from './Componentes/solve-exam/solve-exam.component';
 import { ExamGradeMainViewComponent } from './Componentes/exam-grade-main-view/exam-grade-main-view.component';
@@ -57,6 +57,7 @@ import { LogedGuard } from './loged.guard';
 import { ProfessorDetailsComponent } from './Componentes/professor-details/professor-details.component';
 import { ChangePasswordComponent } from './Componentes/change-password/change-password.component';
 import { GradesPipe } from './pipes/grades.pipe';
+import { QueryStudentGradeComponent } from './Componentes/query-student-grade/query-student-grade.component';
 
 
 @NgModule({
@@ -75,7 +76,7 @@ import { GradesPipe } from './pipes/grades.pipe';
     AnswerOptionFormComponent,
     AnswerOptionMainViewComponent,
     ExamDetailsViewComponent,
-    StudentFormComponent,
+    QueryStudentFormComponent,
     QuestionTypePipe,
     SolveExamComponent,
     ExamGradeMainViewComponent,
@@ -88,7 +89,8 @@ import { GradesPipe } from './pipes/grades.pipe';
     LogginComponent,
     ProfessorDetailsComponent,
     ChangePasswordComponent,
-    GradesPipe
+    GradesPipe,
+    QueryStudentGradeComponent
   ],
   imports: [
     BrowserAnimationsModule,
