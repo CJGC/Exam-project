@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from 'primeng/dynamicdialog';
 import { QuestionDto } from 'src/app/dto/abstractDto/QuestionDto';
@@ -17,16 +18,25 @@ import { ExamStudenSelectedResponseComponent } from '../exam-studen-selected-res
 export class ExamStudentResponseDetailComponent implements OnInit {
 
   public examStudent : ExamStudentDto;
+  public studentForm : FormGroup;
   public questions : Array<QuestionDto>;
 
   constructor(
     private activatedRoute : ActivatedRoute,
     private examStudentService : ExamStudentService,
     private questionService : QuestionService,
-    public dialogService : DialogService  
+    public dialogService : DialogService,
+    private formBuilder : FormBuilder
     ) { 
-    this.examStudent = new ExamStudentDto;
-    this.questions = new Array<QuestionDto>();
+    
+      this.studentForm = this.formBuilder.group({
+        name : new FormControl({value : '', disabled : true}),
+        lastname : new FormControl({value : '', disabled : true}),
+        identificationCard : new FormControl({value : '', disabled : true}),
+        definitiveGrade : new FormControl({value : '', disabled : true})
+      });
+      this.examStudent = new ExamStudentDto;
+      this.questions = new Array<QuestionDto>();
   }
 
   ngOnInit(): void {
@@ -37,10 +47,21 @@ export class ExamStudentResponseDetailComponent implements OnInit {
     );
   }
 
+  private putInfoIntoStudentForm() : void {
+   
+    this.studentForm.setValue({
+      name : this.examStudent.student.name,
+      lastname : this.examStudent.student.lastname,
+      identificationCard : this.examStudent.student.identificationCard,
+      definitiveGrade : this.examStudent.definitiveGrade 
+    })
+  }
+
   private getExamStudent(examStudentId : number) : void {
     this.examStudentService.getExamStudent(examStudentId).subscribe(
       examStudent => {
         this.examStudent = examStudent;
+        this.putInfoIntoStudentForm();
         this.getQuestions(this.examStudent.exam.id);
       },
       error => console.log(error)
