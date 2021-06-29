@@ -6,7 +6,7 @@ export class ExamDto {
     public professor : ProfessorDto;
     public description : String;
     public link : String;
-    public maxGrade : Number;
+    public maxGrade : number;
     public name : String;
     public durability : number;
 
