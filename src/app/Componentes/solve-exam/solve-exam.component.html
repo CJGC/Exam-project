@@ -29,19 +29,19 @@
     </div>
 
     <div *ngIf="examHasStarted">
-
-        <div class="counter-box">
-            <b>Time left: </b>
-            <countdown #cd [config]="{leftTime: exam.durability}" (event)="finishExamByTimeOut($event)"></countdown>
-        </div>
+    
+        <div class="exam-title"> {{ exam.name }} </div>
         <div class="exam-responses" *ngIf="questions.length!==0">
-
-            <div class="exam-responses-header" *ngIf="question.id!==0">
-                <img class="img-box" [src]="question.questionImage" height="50">
-                <div class="description-box"> <b> {{ question.description }}</b> </div>
+            <div class="counter-box">
+                <b>Time left: </b>
+                <countdown #cd [config]="{leftTime: exam.durability}" (event)="finishExamByTimeOut($event)"></countdown>
+            </div>
+            <div class="exam-responses-header" *ngIf="currentQuestion.id!==0">
+                <img class="img-box" [src]="imgUrl" height="50">
+                <div class="description-box"> <b> {{ currentQuestion.description }}</b> </div>
             </div>
 
-            <div *ngIf="question.type==='op'">    
+            <div *ngIf="currentQuestion.type==='op'">    
                 <form [formGroup]="openResponseForm">
                     <div class="p-fluid p-formgrid p-grid">
                         <div class="p-field p-col-12">
@@ -52,14 +52,14 @@
                 </form>
             </div>
 
-            <div *ngIf="question.type==='mu'">
+            <div *ngIf="currentQuestion.type==='mu'">
                 <div *ngFor="let ansOpt of loadedAnsOpts" class="p-field-radiobutton">
                     <p-radioButton [inputId]="ansOpt.id.toString()" name="multipleUniqueGroup" [value]="ansOpt" [(ngModel)]="selectedAnsOpt"></p-radioButton>
                     <label [for]="ansOpt.id">{{ansOpt.description}}</label>
                 </div>
             </div>
 
-            <div *ngIf="question.type==='mm'">
+            <div *ngIf="currentQuestion.type==='mm'">
                 <div *ngFor="let ansOpt of loadedAnsOpts" class="p-field-checkbox">
                     <p-checkbox [inputId]="ansOpt.id.toString()" name="multipleMultipleGroup" [value]="ansOpt"  [(ngModel)]="selectedAnsOpts"></p-checkbox>
                     <label [for]="ansOpt.id">{{ansOpt.description}}</label>
@@ -68,7 +68,7 @@
 
             <div class="btns-box"> 
                 <div >
-                    <button pButton [disabled]="questionIndex-1<0" title="Back question" type="button" icon="pi pi-arrow-left" class="p-button-outlined left-button" (click)="back()"></button>
+                    <button pButton [disabled]="questionIndex-1<0" title="Previous question" type="button" icon="pi pi-arrow-left" class="p-button-outlined left-button" (click)="back()"></button>
                 </div>
 
                 <div *ngIf="questionIndex+1<questions.length">
@@ -80,20 +80,5 @@
                 </div>
             </div>
         </div>
-
-        <!-- <div *ngIf="examHasBeenEnded && !thereWereOpenQuestion">
-            <b>Your final grade is: </b> {{examStudent.definitiveGrade}}
-        </div>
-
-        <div *ngIf="examHasBeenEnded &&  thereWereOpenQuestion">
-            <p>
-                You have been replied to this exam, but there are some open responses that
-                need to be checked by your professor.
-            </p>
-            <br>
-            <b>
-                You can check out your grade later by querying again with your document.
-            </b>
-        </div> -->
     </div>
 </div>
