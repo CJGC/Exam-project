@@ -1,4 +1,12 @@
 <div class="final-grade-box">
-    <h1> student {{examStudent.student.name}} {{examStudent.student.lastname}}  </h1>
-    <b>Your final grade was: </b> {{examStudent.definitiveGrade}}
+    <h1 class="title"> Student {{examStudent.student.name}} {{examStudent.student.lastname}}  </h1>
+    <div class="content">
+        <p>
+            You have replied to this exam, but there may be some open responses that
+            need to be checked first by your professor.
+
+            <br> <br>
+            <b>Your final grade is: </b> {{examStudent.definitiveGrade}}
+        </p>
+    </div>
 </div>
