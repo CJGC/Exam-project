@@ -1,0 +1,30 @@
+.final-grade-box {
+    margin: 25px;
+    padding: 25px;
+    border-radius: 5px;
+    box-shadow: 0px 0px 20px #cccccc;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.final-grade-box .title {
+    margin: 0px;
+    padding: 15px;
+    background-color: rgba(203, 203, 203, 0.75);
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    text-align: center;
+    font-weight: 900;
+}
+
+.final-grade-box .content {
+    margin-top: 0px;
+    padding: 15px;
+    border-left-style: solid;
+    border-right-style: solid;
+    border-bottom-style: solid;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    border-width: 1px;
+    border-color: rgba(203, 203, 203, 0.75);
+    font-size: 120%;
+}
