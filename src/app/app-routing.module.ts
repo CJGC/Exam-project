@@ -12,6 +12,8 @@ import { LogginComponent } from './Componentes/loggin/loggin.component';
 import { LoginGuard } from './login.guard';
 import { LogedGuard } from './loged.guard';
 import { ProfessorDetailsComponent } from './Componentes/professor-details/professor-details.component';
+import { QueryStudentGradeComponent } from './Componentes/query-student-grade/query-student-grade.component';
+import { SolveExamComponent } from './Componentes/solve-exam/solve-exam.component';
 
 const routes: Routes = [
   { path: 'login', component: LogginComponent, canActivate: [LogedGuard]},
@@ -26,6 +28,8 @@ const routes: Routes = [
     ]
   },
   { path: 'present-exam/:id', component: QueryStudentFormComponent},
+  { path: 'query-grade', component: QueryStudentGradeComponent},
+  { path: 'solve-exam', component: SolveExamComponent},
   { path: '', redirectTo: 'login', pathMatch: 'full'},
   { path: '**', component: PageNotFoundComponent}
 ];
