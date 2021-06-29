@@ -10,7 +10,7 @@ export class ExamStudentDto {
 
     constructor() {
         this.id = 0;
-        this.definitiveGrade = 0.1;
+        this.definitiveGrade = 0.0;
         this.student = new StudentDto();
         this.exam = new ExamDto;
     }
