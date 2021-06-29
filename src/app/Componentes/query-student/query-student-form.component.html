@@ -1,0 +1,52 @@
+<div class="main-box"> 
+    <div *ngIf="!isThereAValidExam">
+        <h1> Exam could not be found! check your URL</h1>
+    </div>
+
+    <div *ngIf="isThereAValidExam" class="student-query-form-box">
+        <h1 class="h1-box"> Query student </h1>
+        <form class="form-box" [formGroup]="studentForm">
+            <div class="p-fluid p-formgrid p-grid">
+                <div class="p-field p-col-12">
+                    <label for="identificationCard">Identification card</label>
+                    <p-inputNumber id="identificationCard" [min]="1" formControlName="identificationCard"></p-inputNumber>
+                </div>
+                <div *ngIf="studentExist" class="p-field p-col-12 p-md-12">
+                    <p-button [disabled]="studentForm.invalid" icon="pi pi-check" label="Query student" class="p-button-secondary" (click)="queryStudent()"></p-button>
+                </div>
+
+                <div *ngIf="!studentExist" class="p-field p-col-12 p-md-6">
+                    <label for="student-name">Name</label>
+                    <input id="student-name" type="text" pInputText formControlName="name"> 
+                </div>
+                <div *ngIf="!studentExist" class="p-field p-col-12 p-md-6">
+                    <label for="student-lastname">Lastname</label>
+                    <input id="student-lastname" type="text" pInputText formControlName="lastname">
+                </div>
+                <div *ngIf="!studentExist" class="p-field p-col-12 p-md-12">
+                    <p-button [disabled]="studentForm.invalid" icon="pi pi-check" label="Log up student" class="p-button-secondary" (click)="createStudent()"></p-button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <!-- <div *ngIf="!isQueryingStudent && !isThereAStudentResponse && !examStarted">
+        <p-toast></p-toast>
+        <form [formGroup]="studentForm">
+            <div class="p-fluid p-formgrid p-grid">
+                
+                <div *ngIf="student.id!==0" class="p-field p-col-12 p-md-12">
+                   
+                </div>
+            </div>
+        </form>
+    </div> -->
+
+    <!-- <div *ngIf="examStarted" class="p-field p-col-12 p-md-12">
+        <h1> Exam description </h1>
+        <p>
+            {{exam.description}}
+        </p>
+        <app-solve-exam [exam]="exam" [student]="student" [examStudent]="examStudent"></app-solve-exam>
+    </div> -->
+</div>
